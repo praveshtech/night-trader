@@ -94,7 +94,7 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 
 /* --- FILTER BAR --- */
 .filter-bar { position: sticky; top: 70px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.filter-bar::-webkit-scrollbar { display: none; } /* Hide scrollbar for clean UI */
+.filter-bar::-webkit-scrollbar { display: none; }
 .filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
 .filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; }
 .filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); white-space: nowrap; }
@@ -118,7 +118,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
 .firm-card:hover::before { width: 100%; }
 
-/* JS Filter Animation Class */
 .firm-card.hidden { display: none !important; }
 
 /* Pros & Cons Tooltip */
@@ -182,11 +181,15 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
 
 /* --- MOBILE SPECIFIC APP-LIKE LAYOUT --- */
+.mobile-bottom-nav { display: none; } 
+
 @media (max-width: 900px) {
   nav { padding: 0 16px; }
-  .nav-links { display: none; /* Hide standard links on mobile */ }
+  .nav-links { display: none; }
   .nav-cta { padding: 6px 12px !important; font-size: 12px !important; }
   .logo-image { height: 40px; }
+  
+  body { padding-bottom: 80px; }
   
   .hero { padding: 140px 16px 60px; }
   h1 { font-size: 32px; letter-spacing: -1px; }
@@ -195,7 +198,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   
   .filter-bar { padding: 12px 16px; margin-top: 0; }
   
-  /* App-Style Firm Cards for Mobile */
   .firm-card { display: flex; flex-direction: column; padding: 20px 16px; gap: 16px; align-items: stretch; border-radius: 16px; }
   .firm-rank { display: none; }
   .firm-inner { flex-direction: row; align-items: flex-start; justify-content: flex-start; gap: 16px; border-bottom: 1px solid var(--border-dim); padding-bottom: 16px; }
@@ -204,7 +206,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .firm-tag { font-size: 9px; }
   .firm-card.featured::after { left: 50%; transform: translateX(-50%); font-size: 9px; padding: 2px 10px; }
   
-  /* Re-arrange Pricing & Metrics for Mobile */
   .pricing-engine { flex-direction: row; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; }
   .account-size-select { padding: 4px 8px; font-size: 11px; }
   
@@ -213,15 +214,29 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .trust-num { font-size: 22px; }
   .trust-label { font-size: 10px; }
   .discount-pill { font-size: 13px; padding: 6px 12px; }
-  .cashback-chip { display: none; /* Hide to save space on mobile, or show small */ }
+  .cashback-chip { display: none; }
   
   .btn-get { width: 100%; text-align: center; justify-content: center; padding: 14px; font-size: 15px; }
-  .firm-tooltip { display: none; } /* Disable tooltips on mobile */
+  .firm-tooltip { display: none; }
 
   .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
   .footer-brand p { margin: 15px auto; }
   .footer-bottom { flex-direction: column; text-align: center; }
   .disclaimer { text-align: center !important; }
+
+  /* --- BOTTOM NAVIGATION BAR --- */
+  .mobile-bottom-nav {
+    display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+  }
+  .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
+  .nav-item.active { color: var(--accent-cyan); }
+  .nav-item.active::before { content: ''; position: absolute; top: -8px; width: 24px; height: 3px; background: var(--accent-cyan); border-radius: 0 0 4px 4px; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.5); }
+  .nav-item:hover { color: var(--text-main); }
+  .nav-item svg { transition: transform 0.2s; }
+  .nav-item:active svg { transform: scale(0.9); }
+  .center-item { transform: translateY(-20px); color: var(--text-main); }
+  .center-circle { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4); border: 5px solid var(--bg-base); margin-bottom: 4px; transition: transform 0.3s; }
+  .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
 }
 </style>
 </head>
@@ -280,8 +295,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   
   <div class="firms-grid" id="firms-container">
     
-    <!-- Firm 1: FTMO -->
-    <!-- Changed to <div> to avoid nested interactive elements -->
     <div class="firm-card featured" data-category="forex futures">
       <div class="firm-tooltip">
         <div class="tooltip-title">FTMO Analysis</div>
@@ -307,7 +320,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         </div>
       </div>
       
-      <!-- NEW: Pricing Engine -->
       <div class="pricing-engine">
         <select class="account-size-select" onchange="updatePrice(this, 'FTMO')">
           <option value="50k" data-old="$344" data-new="$309">$50K Account</option>
@@ -334,7 +346,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <button class="btn-get" onclick="copyCode('FTMO10', event, 'https://ftmo.com')">Apply Code</button>
     </div>
 
-    <!-- Firm 2: FundedNext -->
     <div class="firm-card" data-category="forex">
       <div class="firm-tooltip">
         <div class="tooltip-title">FundedNext Analysis</div>
@@ -360,7 +371,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         </div>
       </div>
       
-      <!-- NEW: Pricing Engine -->
       <div class="pricing-engine">
         <select class="account-size-select" onchange="updatePrice(this, 'NEXT')">
           <option value="50k" data-old="$299" data-new="$254">$50K Account</option>
@@ -387,7 +397,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <button class="btn-get" onclick="copyCode('NEXT15', event, 'https://fundednext.com')">Apply Code</button>
     </div>
     
-    <!-- Firm 3: Blueberry -->
     <div class="firm-card" data-category="forex">
       <div class="firm-tooltip">
         <div class="tooltip-title">Blueberry Analysis</div>
@@ -413,7 +422,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         </div>
       </div>
 
-      <!-- NEW: Pricing Engine -->
       <div class="pricing-engine">
         <select class="account-size-select" onchange="updatePrice(this, 'BLUE')">
           <option value="50k" data-old="$167" data-new="$16.7">$50K Account</option>
@@ -440,7 +448,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <button class="btn-get" onclick="copyCode('APEX90', event, 'https://blueberrymarkets.com')">Apply Code</button>
     </div>
     
-    <!-- Firm 4: Goat -->
     <div class="firm-card" data-category="forex instant">
       <div class="firm-tooltip">
         <div class="tooltip-title">Goat Funded Analysis</div>
@@ -466,7 +473,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         </div>
       </div>
 
-      <!-- NEW: Pricing Engine -->
       <div class="pricing-engine">
         <select class="account-size-select" onchange="updatePrice(this, 'GOAT')">
           <option value="50k" data-old="$299" data-new="$239">$50K Account</option>
@@ -534,11 +540,35 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </footer>
 
+<div class="mobile-bottom-nav">
+  <a href="#" class="nav-item active">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Home</span>
+  </a>
+  <a href="#firms" class="nav-item">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+    <span>Compare</span>
+  </a>
+  <a href="#codes" class="nav-item center-item">
+    <div class="center-circle">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+    </div>
+    <span>Deals</span>
+  </a>
+  <a href="#" class="nav-item">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+    <span>Giveaway</span>
+  </a>
+  <a href="#" class="nav-item">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    <span>Login</span>
+  </a>
+</div>
+
 <div class="toast" id="toast">Code Copied Successfully!</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Intersection Observer for scroll animations
   const cards = document.querySelectorAll('.firm-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -554,7 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(card);
   });
 
-  // Filter Logic
   const filterButtons = document.querySelectorAll('.filter-tab');
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -565,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       cards.forEach(card => {
         card.style.animation = 'none';
-        card.offsetHeight; // Trigger reflow
+        card.offsetHeight; 
         const categories = card.getAttribute('data-category').split(' ');
         if (filterValue === 'all' || categories.includes(filterValue)) {
           card.classList.remove('hidden');
@@ -576,9 +605,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', function() {
+      navItems.forEach(nav => nav.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
 });
 
-// Dynamic Pricing Function
 function updatePrice(selectElement, firmPrefix) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   const oldPrice = selectedOption.getAttribute('data-old');
@@ -588,7 +624,6 @@ function updatePrice(selectElement, firmPrefix) {
   document.getElementById(`${firmPrefix}-new`).innerText = newPrice;
 }
 
-// Copy Code & Redirect
 function copyCode(code, e, affiliateLink) {
   e.preventDefault();
   navigator.clipboard.writeText(code).then(() => {
@@ -596,7 +631,6 @@ function copyCode(code, e, affiliateLink) {
     t.textContent = code + ' Copied! Redirecting...';
     t.classList.add('show');
     
-    // Change button text temporarily
     const btn = e.target;
     const originalText = btn.innerText;
     btn.innerText = "Copied!";
@@ -608,7 +642,6 @@ function copyCode(code, e, affiliateLink) {
       btn.innerText = originalText;
       btn.style.background = "";
       btn.style.color = "";
-      // Optional: Redirect to affiliate link after copying
       if(affiliateLink) window.open(affiliateLink, '_blank');
     }, 2000);
   });
