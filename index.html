@@ -32,7 +32,6 @@
   --radius: 12px;
   --radius-lg: 20px;
 }
-.logo-image { height: 50px; width: auto; object-fit: contain; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -51,90 +50,19 @@ body {
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 @keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-/* --- NAV --- */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-.logo { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.nav-links { display: flex; gap: 8px; list-style: none; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
-.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
-.nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #000 !important; font-weight: 700 !important; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
-
-/* --- INFINITE MARQUEE BANNER (FIXED FOR DESKTOP & MOBILE) --- */
+/* --- INFINITE MARQUEE BANNER --- */
 .marquee-container {
-  width: 100%;
-  overflow: hidden;
-  background: rgba(10, 15, 28, 0.98); /* Slightly darker for contrast */
-  border-bottom: 1px solid var(--border-dim);
-  padding: 8px 0;
-  white-space: nowrap;
-  position: fixed; /* FIXED: Now it stays on screen forever */
-  top: 70px; /* Exact height of navbar */
-  left: 0;
-  z-index: 98; /* Below navbar, above everything else */
-  display: flex;
-  backdrop-filter: blur(10px);
+  width: 100%; overflow: hidden; background: rgba(10, 15, 28, 0.98); border-bottom: 1px solid var(--border-dim);
+  padding: 8px 0; white-space: nowrap; position: fixed; top: 70px; left: 0; z-index: 98; display: flex; backdrop-filter: blur(10px);
 }
-
-.marquee-content {
-  display: inline-flex;
-  animation: marquee-scroll 25s linear infinite;
-}
-
-.marquee-container:hover .marquee-content {
-  animation-play-state: paused;
-}
-
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 30px;
-  font-family: var(--font-head);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.marquee-logo {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #fff;
-}
-
-.marquee-badge.trusted {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--status-success);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.marquee-badge.code {
-  background: rgba(56, 189, 248, 0.15);
-  color: var(--accent-cyan);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.marquee-separator {
-  color: var(--text-muted);
-  opacity: 0.5;
-  margin: 0 10px;
-}
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+.marquee-content { display: inline-flex; animation: marquee-scroll 25s linear infinite; }
+.marquee-container:hover .marquee-content { animation-play-state: paused; }
+.marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 30px; font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text-main); }
+.marquee-logo { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #fff; }
+.marquee-badge.trusted { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.marquee-badge.code { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.marquee-separator { color: var(--text-muted); opacity: 0.5; margin: 0 10px; }
+@keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 /* --- ORBIT ANIMATIONS --- */
 .bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -144,15 +72,33 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .orbit-3 { animation: orbitCW2 25s linear infinite; width: 140px; margin-top: -70px; margin-left: -70px; }
 .orbit-4 { animation: orbitCCW2 40s linear infinite; width: 110px; margin-top: -55px; margin-left: -55px; }
 .orbit-5 { animation: orbitCW3 30s linear infinite; width: 130px; margin-top: -65px; margin-left: -65px; border-radius: 20px; }
-
 @keyframes orbitCW1 { 0% { transform: rotate(0deg) translateX(350px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(350px) rotate(-360deg); } }
 @keyframes orbitCCW1 { 0% { transform: rotate(360deg) translateX(450px) rotate(-360deg); } 100% { transform: rotate(0deg) translateX(450px) rotate(0deg); } }
 @keyframes orbitCW2 { 0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); } }
 @keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
 @keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
 
+.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
+.highlight-gold { color: var(--accent-gold); font-weight: 700; }
+.highlight-success { color: var(--status-success); font-weight: 600; }
+
+/* --- NAV UPDATED TO MATCH SCREENSHOT --- */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-image { height: 36px; width: 36px; object-fit: contain; border-radius: 50%; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+.logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
+.nav-links { display: flex; gap: 8px; list-style: none; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
+.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
+
+/* Right side actions (Cart, Menu, CTA) */
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; }
+.icon-btn:hover { color: var(--text-main); }
+.mobile-menu-btn { display: none; } /* Hidden on desktop */
+.desktop-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #000; font-weight: 700; padding: 8px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
+
 /* --- HERO SECTION --- */
-/* Adjusted top padding to clear the 70px nav + ~37px marquee */
 .hero { position: relative; padding: 220px 4% 100px; text-align: center; overflow: hidden; } 
 .hero-content { position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
@@ -167,7 +113,6 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
 /* --- FILTER BAR --- */
-/* Fixed top position so it stops right below the Marquee */
 .filter-bar { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
 .filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
@@ -261,12 +206,20 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 @media (max-width: 900px) {
   nav { padding: 0 16px; }
   .nav-links { display: none; }
-  .nav-cta { padding: 6px 12px !important; font-size: 12px !important; }
-  .logo-image { height: 40px; }
+  
+  .logo-text { font-size: 18px; }
+  .logo-image { height: 32px; width: 32px; }
+  
+  .desktop-cta { display: none !important; }
+  .mobile-menu-btn { display: flex; }
+  .nav-actions { gap: 14px; }
   
   body { padding-bottom: 80px; }
   
-  .hero { padding: 180px 16px 60px; }
+  .marquee-container { top: 70px; }
+  .filter-bar { top: 106px; }
+
+  .hero { padding: 180px 16px 60px; } 
   h1 { font-size: 32px; letter-spacing: -1px; }
   .hero-actions { flex-direction: column; padding: 0 20px; }
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
@@ -320,13 +273,26 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 <nav>
   <a href="#" class="logo">
     <img src="night trader.png" alt="Night Trader Logo" class="logo-image">
+    <span class="logo-text">Night Trader</span>
   </a>
   <ul class="nav-links">
     <li><a href="#firms">Matrix</a></li>
     <li><a href="#codes">Discounts</a></li>
     <li><a href="#leaderboard">Leaderboard</a></li>
   </ul>
-  <a href="#" class="nav-cta">Claim Cashback</a>
+  
+  <div class="nav-actions">
+    <!-- Shopping Cart Icon -->
+    <a href="#" class="icon-btn">
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+    </a>
+    <!-- Hamburger Menu Icon (Mobile Only) -->
+    <a href="#" class="icon-btn mobile-menu-btn">
+      <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </a>
+    <!-- Desktop CTA Button -->
+    <a href="#" class="nav-cta desktop-cta">Claim Cashback</a>
+  </div>
 </nav>
 
 <!-- --- NEW: INFINITE MARQUEE BANNER --- -->
