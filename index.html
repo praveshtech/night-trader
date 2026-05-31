@@ -33,7 +33,7 @@
   --radius-lg: 20px;
 }
 .logo-image {
-  height: 60px; /* Aap apni pasand ke hisaab se height kam/zyada kar sakte hain */
+  height: 60px; 
   width: auto;
   object-fit: contain;
 }
@@ -84,26 +84,11 @@ body {
 .orbit-4 { animation: orbitCCW2 40s linear infinite; width: 110px; margin-top: -55px; margin-left: -55px; }
 .orbit-5 { animation: orbitCW3 30s linear infinite; width: 130px; margin-top: -65px; margin-left: -65px; border-radius: 20px; }
 
-@keyframes orbitCW1 {
-  0% { transform: rotate(0deg) translateX(350px) rotate(0deg); }
-  100% { transform: rotate(360deg) translateX(350px) rotate(-360deg); }
-}
-@keyframes orbitCCW1 { 
-  0% { transform: rotate(360deg) translateX(450px) rotate(-360deg); }
-  100% { transform: rotate(0deg) translateX(450px) rotate(0deg); }
-}
-@keyframes orbitCW2 {
-  0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); }
-  100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); }
-}
-@keyframes orbitCCW2 {
-  0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); }
-  100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); }
-}
-@keyframes orbitCW3 {
-  0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); }
-  100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); }
-}
+@keyframes orbitCW1 { 0% { transform: rotate(0deg) translateX(350px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(350px) rotate(-360deg); } }
+@keyframes orbitCCW1 { 0% { transform: rotate(360deg) translateX(450px) rotate(-360deg); } 100% { transform: rotate(0deg) translateX(450px) rotate(0deg); } }
+@keyframes orbitCW2 { 0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); } }
+@keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
+@keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
 
 .highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
 .highlight-gold { color: var(--accent-gold); font-weight: 700; }
@@ -144,32 +129,39 @@ h1 { font-family: var(--font-head); font-size: clamp(40px, 6vw, 72px); font-weig
 .filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); }
 .filter-tab.active, .filter-tab:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
 
+/* --- LIVE STATUS PULSE --- */
+.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); margin-left: auto; background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); }
+.pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+
 /* --- SECTION HEADERS --- */
 section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
-.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
-.section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+.section-head { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+.section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-right: 10px; }
 .section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
 
-/* --- ELITE FIRM CARDS --- */
+/* --- ELITE FIRM CARDS & TOOLTIPS --- */
 .firms-grid { display: flex; flex-direction: column; gap: 16px; }
-.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
-.firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); }
+.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: visible; }
+.firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); z-index: 10; }
 .firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
 .firm-card:hover::before { width: 100%; }
 .firm-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); transition: left 0.6s; pointer-events: none; }
 .firm-card:hover::after { left: 100%; }
 
+/* Pros & Cons Tooltip CSS */
+.firm-tooltip { position: absolute; right: 20px; top: 50%; transform: translateY(-50%) translateX(20px); background: rgba(15, 23, 42, 0.98); border: 1px solid var(--accent-cyan); padding: 18px; border-radius: 12px; width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 15px rgba(56, 189, 248, 0.1); pointer-events: none; }
+.firm-card:hover .firm-tooltip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(110%); }
+.tooltip-title { font-family: var(--font-head); font-weight: 700; color: var(--text-main); margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid var(--border-dim); padding-bottom: 6px; }
+.tooltip-list { list-style: none; font-size: 12px; color: var(--text-muted); }
+.tooltip-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+.tooltip-list li.pro::before { content: '✓'; color: var(--status-success); font-weight: bold; font-size: 14px; }
+.tooltip-list li.con::before { content: '✕'; color: var(--status-danger); font-weight: bold; font-size: 12px; margin-top: 1px; }
+
 .firm-rank { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); text-align: center; font-weight: 600; }
 .firm-rank.top { color: var(--accent-gold); font-weight: 700; font-size: 18px; text-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
 
-/* Updated Logo Image Container */
-.firm-logo-img { 
-  width: 54px; height: 54px; border-radius: 14px; 
-  display: flex; align-items: center; justify-content: center; 
-  flex-shrink: 0; overflow: hidden; background: #080C14;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-}
+.firm-logo-img { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; background: #080C14; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
 .firm-logo-img img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
 .fallback-logo { font-family: var(--font-head); font-weight: 700; font-size: 16px; color: #fff; }
 
@@ -202,16 +194,30 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-card.featured .firm-inner::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.6s; pointer-events: none; }
 .firm-card.featured:hover .firm-inner::after { left: 100%; }
 
+/* --- PREMIUM FOOTER --- */
+.elite-footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-dim); padding: 60px 4% 30px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+.footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 15px; max-width: 300px; line-height: 1.8; }
+.footer-col h4 { font-family: var(--font-head); color: var(--text-main); margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-size: 14px; }
+.footer-col ul li a:hover { color: var(--accent-cyan); }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
+
 /* --- TOAST NOTIFICATION --- */
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 999; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
 @media (max-width: 900px) {
-  .firm-card { grid-template-columns: 1fr; gap: 16px; text-align: center; }
+  .firm-card { grid-template-columns: 1fr; gap: 16px; text-align: center; overflow: hidden; }
   .firm-inner { flex-direction: column; text-align: center; }
   .firm-rank { display: none; }
   .firm-meta { justify-content: center; }
   .firm-card.featured::after { left: 50%; transform: translateX(-50%); }
+  .firm-tooltip { display: none; } /* Hide tooltips on mobile to prevent overflow */
+  .footer-grid { grid-template-columns: 1fr; text-align: center; }
+  .footer-brand p { margin: 15px auto; }
 }
 </style>
 </head>
@@ -252,7 +258,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 <div class="filter-bar">
   <span class="filter-label">Filter Algorithm:</span>
   <div class="filter-tabs">
-    <button class="filter-tab active">Forex (FX)</button>
+    <button class="filter-tab active">All Markets</button>
     <button class="filter-tab">Forex (FX)</button>
     <button class="filter-tab">Futures</button>
     <button class="filter-tab">Instant Funding</button>
@@ -262,10 +268,25 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 <section id="firms">
   <div class="section-head">
     <div class="section-title">Elite Prop Firms <span>Sorted by Institutional Trust Score</span></div>
+    <div class="live-status">
+      <div class="pulse-dot"></div>
+      Codes Verified: Just Now
+    </div>
   </div>
   
   <div class="firms-grid">
     <a href="#" class="firm-card featured" onclick="copyCode('FTMO10', event)">
+      
+      <div class="firm-tooltip">
+        <div class="tooltip-title">FTMO Analysis</div>
+        <ul class="tooltip-list">
+          <li class="pro">Scaling Plan up to $2M</li>
+          <li class="pro">Excellent Payout Speed</li>
+          <li class="pro">News Trading Allowed</li>
+          <li class="con">Strict Daily Drawdown</li>
+        </ul>
+      </div>
+
       <div class="firm-rank top">01</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);">
@@ -293,6 +314,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </a>
 
     <a href="#" class="firm-card" onclick="copyCode('NEXT15', event)">
+      
+      <div class="firm-tooltip">
+        <div class="tooltip-title">FundedNext Analysis</div>
+        <ul class="tooltip-list">
+          <li class="pro">15% Profit Share in Challenge</li>
+          <li class="pro">No Time Limits</li>
+          <li class="pro">Raw Spreads</li>
+          <li class="con">Consistency Rule Applies</li>
+        </ul>
+      </div>
+
       <div class="firm-rank top">02</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
@@ -320,6 +352,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </a>
     
     <a href="#" class="firm-card" onclick="copyCode('APEX90', event)">
+      
+      <div class="firm-tooltip">
+        <div class="tooltip-title">Blueberry Analysis</div>
+        <ul class="tooltip-list">
+          <li class="pro">High Trust Rating</li>
+          <li class="pro">Great Trading Conditions</li>
+          <li class="pro">Fast Crypto Payouts</li>
+          <li class="con">Trailing Drawdown Rule</li>
+        </ul>
+      </div>
+
       <div class="firm-rank">03</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: #fff; background: #fff;">
@@ -347,6 +390,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </a>
     
     <a href="#" class="firm-card" onclick="copyCode('GOAT20', event)">
+      
+      <div class="firm-tooltip">
+        <div class="tooltip-title">Goat Funded Analysis</div>
+        <ul class="tooltip-list">
+          <li class="pro">No Time Limits</li>
+          <li class="pro">EAs & Bots Allowed</li>
+          <li class="pro">Weekend Holding OK</li>
+          <li class="con">Slightly Higher Spreads</li>
+        </ul>
+      </div>
+
       <div class="firm-rank">04</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: #fff;">
@@ -374,6 +428,46 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </a>
   </div>
 </section>
+
+<footer class="elite-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="night trader.png" alt="Night Trader Logo" style="height: 40px; margin-bottom: 10px;">
+      <p>Providing institutional-grade analytics, transparent drawdown rules, and exclusive cashback deals for the modern swing and day trader.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Analytics Matrix</h4>
+      <ul>
+        <li><a href="#">Forex Prop Firms</a></li>
+        <li><a href="#">Futures Prop Firms</a></li>
+        <li><a href="#">Instant Funding</a></li>
+        <li><a href="#">Trust Score Leaderboard</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Trader Resources</h4>
+      <ul>
+        <li><a href="#">Live Discount Codes</a></li>
+        <li><a href="#">Cashback Portal</a></li>
+        <li><a href="#">Drawdown Calculator</a></li>
+        <li><a href="#">Prop Firm Reviews</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal & Risk</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Risk Disclaimer</a></li>
+        <li><a href="#">Contact Support</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="copyright">© 2026 Night Trader. All rights reserved.</div>
+    <div class="disclaimer" style="max-width: 600px; text-align: right;">Trading involves significant risk. Night Trader is a comparison matrix and does not provide financial advice or direct capital execution.</div>
+  </div>
+</footer>
 
 <div class="toast" id="toast">Code Copied Successfully!</div>
 
