@@ -51,6 +51,87 @@ body {
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 @keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
+/* --- NEW: INFINITE MARQUEE BANNER --- */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 8px 0;
+  white-space: nowrap;
+  position: absolute; /* Place it just below the navbar */
+  top: 70px; /* Adjust if your navbar height changes */
+  left: 0;
+  z-index: 95;
+  display: flex;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+/* Pause animation on hover for desktop users */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 30px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.marquee-logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff; /* For logos that need a background */
+}
+
+.marquee-badge.trusted {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--status-success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.marquee-badge.code {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.marquee-separator {
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin: 0 10px;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Translate by half because content is duplicated */
+}
+
+/* Adjust Hero padding to account for the new marquee */
+.hero { position: relative; padding: 220px 4% 100px; text-align: center; overflow: hidden; } /* Increased top padding from 180px to 220px */
+
+
 /* --- ORBIT ANIMATIONS --- */
 .bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
 .orbit-icon { position: absolute; top: 50%; left: 50%; filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
@@ -79,7 +160,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #000 !important; font-weight: 700 !important; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
 
 /* --- HERO SECTION --- */
-.hero { position: relative; padding: 180px 4% 100px; text-align: center; overflow: hidden; }
 .hero-content { position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
 .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--status-success); border-radius: 50%; box-shadow: 0 0 8px var(--status-success); }
@@ -93,7 +173,8 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
 /* --- FILTER BAR --- */
-.filter-bar { position: sticky; top: 70px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Adjust sticky top position for filter bar on desktop to account for the marquee */
+.filter-bar { position: sticky; top: 106px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
 .filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
 .filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; }
@@ -141,6 +222,8 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-tag { font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
 .tag-gold { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
 .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+.firm-meta { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-weight: 500; }
+.firm-meta span { display: flex; align-items: center; gap: 4px; }
 
 /* Dynamic Pricing Engine Styles */
 .pricing-engine { display: flex; flex-direction: column; gap: 8px; }
@@ -191,7 +274,10 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   
   body { padding-bottom: 80px; }
   
-  .hero { padding: 140px 16px 60px; }
+  .marquee-container { top: 70px; } /* Adjust marquee top for mobile if needed */
+  .filter-bar { top: 106px; } /* Adjust filter sticky top for mobile */
+
+  .hero { padding: 180px 16px 60px; } /* Adjust hero top padding for mobile marquee */
   h1 { font-size: 32px; letter-spacing: -1px; }
   .hero-actions { flex-direction: column; padding: 0 20px; }
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
@@ -253,6 +339,80 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </ul>
   <a href="#" class="nav-cta">Claim Cashback</a>
 </nav>
+
+<div class="marquee-container">
+  <div class="marquee-content">
+    <div class="marquee-item">
+      <img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'">
+      <span>FTMO</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+    
+    <div class="marquee-item">
+      <img src="Funded Next.svg" alt="FundedNext" class="marquee-logo" onerror="this.style.display='none'">
+      <span>FundedNext</span>
+      <span class="marquee-badge code">15% OFF</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="image_013a60.svg" alt="The 5ers" class="marquee-logo" onerror="this.style.display='none'">
+      <span>The 5ers</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="blueberry.jpg" alt="Blueberry" class="marquee-logo" onerror="this.style.display='none'">
+      <span>Blueberry</span>
+      <span class="marquee-badge code">APEX90</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="GFT.svg" alt="Goat Funded" class="marquee-logo" onerror="this.style.display='none'">
+      <span>Goat Funded</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+    
+    <div class="marquee-item">
+      <img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'">
+      <span>FTMO</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+    
+    <div class="marquee-item">
+      <img src="Funded Next.svg" alt="FundedNext" class="marquee-logo" onerror="this.style.display='none'">
+      <span>FundedNext</span>
+      <span class="marquee-badge code">15% OFF</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="image_013a60.svg" alt="The 5ers" class="marquee-logo" onerror="this.style.display='none'">
+      <span>The 5ers</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="blueberry.jpg" alt="Blueberry" class="marquee-logo" onerror="this.style.display='none'">
+      <span>Blueberry</span>
+      <span class="marquee-badge code">APEX90</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+
+    <div class="marquee-item">
+      <img src="GFT.svg" alt="Goat Funded" class="marquee-logo" onerror="this.style.display='none'">
+      <span>Goat Funded</span>
+      <span class="marquee-badge trusted">✔ Trusted</span>
+      <span class="marquee-separator">✦</span>
+    </div>
+  </div>
+</div>
 
 <div class="hero">
   <div class="bg-orbit-container">
