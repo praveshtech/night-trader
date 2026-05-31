@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Night Trader — Prop Firm Discount & Reviews</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +32,7 @@
   --radius: 12px;
   --radius-lg: 20px;
 }
-.logo-image { height: 60px; width: auto; object-fit: contain; }
+.logo-image { height: 50px; width: auto; object-fit: contain; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -83,9 +83,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .hero-content { position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
 .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--status-success); border-radius: 50%; box-shadow: 0 0 8px var(--status-success); }
-h1 { font-family: var(--font-head); font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; animation: slideUpFade 0.8s ease-out 0.1s both; }
+h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; animation: slideUpFade 0.8s ease-out 0.1s both; }
 .h1-accent { background: linear-gradient(to right, #fff, var(--accent-cyan), var(--accent-purple), #fff); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textGradient 6s linear infinite; }
-.hero-sub { color: var(--text-muted); font-size: clamp(16px, 2vw, 19px); max-width: 680px; margin: 0 auto 40px; line-height: 1.7; animation: slideUpFade 1s ease-out 0.2s both; }
+.hero-sub { color: var(--text-muted); font-size: clamp(15px, 2vw, 19px); max-width: 680px; margin: 0 auto 40px; line-height: 1.7; animation: slideUpFade 1s ease-out 0.2s both; }
 .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 70px; animation: slideUpFade 1.2s ease-out 0.3s both; }
 .btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
 .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6); }
@@ -93,36 +93,35 @@ h1 { font-family: var(--font-head); font-size: clamp(40px, 6vw, 72px); font-weig
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
 /* --- FILTER BAR --- */
-.filter-bar { position: sticky; top: 70px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-.filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-.filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); }
+.filter-bar { position: sticky; top: 70px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.filter-bar::-webkit-scrollbar { display: none; } /* Hide scrollbar for clean UI */
+.filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; }
+.filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); white-space: nowrap; }
 .filter-tab.active, .filter-tab:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
 
 /* --- LIVE STATUS PULSE --- */
-.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); margin-left: auto; background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); }
+.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); margin-left: auto; background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); white-space: nowrap;}
 .pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
 @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
 /* --- SECTION HEADERS --- */
-section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
 .section-head { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
 .section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-right: 10px; }
 .section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
 
-/* --- ELITE FIRM CARDS & TOOLTIPS --- */
+/* --- ELITE FIRM CARDS --- */
 .firms-grid { display: flex; flex-direction: column; gap: 16px; }
-.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: visible; }
+.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1.5fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(16px); position: relative; overflow: visible; }
 .firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); z-index: 10; }
 .firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
 .firm-card:hover::before { width: 100%; }
-.firm-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); transition: left 0.6s; pointer-events: none; }
-.firm-card:hover::after { left: 100%; }
 
 /* JS Filter Animation Class */
 .firm-card.hidden { display: none !important; }
 
-/* Pros & Cons Tooltip CSS */
+/* Pros & Cons Tooltip */
 .firm-tooltip { position: absolute; right: 20px; top: 50%; transform: translateY(-50%) translateX(20px); background: rgba(15, 23, 42, 0.98); border: 1px solid var(--accent-cyan); padding: 18px; border-radius: 12px; width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 15px rgba(56, 189, 248, 0.1); pointer-events: none; z-index: 20;}
 .firm-card:hover .firm-tooltip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(110%); }
 .tooltip-title { font-family: var(--font-head); font-weight: 700; color: var(--text-main); margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid var(--border-dim); padding-bottom: 6px; }
@@ -143,8 +142,15 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-tag { font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
 .tag-gold { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
 .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
-.firm-meta { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-weight: 500; }
-.firm-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* Dynamic Pricing Engine Styles */
+.pricing-engine { display: flex; flex-direction: column; gap: 8px; }
+.account-size-select { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--border-dim); padding: 6px 10px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; cursor: pointer; outline: none; transition: 0.3s; }
+.account-size-select:focus { border-color: var(--accent-cyan); }
+.account-size-select option { background: var(--bg-surface-light); color: var(--text-main); }
+.price-display { display: flex; align-items: baseline; gap: 8px; }
+.old-price { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+.new-price { font-size: 18px; font-weight: 700; color: var(--accent-gold); font-family: var(--font-head); }
 
 .trust-score { text-align: center; min-width: 80px; }
 .trust-num { font-family: var(--font-head); font-size: 28px; font-weight: 800; letter-spacing: -1px; }
@@ -157,15 +163,12 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 
 .cashback-chip { background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px; white-space: nowrap; font-family: var(--font-mono); }
 .btn-get { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-.firm-card:hover .btn-get { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+.btn-get:hover { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
 
 /* Premium Featured Card */
 .firm-card.featured { background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box, linear-gradient(135deg, var(--accent-gold), transparent, var(--accent-cyan)) border-box; border: 1px solid transparent; background-size: 200% 200%; animation: borderFlow 5s linear infinite; }
 .firm-card.featured:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 30px rgba(245, 158, 11, 0.05); }
-.firm-card.featured::before { display: none; }
 .firm-card.featured::after { content: '★ INSTITUTIONAL PICK'; position: absolute; top: -1px; left: 30px; width: auto; height: auto; background: var(--accent-gold); color: #000; font-size: 10px; font-weight: 800; font-family: var(--font-head); letter-spacing: 1px; padding: 4px 14px; border-radius: 0 0 8px 8px; pointer-events: auto; left: auto; }
-.firm-card.featured .firm-inner::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.6s; pointer-events: none; }
-.firm-card.featured:hover .firm-inner::after { left: 100%; }
 
 /* --- PREMIUM FOOTER --- */
 .elite-footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-dim); padding: 60px 4% 30px; margin-top: 80px; }
@@ -178,19 +181,47 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .footer-col ul li a:hover { color: var(--accent-cyan); }
 .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
 
-/* --- TOAST NOTIFICATION --- */
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 999; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
-.toast.show { transform: translate(-50%, 0); opacity: 1; }
-
+/* --- MOBILE SPECIFIC APP-LIKE LAYOUT --- */
 @media (max-width: 900px) {
-  .firm-card { grid-template-columns: 1fr; gap: 16px; text-align: center; overflow: hidden; }
-  .firm-inner { flex-direction: column; text-align: center; }
+  nav { padding: 0 16px; }
+  .nav-links { display: none; /* Hide standard links on mobile */ }
+  .nav-cta { padding: 6px 12px !important; font-size: 12px !important; }
+  .logo-image { height: 40px; }
+  
+  .hero { padding: 140px 16px 60px; }
+  h1 { font-size: 32px; letter-spacing: -1px; }
+  .hero-actions { flex-direction: column; padding: 0 20px; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+  
+  .filter-bar { padding: 12px 16px; margin-top: 0; }
+  
+  /* App-Style Firm Cards for Mobile */
+  .firm-card { display: flex; flex-direction: column; padding: 20px 16px; gap: 16px; align-items: stretch; border-radius: 16px; }
   .firm-rank { display: none; }
-  .firm-meta { justify-content: center; }
-  .firm-card.featured::after { left: 50%; transform: translateX(-50%); }
-  .firm-tooltip { display: none; } 
-  .footer-grid { grid-template-columns: 1fr; text-align: center; }
+  .firm-inner { flex-direction: row; align-items: flex-start; justify-content: flex-start; gap: 16px; border-bottom: 1px solid var(--border-dim); padding-bottom: 16px; }
+  .firm-logo-img { width: 48px; height: 48px; }
+  .firm-name { font-size: 16px; flex-wrap: wrap; }
+  .firm-tag { font-size: 9px; }
+  .firm-card.featured::after { left: 50%; transform: translateX(-50%); font-size: 9px; padding: 2px 10px; }
+  
+  /* Re-arrange Pricing & Metrics for Mobile */
+  .pricing-engine { flex-direction: row; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; }
+  .account-size-select { padding: 4px 8px; font-size: 11px; }
+  
+  .mobile-stats-row { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; }
+  .trust-score { text-align: left; }
+  .trust-num { font-size: 22px; }
+  .trust-label { font-size: 10px; }
+  .discount-pill { font-size: 13px; padding: 6px 12px; }
+  .cashback-chip { display: none; /* Hide to save space on mobile, or show small */ }
+  
+  .btn-get { width: 100%; text-align: center; justify-content: center; padding: 14px; font-size: 15px; }
+  .firm-tooltip { display: none; } /* Disable tooltips on mobile */
+
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
   .footer-brand p { margin: 15px auto; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .disclaimer { text-align: center !important; }
 }
 </style>
 </head>
@@ -198,14 +229,14 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 
 <nav>
   <a href="#" class="logo">
-  <img src="night trader.png" alt="Night Trader Logo" class="logo-image">
-</a>
+    <img src="night trader.png" alt="Night Trader Logo" class="logo-image">
+  </a>
   <ul class="nav-links">
     <li><a href="#firms">Matrix</a></li>
     <li><a href="#codes">Discounts</a></li>
     <li><a href="#leaderboard">Leaderboard</a></li>
-    <li><a href="#" class="nav-cta">Claim Cashback</a></li>
   </ul>
+  <a href="#" class="nav-cta">Claim Cashback</a>
 </nav>
 
 <div class="hero">
@@ -231,7 +262,6 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 <div class="filter-bar">
   <span class="filter-label">Filter Algorithm:</span>
   <div class="filter-tabs">
-    <!-- NEW: Added data-filter attributes to buttons -->
     <button class="filter-tab active" data-filter="all">All Markets</button>
     <button class="filter-tab" data-filter="forex">Forex (FX)</button>
     <button class="filter-tab" data-filter="futures">Futures</button>
@@ -250,9 +280,9 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   
   <div class="firms-grid" id="firms-container">
     
-    <!-- Firm 1: FTMO (Forex, Futures) -->
-    <!-- NEW: Added data-category attribute -->
-    <a href="#" class="firm-card featured" data-category="forex futures" onclick="copyCode('FTMO10', event)">
+    <!-- Firm 1: FTMO -->
+    <!-- Changed to <div> to avoid nested interactive elements -->
+    <div class="firm-card featured" data-category="forex futures">
       <div class="firm-tooltip">
         <div class="tooltip-title">FTMO Analysis</div>
         <ul class="tooltip-list">
@@ -272,26 +302,40 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="firm-info">
           <div class="firm-name">FTMO <span class="firm-tag tag-gold">Gold Tier</span></div>
           <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $200K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Futures</span>
+            <span>FX, Indices, Futures</span>
           </div>
         </div>
       </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">9.4</div>
-        <div class="trust-label">Trust Index</div>
+      
+      <!-- NEW: Pricing Engine -->
+      <div class="pricing-engine">
+        <select class="account-size-select" onchange="updatePrice(this, 'FTMO')">
+          <option value="50k" data-old="$344" data-new="$309">$50K Account</option>
+          <option value="100k" data-old="$540" data-new="$486" selected>$100K Account</option>
+          <option value="200k" data-old="$1080" data-new="$972">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="FTMO-old">$540</span>
+          <span class="new-price" id="FTMO-new">$486</span>
+        </div>
       </div>
-      <div class="discount-wrap">
-        <div class="discount-pill">FTMO10</div>
-        <div class="discount-off">10% Discount</div>
-      </div>
-      <div class="cashback-chip">8% Cashback</div>
-      <button class="btn-get">Apply Code</button>
-    </a>
 
-    <!-- Firm 2: FundedNext (Forex) -->
-    <!-- NEW: Added data-category attribute -->
-    <a href="#" class="firm-card" data-category="forex" onclick="copyCode('NEXT15', event)">
+      <div class="mobile-stats-row">
+        <div class="trust-score">
+          <div class="trust-num highlight-success">9.4</div>
+          <div class="trust-label">Trust Index</div>
+        </div>
+        <div class="discount-wrap">
+          <div class="discount-pill">FTMO10</div>
+          <div class="discount-off">10% Discount</div>
+        </div>
+      </div>
+      
+      <button class="btn-get" onclick="copyCode('FTMO10', event, 'https://ftmo.com')">Apply Code</button>
+    </div>
+
+    <!-- Firm 2: FundedNext -->
+    <div class="firm-card" data-category="forex">
       <div class="firm-tooltip">
         <div class="tooltip-title">FundedNext Analysis</div>
         <ul class="tooltip-list">
@@ -311,26 +355,40 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="firm-info">
           <div class="firm-name">FundedNext <span class="firm-tag tag-cyan">Trending</span></div>
           <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $300K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Crypto</span>
+            <span>FX, Crypto</span>
           </div>
         </div>
       </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">9.1</div>
-        <div class="trust-label">Trust Index</div>
+      
+      <!-- NEW: Pricing Engine -->
+      <div class="pricing-engine">
+        <select class="account-size-select" onchange="updatePrice(this, 'NEXT')">
+          <option value="50k" data-old="$299" data-new="$254">$50K Account</option>
+          <option value="100k" data-old="$519" data-new="$441" selected>$100K Account</option>
+          <option value="200k" data-old="$999" data-new="$849">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="NEXT-old">$519</span>
+          <span class="new-price" id="NEXT-new">$441</span>
+        </div>
       </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">NEXT15</div>
-        <div class="discount-off" style="color: var(--accent-cyan);">15% Discount</div>
+
+      <div class="mobile-stats-row">
+        <div class="trust-score">
+          <div class="trust-num highlight-success">9.1</div>
+          <div class="trust-label">Trust Index</div>
+        </div>
+        <div class="discount-wrap">
+          <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">NEXT15</div>
+          <div class="discount-off" style="color: var(--accent-cyan);">15% Discount</div>
+        </div>
       </div>
-      <div class="cashback-chip">10% Cashback</div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+
+      <button class="btn-get" onclick="copyCode('NEXT15', event, 'https://fundednext.com')">Apply Code</button>
+    </div>
     
-    <!-- Firm 3: Blueberry (Forex) -->
-    <!-- NEW: Added data-category attribute -->
-    <a href="#" class="firm-card" data-category="forex" onclick="copyCode('APEX90', event)">
+    <!-- Firm 3: Blueberry -->
+    <div class="firm-card" data-category="forex">
       <div class="firm-tooltip">
         <div class="tooltip-title">Blueberry Analysis</div>
         <ul class="tooltip-list">
@@ -350,26 +408,40 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="firm-info">
           <div class="firm-name">Blueberry Funded</div>
           <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $300K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> Forex</span>
+            <span>Forex</span>
           </div>
         </div>
       </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">8.8</div>
-        <div class="trust-label">Trust Index</div>
+
+      <!-- NEW: Pricing Engine -->
+      <div class="pricing-engine">
+        <select class="account-size-select" onchange="updatePrice(this, 'BLUE')">
+          <option value="50k" data-old="$167" data-new="$16.7">$50K Account</option>
+          <option value="100k" data-old="$300" data-new="$30" selected>$100K Account</option>
+          <option value="200k" data-old="$600" data-new="$60">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="BLUE-old">$300</span>
+          <span class="new-price" id="BLUE-new">$30</span>
+        </div>
       </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;">APEX90</div>
-        <div class="discount-off" style="color: var(--text-muted);">90% Discount</div>
+
+      <div class="mobile-stats-row">
+        <div class="trust-score">
+          <div class="trust-num highlight-success">8.8</div>
+          <div class="trust-label">Trust Index</div>
+        </div>
+        <div class="discount-wrap">
+          <div class="discount-pill" style="border-color: #fff; color: #fff;">APEX90</div>
+          <div class="discount-off" style="color: var(--text-muted);">90% Discount</div>
+        </div>
       </div>
-      <div class="cashback-chip">5% Cashback</div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+
+      <button class="btn-get" onclick="copyCode('APEX90', event, 'https://blueberrymarkets.com')">Apply Code</button>
+    </div>
     
-    <!-- Firm 4: Goat (Forex, Instant Funding Demo) -->
-    <!-- NEW: Added data-category attribute -->
-    <a href="#" class="firm-card" data-category="forex instant" onclick="copyCode('GOAT20', event)">
+    <!-- Firm 4: Goat -->
+    <div class="firm-card" data-category="forex instant">
       <div class="firm-tooltip">
         <div class="tooltip-title">Goat Funded Analysis</div>
         <ul class="tooltip-list">
@@ -389,22 +461,36 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="firm-info">
           <div class="firm-name">Goat Funded Trader</div>
           <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $200K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Indices</span>
+            <span>FX, Indices</span>
           </div>
         </div>
       </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">8.6</div>
-        <div class="trust-label">Trust Index</div>
+
+      <!-- NEW: Pricing Engine -->
+      <div class="pricing-engine">
+        <select class="account-size-select" onchange="updatePrice(this, 'GOAT')">
+          <option value="50k" data-old="$299" data-new="$239">$50K Account</option>
+          <option value="100k" data-old="$499" data-new="$399" selected>$100K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="GOAT-old">$499</span>
+          <span class="new-price" id="GOAT-new">$399</span>
+        </div>
       </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;">GOAT20</div>
-        <div class="discount-off" style="color: var(--text-muted);">20% Discount</div>
+
+      <div class="mobile-stats-row">
+        <div class="trust-score">
+          <div class="trust-num highlight-success">8.6</div>
+          <div class="trust-label">Trust Index</div>
+        </div>
+        <div class="discount-wrap">
+          <div class="discount-pill" style="border-color: #fff; color: #fff;">GOAT20</div>
+          <div class="discount-off" style="color: var(--text-muted);">20% Discount</div>
+        </div>
       </div>
-      <div class="cashback-chip">4% Cashback</div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+
+      <button class="btn-get" onclick="copyCode('GOAT20', event, 'https://goatfundedtrader.com')">Apply Code</button>
+    </div>
   </div>
 </section>
 
@@ -452,7 +538,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Setup Intersection Observer for initial load animations
+  // Intersection Observer for scroll animations
   const cards = document.querySelectorAll('.firm-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -468,25 +554,19 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(card);
   });
 
-  // 2. NEW: Filter Logic Implementation
+  // Filter Logic
   const filterButtons = document.querySelectorAll('.filter-tab');
-  
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Remove active class from all buttons
       filterButtons.forEach(btn => btn.classList.remove('active'));
-      // Add active class to clicked button
       button.classList.add('active');
       
       const filterValue = button.getAttribute('data-filter');
       
       cards.forEach(card => {
-        // Reset animation to re-trigger it
         card.style.animation = 'none';
         card.offsetHeight; // Trigger reflow
-        
         const categories = card.getAttribute('data-category').split(' ');
-        
         if (filterValue === 'all' || categories.includes(filterValue)) {
           card.classList.remove('hidden');
           card.style.animation = `slideUpFade 0.4s ease-out forwards`;
@@ -498,13 +578,39 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function copyCode(code, e) {
+// Dynamic Pricing Function
+function updatePrice(selectElement, firmPrefix) {
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const oldPrice = selectedOption.getAttribute('data-old');
+  const newPrice = selectedOption.getAttribute('data-new');
+  
+  document.getElementById(`${firmPrefix}-old`).innerText = oldPrice;
+  document.getElementById(`${firmPrefix}-new`).innerText = newPrice;
+}
+
+// Copy Code & Redirect
+function copyCode(code, e, affiliateLink) {
   e.preventDefault();
   navigator.clipboard.writeText(code).then(() => {
     const t = document.getElementById('toast');
-    t.textContent = code + ' Copied to Clipboard!';
+    t.textContent = code + ' Copied! Redirecting...';
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    
+    // Change button text temporarily
+    const btn = e.target;
+    const originalText = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.style.background = "var(--status-success)";
+    btn.style.color = "#000";
+    
+    setTimeout(() => { 
+      t.classList.remove('show'); 
+      btn.innerText = originalText;
+      btn.style.background = "";
+      btn.style.color = "";
+      // Optional: Redirect to affiliate link after copying
+      if(affiliateLink) window.open(affiliateLink, '_blank');
+    }, 2000);
   });
 }
 </script>
