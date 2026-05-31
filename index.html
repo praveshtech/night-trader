@@ -53,10 +53,7 @@ body {
 @keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 /* --- INFINITE MARQUEE BANNER --- */
-.marquee-container {
-  width: 100%; overflow: hidden; background: rgba(10, 15, 28, 0.98); border-bottom: 1px solid var(--border-dim);
-  padding: 8px 0; white-space: nowrap; position: fixed; top: 70px; left: 0; z-index: 98; display: flex; backdrop-filter: blur(10px);
-}
+.marquee-container { width: 100%; overflow: hidden; background: rgba(10, 15, 28, 0.98); border-bottom: 1px solid var(--border-dim); padding: 8px 0; white-space: nowrap; position: fixed; top: 70px; left: 0; z-index: 98; display: flex; backdrop-filter: blur(10px); }
 .marquee-content { display: inline-flex; animation: marquee-scroll 25s linear infinite; }
 .marquee-container:hover .marquee-content { animation-play-state: paused; }
 .marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 30px; font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text-main); }
@@ -91,8 +88,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .nav-links { display: flex; gap: 8px; list-style: none; }
 .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
 .nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
-
-/* Right side actions */
 .nav-actions { display: flex; align-items: center; gap: 16px; }
 .icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; }
 .icon-btn:hover { color: var(--text-main); }
@@ -114,7 +109,6 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .search-container input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 25px rgba(56, 189, 248, 0.3); }
 .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--accent-cyan); pointer-events: none; }
 
-/* HERO BUTTONS */
 .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; animation: slideUpFade 1.2s ease-out 0.3s both; }
 .btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
 .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6); }
@@ -129,51 +123,47 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .stat-num { font-family: var(--font-head); font-size: 32px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
 .stat-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-/* --- NEW FEATURE: DRAWDOWN SIMULATOR --- */
-.simulator-section { padding: 40px 4%; max-width: 1200px; margin: 0 auto; }
-.simulator-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(3, 7, 18, 0.9)); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; box-shadow: 0 10px 40px rgba(56, 189, 248, 0.1); position: relative; overflow: hidden; }
-.simulator-card::before { content:''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 60%); pointer-events: none; }
-.sim-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin-bottom: 10px; }
-.sim-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
-.sim-input-group { margin-bottom: 20px; }
-.sim-label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
-.sim-select { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim); border-radius: 8px; color: #fff; font-family: var(--font-body); font-size: 15px; outline: none; transition: 0.3s; }
-.sim-select:focus { border-color: var(--accent-cyan); }
-.sim-result-box { background: rgba(0,0,0,0.4); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid var(--border-dim); transition: all 0.4s ease;}
-.sim-result-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: rgba(255,255,255,0.05); font-size: 24px; }
-.sim-result-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.sim-result-text { font-size: 14px; color: var(--text-muted); }
-.result-safe .sim-result-icon { background: rgba(16, 185, 129, 0.2); color: var(--status-success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
-.result-safe .sim-result-title { color: var(--status-success); }
-.result-risk .sim-result-icon { background: rgba(239, 68, 68, 0.2); color: var(--status-danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
-.result-risk .sim-result-title { color: var(--status-danger); }
-
-/* --- FILTER BAR --- */
-.filter-bar { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.filter-bar::-webkit-scrollbar { display: none; }
-.filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
-.filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; }
+/* --- PROPFIRMMATCH STYLE ADVANCED FILTER ENGINE --- */
+.filter-bar-wrapper { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); display: flex; flex-direction: column; }
+.filter-bar-main { padding: 16px 4%; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.filter-bar-main::-webkit-scrollbar { display: none; }
+.filter-tabs-group { display: flex; gap: 8px; align-items: center; }
+.filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; margin-right: 8px;}
 .filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); white-space: nowrap; }
 .filter-tab.active, .filter-tab:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
 
-/* --- LIVE STATUS PULSE --- */
-.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); margin-left: auto; background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); white-space: nowrap;}
-.pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
+/* The Advanced Filter Toggle & Panel */
+.btn-advanced-toggle { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-main); padding: 8px 16px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; white-space: nowrap; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 1px;}
+.btn-advanced-toggle:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.btn-advanced-toggle svg { transition: 0.3s; }
+.btn-advanced-toggle.open svg { transform: rotate(180deg); }
+
+.advanced-filters-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid transparent; }
+.advanced-filters-panel.open { max-height: 300px; border-bottom: 1px solid var(--border-dim); }
+.advanced-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px 4%; }
+.adv-filter-group { display: flex; flex-direction: column; gap: 8px; }
+.adv-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.adv-select { width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-dim); border-radius: 8px; color: #fff; font-family: var(--font-body); font-size: 13px; outline: none; cursor: pointer; appearance: none; transition: 0.3s;}
+.adv-select:focus { border-color: var(--accent-cyan); }
+
+/* Checkbox specific */
+.checkbox-group { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.checkbox-group input { width: 16px; height: 16px; accent-color: var(--accent-cyan); cursor: pointer; }
+.checkbox-group span { font-size: 13px; color: var(--text-main); font-weight: 500; }
 
 /* --- SECTION HEADERS --- */
 section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
-.section-head { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
-.section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-right: 10px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+.section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
 .section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
+
+/* LIVE STATUS PULSE */
+.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); white-space: nowrap;}
+.pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
 
 /* --- ELITE FIRM CARDS --- */
 .firms-grid { display: flex; flex-direction: column; gap: 16px; }
-.firm-card { 
-  background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); 
-  padding: 24px 30px; 
-  display: grid; grid-template-columns: 30px 1.5fr auto auto auto auto; align-items: center; gap: 24px; 
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(16px); position: relative; overflow: visible; 
-}
+.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1.5fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(16px); position: relative; overflow: visible; }
 .firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); z-index: 10; }
 .firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
 .firm-card:hover::before { width: 100%; }
@@ -232,29 +222,13 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .discount-off { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 .btn-get { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
 .btn-get:hover { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+
+/* Premium Featured Card */
 .firm-card.featured { background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box, linear-gradient(135deg, var(--accent-gold), transparent, var(--accent-cyan)) border-box; border: 1px solid transparent; background-size: 200% 200%; animation: borderFlow 5s linear infinite; }
 .firm-card.featured:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 30px rgba(245, 158, 11, 0.05); }
 .firm-card.featured::after { content: '★ INSTITUTIONAL PICK'; position: absolute; top: -1px; left: 30px; width: auto; height: auto; background: var(--accent-gold); color: #000; font-size: 10px; font-weight: 800; font-family: var(--font-head); letter-spacing: 1px; padding: 4px 14px; border-radius: 0 0 8px 8px; pointer-events: auto; }
 
-/* --- NEW FEATURE: PAYOUT PROOF WALL --- */
-.payout-section { padding-top: 20px; }
-.masonry-grid { column-count: 3; column-gap: 20px; margin-top: 30px; }
-.payout-card { break-inside: avoid; margin-bottom: 20px; background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: 16px; padding: 20px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden;}
-.payout-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
-.payout-img-placeholder { width: 100%; height: 180px; background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.05)); border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;}
-.payout-info { display: flex; justify-content: space-between; align-items: flex-end; }
-.payout-amt { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--status-success); }
-.payout-firm { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.payout-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
-
-/* --- NEW FEATURE: DISCORD COMMUNITY BANNER --- */
-.discord-banner { background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(3, 7, 18, 0.9)); border: 1px solid rgba(88, 101, 242, 0.3); border-radius: var(--radius-lg); padding: 40px; display: flex; align-items: center; justify-content: space-between; margin: 60px auto 0; max-width: 1200px; box-shadow: 0 10px 40px rgba(88, 101, 242, 0.1); }
-.discord-text h3 { font-family: var(--font-head); font-size: 28px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-.discord-text p { color: var(--text-muted); font-size: 15px; max-width: 600px; }
-.btn-discord { background: var(--accent-discord); color: #fff; border: none; padding: 14px 30px; border-radius: 10px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); text-decoration: none; }
-.btn-discord:hover { background: #4752C4; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6); }
-
-/* --- NEW FEATURE: QUIZ MODAL --- */
+/* --- QUIZ MODAL --- */
 .quiz-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; }
 .quiz-overlay.active { opacity: 1; visibility: visible; }
 .quiz-modal { background: var(--bg-surface); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); width: 90%; max-width: 500px; padding: 40px; position: relative; transform: translateY(20px); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(56, 189, 248, 0.05); }
@@ -302,7 +276,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   body { padding-bottom: 80px; }
   
   .marquee-container { top: 70px; }
-  .filter-bar { top: 106px; }
+  .filter-bar-wrapper { top: 106px; }
 
   .hero { padding: 160px 16px 40px; } 
   h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 16px;}
@@ -312,15 +286,8 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .trust-stats-container { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stat-num { font-size: 24px; }
   
-  .filter-bar { padding: 12px 16px; margin-top: 0; }
+  .filter-bar-main { padding: 12px 16px; }
   
-  /* Simulator Mobile */
-  .simulator-card { grid-template-columns: 1fr; padding: 24px; }
-  .discord-banner { flex-direction: column; text-align: center; gap: 20px; padding: 24px; margin: 40px 16px 0; }
-  
-  /* Masonry Mobile */
-  .masonry-grid { column-count: 1; }
-
   /* Cards Mobile */
   .firm-card { display: flex; flex-direction: column; padding: 20px 16px; gap: 12px; align-items: stretch; border-radius: 16px; position: relative; }
   .firm-rank { display: none; }
@@ -359,6 +326,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
 
   .floating-fab { bottom: 90px; right: 20px; width: 50px; height: 50px; }
+  .advanced-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -371,8 +339,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </a>
   <ul class="nav-links">
     <li><a href="#firms">Matrix</a></li>
-    <li><a href="#simulator">Risk Tool</a></li>
-    <li><a href="#payouts">Proofs</a></li>
+    <li><a href="#" onclick="openQuiz()">Matchmaker</a></li>
     <li><a href="#leaderboard">Leaderboard</a></li>
   </ul>
   
@@ -418,7 +385,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <h1>Precision Funding.<br><span class="h1-accent">Maximum Edge.</span></h1>
     <p class="hero-sub">Compare trailing drawdowns, hidden consistency rules, and verified payout speeds. Use code <span class="highlight-gold">VAULT</span> to unlock maximum allocation discounts.</p>
     
-    <!-- INSTANT SEARCH BAR -->
     <div class="search-container">
       <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <input type="text" id="firmSearch" placeholder="Search for FTMO, FundedNext, Apex..." autocomplete="off">
@@ -429,7 +395,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <a href="#" class="btn-secondary" onclick="openQuiz()">A.I. Matchmaker Quiz</a>
     </div>
 
-    <!-- TRUST STAT GRID -->
     <div class="trust-stats-container">
       <div class="stat-box">
         <svg class="stat-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -455,59 +420,76 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </div>
 
-<div class="filter-bar">
-  <span class="filter-label">Filter Algorithm:</span>
-  <div class="filter-tabs">
-    <button class="filter-tab active" data-filter="all">All Markets</button>
-    <button class="filter-tab" data-filter="forex">Forex (FX)</button>
-    <button class="filter-tab" data-filter="futures">Futures</button>
-    <button class="filter-tab" data-filter="instant">Instant Funding</button>
+<!-- PROPFIRMMATCH STYLE ADVANCED FILTER ENGINE -->
+<div class="filter-bar-wrapper">
+  <div class="filter-bar-main">
+    <div class="filter-tabs-group">
+      <span class="filter-label">Filter Algorithm:</span>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All Markets</button>
+        <button class="filter-tab" data-filter="forex">Forex (FX)</button>
+        <button class="filter-tab" data-filter="futures">Futures</button>
+        <button class="filter-tab" data-filter="instant">Instant</button>
+      </div>
+    </div>
+    
+    <button class="btn-advanced-toggle" onclick="toggleAdvancedFilters(this)">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+      Deep Filters
+    </button>
+  </div>
+
+  <div id="advancedFilters" class="advanced-filters-panel">
+    <div class="advanced-grid">
+      <!-- Sort By -->
+      <div class="adv-filter-group">
+        <span class="adv-label">Sort By</span>
+        <select class="adv-select" id="sortFirms" onchange="runPropFirmMatchEngine()">
+          <option value="trust">Highest Trust Score</option>
+          <option value="priceLow">Price: Low to High</option>
+          <option value="priceHigh">Price: High to Low</option>
+        </select>
+      </div>
+      
+      <!-- Evaluation Type -->
+      <div class="adv-filter-group">
+        <span class="adv-label">Evaluation Type</span>
+        <select class="adv-select" id="filterPhase" onchange="runPropFirmMatchEngine()">
+          <option value="all">Any Type</option>
+          <option value="1">1-Step Evaluation</option>
+          <option value="2">2-Step Evaluation</option>
+        </select>
+      </div>
+
+      <!-- Drawdown Type -->
+      <div class="adv-filter-group">
+        <span class="adv-label">Drawdown Type</span>
+        <select class="adv-select" id="filterDD" onchange="runPropFirmMatchEngine()">
+          <option value="all">Any Drawdown</option>
+          <option value="static">Static / Balance Based</option>
+          <option value="trailing">Trailing / Equity Based</option>
+        </select>
+      </div>
+
+      <!-- Features Toggles -->
+      <div class="adv-filter-group">
+        <span class="adv-label">Trading Features</span>
+        <label class="checkbox-group">
+          <input type="checkbox" id="featureNews" onchange="runPropFirmMatchEngine()">
+          <span>News Trading Allowed</span>
+        </label>
+        <label class="checkbox-group">
+          <input type="checkbox" id="featureEA" onchange="runPropFirmMatchEngine()">
+          <span>EAs / Bots Allowed</span>
+        </label>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- NEW FEATURE: SWING TRADER DRAWDOWN SIMULATOR -->
-<section id="simulator" class="simulator-section">
-  <div class="section-head">
-    <div class="section-title">Drawdown Risk Simulator <span>For Swing & Day Traders</span></div>
-  </div>
-  <div class="simulator-card">
-    <div>
-      <h3 class="sim-title">Evaluate Your Strategy</h3>
-      <p class="sim-desc">Enter your average risk per trade and style to see which drawdown type (Static vs Trailing) is mathematically safest for you.</p>
-      
-      <div class="sim-input-group">
-        <label class="sim-label">Primary Trading Style</label>
-        <select class="sim-select" id="simStyle" onchange="calculateDrawdownRisk()">
-          <option value="scalp">Scalping (Fast entries, tight SL)</option>
-          <option value="day" selected>Day Trading (Intraday holds)</option>
-          <option value="swing">Swing Trading (Multi-day holds, wide SL)</option>
-        </select>
-      </div>
-
-      <div class="sim-input-group">
-        <label class="sim-label">Average Risk Per Trade</label>
-        <select class="sim-select" id="simRisk" onchange="calculateDrawdownRisk()">
-          <option value="0.5">0.5% - Conservative</option>
-          <option value="1.0" selected>1.0% - Standard</option>
-          <option value="2.0">2.0% - Aggressive</option>
-          <option value="3.0">3.0%+ - Very Aggressive</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="sim-result-box" id="simResultBox">
-      <div class="sim-result-icon">
-        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      </div>
-      <div class="sim-result-title">Static Drawdown Recommended</div>
-      <div class="sim-result-text">Your risk profile suggests passing on trailing drawdowns. Look for firms with Static or EOD rules like FTMO.</div>
-    </div>
-  </div>
-</section>
-
 <section id="firms">
   <div class="section-head">
-    <div class="section-title">Elite Prop Firms <span>Sorted by Institutional Trust Score</span></div>
+    <div class="section-title">Elite Prop Firms <span>Matching Your Criteria</span></div>
     <div class="live-status">
       <div class="pulse-dot"></div>
       Codes Verified: Just Now
@@ -517,7 +499,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   <div class="firms-grid" id="firms-container">
     
     <!-- Firm 1: FTMO -->
-    <div class="firm-card featured" data-category="forex futures">
+    <div class="firm-card featured" data-category="forex futures" data-price="486" data-trust="9.4" data-phases="2" data-dd="static" data-news="true" data-ea="true">
       <div class="firm-tooltip">
         <div class="tooltip-title">FTMO Analysis</div>
         <ul class="tooltip-list">
@@ -577,17 +559,17 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Static</span></div>
             <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value warn">5% Limit</span></div>
             <div class="metric-item"><span class="metric-label">News Trading</span><span class="metric-value good">Allowed</span></div>
-            <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">80% - 90%</span></div>
-            <div class="metric-item"><span class="metric-label">Min Days</span><span class="metric-value">4 Days</span></div>
+            <div class="metric-item"><span class="metric-label">Eval Type</span><span class="metric-value">2-Step</span></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Firm 2: FundedNext -->
-    <div class="firm-card" data-category="forex">
+    <div class="firm-card" data-category="forex" data-price="441" data-trust="9.1" data-phases="2" data-dd="trailing" data-news="false" data-ea="true">
       <div class="firm-tooltip">
         <div class="tooltip-title">FundedNext Analysis</div>
         <ul class="tooltip-list">
@@ -647,17 +629,17 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Trailing</span></div>
             <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value">5% Limit</span></div>
             <div class="metric-item"><span class="metric-label">News Trading</span><span class="metric-value warn">Restricted</span></div>
-            <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value warn">With Request</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">80% - 95%</span></div>
-            <div class="metric-item"><span class="metric-label">Min Days</span><span class="metric-value">5 Days</span></div>
+            <div class="metric-item"><span class="metric-label">Eval Type</span><span class="metric-value">2-Step</span></div>
           </div>
         </div>
       </div>
     </div>
     
     <!-- Firm 3: Blueberry -->
-    <div class="firm-card" data-category="forex">
+    <div class="firm-card" data-category="forex" data-price="30" data-trust="8.8" data-phases="1" data-dd="trailing" data-news="true" data-ea="true">
       <div class="firm-tooltip">
         <div class="tooltip-title">Blueberry Analysis</div>
         <ul class="tooltip-list">
@@ -717,17 +699,17 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Trailing</span></div>
             <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value">4% Limit</span></div>
             <div class="metric-item"><span class="metric-label">News Trading</span><span class="metric-value good">Allowed</span></div>
-            <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">80% Base</span></div>
-            <div class="metric-item"><span class="metric-label">Min Days</span><span class="metric-value good">0 Days</span></div>
+            <div class="metric-item"><span class="metric-label">Eval Type</span><span class="metric-value">1-Step</span></div>
           </div>
         </div>
       </div>
     </div>
     
     <!-- Firm 4: Goat -->
-    <div class="firm-card" data-category="forex instant">
+    <div class="firm-card" data-category="forex instant" data-price="399" data-trust="8.6" data-phases="1" data-dd="static" data-news="true" data-ea="true">
       <div class="firm-tooltip">
         <div class="tooltip-title">Goat Funded Analysis</div>
         <ul class="tooltip-list">
@@ -789,69 +771,12 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">EAs/Bots</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">Up to 90%</span></div>
-            <div class="metric-item"><span class="metric-label">Min Days</span><span class="metric-value">5 Days</span></div>
+            <div class="metric-item"><span class="metric-label">Eval Type</span><span class="metric-value">Instant</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- NEW FEATURE: LIVE PAYOUT PROOF WALL -->
-<section id="payouts" class="payout-section">
-  <div class="section-head">
-    <div class="section-title">Verified Payout Proofs <span>Live Data Stream</span></div>
-  </div>
-  <div class="masonry-grid">
-    <!-- Payout 1 -->
-    <div class="payout-card">
-      <div class="payout-img-placeholder">Certificate Image</div>
-      <div class="payout-info">
-        <div>
-          <div class="payout-firm">FTMO</div>
-          <div class="payout-date">May 29, 2026</div>
-        </div>
-        <div class="payout-amt">+$12,450</div>
-      </div>
-    </div>
-    <!-- Payout 2 -->
-    <div class="payout-card">
-      <div class="payout-img-placeholder" style="height: 140px;">Screenshot</div>
-      <div class="payout-info">
-        <div>
-          <div class="payout-firm">FundedNext</div>
-          <div class="payout-date">May 28, 2026</div>
-        </div>
-        <div class="payout-amt">+$4,200</div>
-      </div>
-    </div>
-    <!-- Payout 3 -->
-    <div class="payout-card">
-      <div class="payout-img-placeholder" style="height: 220px;">Deel Dashboard</div>
-      <div class="payout-info">
-        <div>
-          <div class="payout-firm">Goat Funded</div>
-          <div class="payout-date">May 27, 2026</div>
-        </div>
-        <div class="payout-amt">+$8,900</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- NEW FEATURE: DISCORD COMMUNITY BANNER -->
-<section class="discord-banner">
-  <div class="discord-text">
-    <h3>
-      <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6A12 12 0 0 0 6 6M21 12A18 18 0 0 0 3 12M24 18A24 24 0 0 0 0 18"></path><circle cx="12" cy="22" r="2"></circle></svg>
-      Join the Night Trader Discord
-    </h3>
-    <p>Get instant automated alerts when prop firms change hidden rules or release flash discount codes. Connect with elite swing traders.</p>
-  </div>
-  <a href="#" class="btn-discord">
-    Join Community
-    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-  </a>
 </section>
 
 <footer class="elite-footer">
@@ -874,8 +799,8 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <ul>
         <li><a href="#">Live Discount Codes</a></li>
         <li><a href="#">Cashback Portal</a></li>
-        <li><a href="#simulator">Drawdown Calculator</a></li>
-        <li><a href="#payouts">Payout Proofs</a></li>
+        <li><a href="#">Drawdown Calculator</a></li>
+        <li><a href="#">Prop Firm Reviews</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -894,12 +819,38 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </footer>
 
-<!-- FLOATING ACTION BUTTON (FAB) -->
-<a href="#codes" class="floating-fab" title="View Flash Deals">
-  <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-</a>
+<!-- PROP FIRM MATCHMAKER QUIZ MODAL -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-modal">
+    <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    <div class="quiz-step active" id="quiz-step-1">
+      <div class="quiz-title">What is your Trading Style?</div>
+      <div class="quiz-options">
+        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Scalping (Fast entries) <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Day Trading (Intraday) <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Swing Trading (Multi-day) <span>→</span></button>
+      </div>
+    </div>
+    <div class="quiz-step" id="quiz-step-2">
+      <div class="quiz-title">Do you trade the News?</div>
+      <div class="quiz-options">
+        <button class="quiz-option-btn" onclick="nextQuizStep(3)">Yes, strictly trade events <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(3)">Sometimes, if the setup is good <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(3)">No, I avoid high volatility <span>→</span></button>
+      </div>
+    </div>
+    <div class="quiz-step" id="quiz-step-3">
+      <div class="quiz-title">A.I. Analysis Complete</div>
+      <p style="color: var(--text-muted); font-size: 14px;">Based on your inputs, trailing drawdowns are too risky for you. We recommend a firm with static rules and news allowed.</p>
+      <div class="quiz-result-box">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Top Recommended Firm:</div>
+        <div class="quiz-match-name">FTMO</div>
+        <a href="#firms" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="closeQuiz()">View Details & Discount</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- MOBILE BOTTOM NAVIGATION BAR -->
 <div class="mobile-bottom-nav">
   <a href="#" class="nav-item active">
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -915,9 +866,9 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </div>
     <span>Deals</span>
   </a>
-  <a href="#simulator" class="nav-item">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-    <span>Risk Tool</span>
+  <a href="#" class="nav-item" onclick="openQuiz()">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    <span>Match</span>
   </a>
   <a href="#" class="nav-item">
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -925,50 +876,11 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </a>
 </div>
 
-<!-- NEW FEATURE: PROP FIRM MATCHMAKER QUIZ MODAL -->
-<div class="quiz-overlay" id="quizOverlay">
-  <div class="quiz-modal">
-    <button class="quiz-close" onclick="closeQuiz()">✕</button>
-    
-    <!-- Step 1 -->
-    <div class="quiz-step active" id="quiz-step-1">
-      <div class="quiz-title">What is your Trading Style?</div>
-      <div class="quiz-options">
-        <button class="quiz-option-btn" onclick="nextQuizStep(2, 'scalp')">Scalping (Fast entries) <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(2, 'day')">Day Trading (Intraday) <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(2, 'swing')">Swing Trading (Multi-day) <span>→</span></button>
-      </div>
-    </div>
-
-    <!-- Step 2 -->
-    <div class="quiz-step" id="quiz-step-2">
-      <div class="quiz-title">Do you trade the News?</div>
-      <div class="quiz-options">
-        <button class="quiz-option-btn" onclick="nextQuizStep(3, 'yes')">Yes, strictly trade events <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(3, 'sometimes')">Sometimes, if the setup is good <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(3, 'no')">No, I avoid high volatility <span>→</span></button>
-      </div>
-    </div>
-
-    <!-- Step 3 (Result) -->
-    <div class="quiz-step" id="quiz-step-3">
-      <div class="quiz-title">A.I. Analysis Complete</div>
-      <p style="color: var(--text-muted); font-size: 14px;">Based on your inputs, trailing drawdowns are too risky for you. We recommend a firm with static rules and news allowed.</p>
-      <div class="quiz-result-box">
-        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Top Recommended Firm:</div>
-        <div class="quiz-match-name">FTMO</div>
-        <a href="#firms" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="closeQuiz()">View Details & Discount</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast">Code Copied Successfully!</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // --- OBSERVER ---
-  const cards = document.querySelectorAll('.firm-card, .stat-box, .payout-card');
+  const cards = document.querySelectorAll('.firm-card, .stat-box');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting && !entry.target.classList.contains('hidden')) {
@@ -983,43 +895,23 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(card);
   });
 
-  // --- FILTER & SEARCH LOGIC ---
+  // --- PROPFIRMMATCH ENGINE LOGIC ---
   const filterButtons = document.querySelectorAll('.filter-tab');
   const searchInput = document.getElementById('firmSearch');
-
-  function filterFirms() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const activeFilter = document.querySelector('.filter-tab.active').getAttribute('data-filter');
-
-    document.querySelectorAll('.firm-card').forEach(card => {
-      const firmName = card.querySelector('.firm-name').innerText.toLowerCase();
-      const categories = card.getAttribute('data-category').split(' ');
-      
-      const matchesSearch = firmName.includes(searchTerm);
-      const matchesCategory = activeFilter === 'all' || categories.includes(activeFilter);
-
-      if (matchesSearch && matchesCategory) {
-        card.classList.remove('hidden');
-        card.style.animation = 'none'; 
-        card.offsetHeight; 
-        card.style.animation = `slideUpFade 0.4s ease-out forwards`;
-      } else {
-        card.classList.add('hidden');
-      }
-    });
-  }
 
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       filterButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-      filterFirms();
+      runPropFirmMatchEngine();
     });
   });
 
-  searchInput.addEventListener('input', filterFirms);
+  if(searchInput) {
+    searchInput.addEventListener('input', runPropFirmMatchEngine);
+  }
 
-  // --- MOBILE BOTTOM NAV ACTIVE STATE ---
+  // Mobile Bottom Nav Active State
   const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
   navItems.forEach(item => {
     item.addEventListener('click', function() {
@@ -1027,19 +919,93 @@ document.addEventListener('DOMContentLoaded', () => {
       this.classList.add('active');
     });
   });
-
-  // Init Simulator
-  calculateDrawdownRisk();
 });
 
-// --- PRICING ENGINE ---
+// THE MASTER FILTER & SORTING ENGINE
+function runPropFirmMatchEngine() {
+  // Get all filter values
+  const searchVal = document.getElementById('firmSearch') ? document.getElementById('firmSearch').value.toLowerCase() : '';
+  const tabVal = document.querySelector('.filter-tab.active').getAttribute('data-filter');
+  
+  const phaseVal = document.getElementById('filterPhase').value;
+  const ddVal = document.getElementById('filterDD').value;
+  const sortVal = document.getElementById('sortFirms').value;
+  
+  const reqNews = document.getElementById('featureNews').checked;
+  const reqEA = document.getElementById('featureEA').checked;
+
+  let cardsContainer = document.getElementById('firms-container');
+  let cardsArr = Array.from(cardsContainer.querySelectorAll('.firm-card'));
+
+  // 1. Filter Logic
+  cardsArr.forEach(card => {
+    let show = true;
+    
+    // Dataset values
+    const firmName = card.querySelector('.firm-name').innerText.toLowerCase();
+    const categories = card.getAttribute('data-category').split(' ');
+    const cardPhase = card.getAttribute('data-phases');
+    const cardDD = card.getAttribute('data-dd');
+    const cardNews = card.getAttribute('data-news') === 'true';
+    const cardEA = card.getAttribute('data-ea') === 'true';
+
+    if (searchVal && !firmName.includes(searchVal)) show = false;
+    if (tabVal !== 'all' && !categories.includes(tabVal)) show = false;
+    if (phaseVal !== 'all' && cardPhase !== phaseVal) show = false;
+    if (ddVal !== 'all' && cardDD !== ddVal) show = false;
+    if (reqNews && !cardNews) show = false;
+    if (reqEA && !cardEA) show = false;
+
+    if (show) {
+      card.classList.remove('hidden');
+      card.style.animation = 'none'; 
+      card.offsetHeight; 
+      card.style.animation = `slideUpFade 0.4s ease-out forwards`;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  // 2. Sorting Logic
+  cardsArr.sort((a, b) => {
+    const trustA = parseFloat(a.getAttribute('data-trust'));
+    const trustB = parseFloat(b.getAttribute('data-trust'));
+    const priceA = parseFloat(a.getAttribute('data-price'));
+    const priceB = parseFloat(b.getAttribute('data-price'));
+
+    if (sortVal === 'trust') {
+      return trustB - trustA; // High to Low
+    } else if (sortVal === 'priceLow') {
+      return priceA - priceB; // Low to High
+    } else if (sortVal === 'priceHigh') {
+      return priceB - priceA; // High to Low
+    }
+    return 0;
+  });
+
+  // Re-append to DOM in sorted order
+  cardsArr.forEach(card => cardsContainer.appendChild(card));
+}
+
+// Toggle Advanced Filters Panel
+function toggleAdvancedFilters(btn) {
+  const panel = document.getElementById('advancedFilters');
+  btn.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    panel.classList.remove('open');
+  } else {
+    panel.classList.add('open');
+  }
+}
+
+// Dynamic Pricing Function
 function updatePrice(selectElement, firmPrefix) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   document.getElementById(`${firmPrefix}-old`).innerText = selectedOption.getAttribute('data-old');
   document.getElementById(`${firmPrefix}-new`).innerText = selectedOption.getAttribute('data-new');
 }
 
-// --- COPY CODE ---
+// Copy Code & Redirect
 function copyCode(code, e, affiliateLink) {
   e.preventDefault();
   navigator.clipboard.writeText(code).then(() => {
@@ -1063,7 +1029,7 @@ function copyCode(code, e, affiliateLink) {
   });
 }
 
-// --- ACCORDION METRICS ---
+// Accordion Toggle for Metrics
 function toggleMetrics(btn) {
   const dropdown = btn.nextElementSibling;
   btn.classList.toggle('active');
@@ -1076,30 +1042,7 @@ function toggleMetrics(btn) {
   }
 }
 
-// --- DRAWDOWN SIMULATOR LOGIC ---
-function calculateDrawdownRisk() {
-  const style = document.getElementById('simStyle').value;
-  const risk = parseFloat(document.getElementById('simRisk').value);
-  const resultBox = document.getElementById('simResultBox');
-  
-  resultBox.classList.remove('result-safe', 'result-risk');
-
-  if (style === 'swing' && risk >= 1.0) {
-    resultBox.classList.add('result-risk');
-    resultBox.querySelector('.sim-result-title').innerText = "Trailing DD = High Risk";
-    resultBox.querySelector('.sim-result-text').innerText = "As a swing trader with normal/high risk, deep pullbacks will blow a trailing drawdown account. Stick to FTMO or Static DD firms.";
-  } else if (style === 'scalp') {
-    resultBox.classList.add('result-safe');
-    resultBox.querySelector('.sim-result-title').innerText = "All DD Types Allowed";
-    resultBox.querySelector('.sim-result-text').innerText = "With fast entries and tight stop losses, you can safely trade on Trailing or Static Drawdown firms.";
-  } else {
-    resultBox.classList.add('result-safe');
-    resultBox.querySelector('.sim-result-title').innerText = "Static DD Recommended";
-    resultBox.querySelector('.sim-result-text').innerText = "Your risk profile is balanced. While Trailing DD is possible, Static rules will give you the most psychological comfort.";
-  }
-}
-
-// --- QUIZ LOGIC ---
+// Quiz Modal Logic
 function openQuiz() {
   document.getElementById('quizOverlay').classList.add('active');
   showQuizStep(1);
@@ -1111,9 +1054,7 @@ function showQuizStep(step) {
   document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
   document.getElementById(`quiz-step-${step}`).classList.add('active');
 }
-function nextQuizStep(nextStep, value) {
-  // Here you would normally save the value to calculate the final result.
-  // For UI purposes, we just advance the step.
+function nextQuizStep(nextStep) {
   showQuizStep(nextStep);
 }
 </script>
