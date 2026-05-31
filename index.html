@@ -51,19 +51,28 @@ body {
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 @keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-/* --- NEW: INFINITE MARQUEE BANNER --- */
+/* --- NAV --- */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; gap: 8px; list-style: none; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
+.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
+.nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #000 !important; font-weight: 700 !important; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
+
+/* --- INFINITE MARQUEE BANNER (FIXED FOR DESKTOP & MOBILE) --- */
 .marquee-container {
   width: 100%;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(10, 15, 28, 0.98); /* Slightly darker for contrast */
   border-bottom: 1px solid var(--border-dim);
   padding: 8px 0;
   white-space: nowrap;
-  position: absolute; /* Place it just below the navbar */
-  top: 70px; /* Adjust if your navbar height changes */
+  position: fixed; /* FIXED: Now it stays on screen forever */
+  top: 70px; /* Exact height of navbar */
   left: 0;
-  z-index: 95;
+  z-index: 98; /* Below navbar, above everything else */
   display: flex;
+  backdrop-filter: blur(10px);
 }
 
 .marquee-content {
@@ -71,7 +80,6 @@ body {
   animation: marquee-scroll 25s linear infinite;
 }
 
-/* Pause animation on hover for desktop users */
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
@@ -92,7 +100,7 @@ body {
   height: 20px;
   border-radius: 50%;
   object-fit: cover;
-  background: #fff; /* For logos that need a background */
+  background: #fff;
 }
 
 .marquee-badge.trusted {
@@ -125,12 +133,8 @@ body {
 
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Translate by half because content is duplicated */
+  100% { transform: translateX(-50%); }
 }
-
-/* Adjust Hero padding to account for the new marquee */
-.hero { position: relative; padding: 220px 4% 100px; text-align: center; overflow: hidden; } /* Increased top padding from 180px to 220px */
-
 
 /* --- ORBIT ANIMATIONS --- */
 .bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -147,19 +151,9 @@ body {
 @keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
 @keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
 
-.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
-.highlight-gold { color: var(--accent-gold); font-weight: 700; }
-.highlight-success { color: var(--status-success); font-weight: 600; }
-
-/* --- NAV --- */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-.logo { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.nav-links { display: flex; gap: 8px; list-style: none; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
-.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
-.nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #000 !important; font-weight: 700 !important; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
-
 /* --- HERO SECTION --- */
+/* Adjusted top padding to clear the 70px nav + ~37px marquee */
+.hero { position: relative; padding: 220px 4% 100px; text-align: center; overflow: hidden; } 
 .hero-content { position: relative; z-index: 2; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
 .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--status-success); border-radius: 50%; box-shadow: 0 0 8px var(--status-success); }
@@ -173,8 +167,8 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
 /* --- FILTER BAR --- */
-/* Adjust sticky top position for filter bar on desktop to account for the marquee */
-.filter-bar { position: sticky; top: 106px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Fixed top position so it stops right below the Marquee */
+.filter-bar { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
 .filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
 .filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; }
@@ -222,8 +216,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-tag { font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
 .tag-gold { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
 .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
-.firm-meta { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-weight: 500; }
-.firm-meta span { display: flex; align-items: center; gap: 4px; }
 
 /* Dynamic Pricing Engine Styles */
 .pricing-engine { display: flex; flex-direction: column; gap: 8px; }
@@ -274,10 +266,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   
   body { padding-bottom: 80px; }
   
-  .marquee-container { top: 70px; } /* Adjust marquee top for mobile if needed */
-  .filter-bar { top: 106px; } /* Adjust filter sticky top for mobile */
-
-  .hero { padding: 180px 16px 60px; } /* Adjust hero top padding for mobile marquee */
+  .hero { padding: 180px 16px 60px; }
   h1 { font-size: 32px; letter-spacing: -1px; }
   .hero-actions { flex-direction: column; padding: 0 20px; }
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
@@ -340,8 +329,10 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   <a href="#" class="nav-cta">Claim Cashback</a>
 </nav>
 
+<!-- --- NEW: INFINITE MARQUEE BANNER --- -->
 <div class="marquee-container">
   <div class="marquee-content">
+    <!-- Duplicate items to create infinite effect -->
     <div class="marquee-item">
       <img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'">
       <span>FTMO</span>
@@ -377,6 +368,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <span class="marquee-separator">✦</span>
     </div>
     
+    <!-- Duplicated Content for Seamless Scrolling -->
     <div class="marquee-item">
       <img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'">
       <span>FTMO</span>
@@ -413,6 +405,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </div>
   </div>
 </div>
+
 
 <div class="hero">
   <div class="bg-orbit-container">
