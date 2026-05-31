@@ -399,4 +399,798 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .split-calc-inputs input { width: 100%; }
 
   .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
-  .
+  .footer-brand p { margin: 15px auto; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .disclaimer { text-align: center !important; }
+
+  /* BOTTOM NAVIGATION BAR */
+  .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5); }
+  .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
+  .nav-item.active { color: var(--accent-cyan); }
+  .nav-item.active::before { content: ''; position: absolute; top: -8px; width: 24px; height: 3px; background: var(--accent-cyan); border-radius: 0 0 4px 4px; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.5); }
+  .nav-item:hover { color: var(--text-main); }
+  .center-item { transform: translateY(-20px); color: var(--text-main); }
+  .center-circle { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4); border: 5px solid var(--bg-base); margin-bottom: 4px; transition: transform 0.3s; }
+  .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
+  .compare-tray.show { bottom: 75px; } 
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <img src="night trader.png" alt="Night Trader Logo" class="logo-image" onerror="this.style.display='none'">
+    <span class="logo-text">Night Trader</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#firms">Matrix</a></li>
+    <li><a href="#simulator">Risk Tool</a></li>
+  </ul>
+  
+  <div class="nav-actions">
+    <a href="#" class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu(event)">
+      <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </a>
+    <a href="#" class="nav-cta desktop-cta" onclick="openQuiz()">Find My Firm</a>
+  </div>
+</nav>
+
+<div class="marquee-container">
+  <div class="marquee-content">
+    <div class="marquee-item"><img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'"><span>FTMO</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
+    <div class="marquee-item"><img src="Funded Next.svg" alt="FundedNext" class="marquee-logo" onerror="this.style.display='none'"><span>FundedNext</span><button class="marquee-badge code" onclick="copyCode('NEXT15', event)">15% OFF</button><span class="marquee-separator">✦</span></div>
+    <div class="marquee-item"><img src="image_013a60.svg" alt="The 5ers" class="marquee-logo" onerror="this.style.display='none'"><span>The 5ers</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
+    <div class="marquee-item"><img src="blueberry.jpg" alt="Blueberry" class="marquee-logo" onerror="this.style.display='none'"><span>Blueberry</span><button class="marquee-badge code" onclick="copyCode('APEX90', event)">APEX90</button><span class="marquee-separator">✦</span></div>
+    <div class="marquee-item"><img src="GFT.svg" alt="Goat Funded" class="marquee-logo" onerror="this.style.display='none'"><span>Goat Funded</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
+    
+    <div class="marquee-item"><img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'"><span>FTMO</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
+    <div class="marquee-item"><img src="Funded Next.svg" alt="FundedNext" class="marquee-logo" onerror="this.style.display='none'"><span>FundedNext</span><button class="marquee-badge code" onclick="copyCode('NEXT15', event)">15% OFF</button><span class="marquee-separator">✦</span></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="bg-orbit-container">
+    <img src="FTMO.svg" class="orbit-icon orbit-1" alt="FTMO" onerror="this.style.display='none'">
+    <img src="Funded Next.svg" class="orbit-icon orbit-2" alt="FundedNext" onerror="this.style.display='none'">
+    <img src="image_013a60.svg" class="orbit-icon orbit-3" alt="5ers" onerror="this.style.display='none'">
+    <img src="GFT.svg" class="orbit-icon orbit-4" alt="Goat" onerror="this.style.display='none'">
+    <img src="blueberry.jpg" class="orbit-icon orbit-5" alt="Blueberry" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Verified Analytics Data — May 2026</div>
+    <h1>Precision Funding.<br><span class="h1-accent">Maximum Edge.</span></h1>
+    <p class="hero-sub">Compare trailing drawdowns, hidden consistency rules, and verified payout speeds. Use code <span class="highlight-gold">VAULT</span> to unlock maximum allocation discounts.</p>
+    <div class="search-container">
+      <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="firmSearch" placeholder="Search for FTMO, FundedNext, Apex..." autocomplete="off">
+    </div>
+    <div class="hero-actions">
+      <a href="#firms" class="btn-primary">Initialize Matrix</a>
+      <a href="#" class="btn-secondary" onclick="openQuiz()">A.I. Matchmaker Quiz</a>
+    </div>
+    <div class="trust-stats-container">
+      <div class="stat-box">
+        <svg class="stat-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <div class="stat-num">57+</div>
+        <div class="stat-text">Verified Firms</div>
+      </div>
+      <div class="stat-box">
+        <svg class="stat-icon" style="color:var(--accent-cyan)" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <div class="stat-num">$2.4M</div>
+        <div class="stat-text">Payouts Tracked</div>
+      </div>
+      <div class="stat-box">
+        <svg class="stat-icon" style="color:var(--accent-gold)" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <div class="stat-num">90%</div>
+        <div class="stat-text">Max Discount</div>
+      </div>
+      <div class="stat-box">
+        <svg class="stat-icon" style="color:var(--status-success)" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <div class="stat-num">31K</div>
+        <div class="stat-text">Active Traders</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar-wrapper">
+  <div class="filter-bar-main">
+    <div class="filter-tabs-group">
+      <span class="filter-label">Filter Algorithm:</span>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All Markets</button>
+        <button class="filter-tab" data-filter="forex">Forex (FX)</button>
+        <button class="filter-tab" data-filter="futures">Futures</button>
+        <button class="filter-tab" data-filter="instant">Instant</button>
+      </div>
+    </div>
+    <button class="btn-advanced-toggle" onclick="toggleAdvancedFilters(this)">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Deep Filters
+    </button>
+  </div>
+  <div id="advancedFilters" class="advanced-filters-panel">
+    <div class="advanced-grid">
+      <div class="adv-filter-group"><span class="adv-label">Sort By</span><select class="adv-select" id="sortFirms" onchange="runPropFirmMatchEngine()"><option value="trust">Highest Trust Score</option><option value="priceLow">Price: Low to High</option><option value="priceHigh">Price: High to Low</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Trading Platform</span><select class="adv-select" id="filterPlatform" onchange="runPropFirmMatchEngine()"><option value="all">Any Platform</option><option value="mt5">MT4 / MT5</option><option value="dxtrade">DXTrade</option><option value="ctrader">cTrader</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">US Allowed Only</span><select class="adv-select" id="filterUS" onchange="runPropFirmMatchEngine()"><option value="all">Global (Any)</option><option value="true">Yes, US Traders Welcome</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Drawdown Type</span><select class="adv-select" id="filterDD" onchange="runPropFirmMatchEngine()"><option value="all">Any Drawdown</option><option value="static">Static / Balance Based</option><option value="trailing">Trailing / Equity Based</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Trading Features</span><label class="checkbox-group"><input type="checkbox" id="featureNews" onchange="runPropFirmMatchEngine()"><span>News Trading Allowed</span></label><label class="checkbox-group"><input type="checkbox" id="featureEA" onchange="runPropFirmMatchEngine()"><span>EAs / Bots Allowed</span></label></div>
+    </div>
+  </div>
+</div>
+
+<section id="simulator" class="simulator-section">
+  <div class="section-head">
+    <div class="section-title">Drawdown Risk Simulator <span>For Swing & Day Traders</span></div>
+  </div>
+  <div class="simulator-card">
+    <div>
+      <h3 class="sim-title">Evaluate Your Strategy</h3>
+      <p class="sim-desc">Enter your average risk per trade and style to see which drawdown type (Static vs Trailing) is mathematically safest for you.</p>
+      
+      <div class="sim-input-group">
+        <label class="sim-label">Primary Trading Style</label>
+        <select class="sim-select" id="simStyle" onchange="calculateDrawdownRisk()">
+          <option value="scalp">Scalping (Fast entries, tight SL)</option>
+          <option value="day" selected>Day Trading (Intraday holds)</option>
+          <option value="swing">Swing Trading (Multi-day holds, wide SL)</option>
+        </select>
+      </div>
+
+      <div class="sim-input-group">
+        <label class="sim-label">Average Risk Per Trade</label>
+        <select class="sim-select" id="simRisk" onchange="calculateDrawdownRisk()">
+          <option value="0.5">0.5% - Conservative</option>
+          <option value="1.0" selected>1.0% - Standard</option>
+          <option value="2.0">2.0% - Aggressive</option>
+          <option value="3.0">3.0%+ - Very Aggressive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sim-result-box" id="simResultBox">
+      <div class="sim-result-icon">
+        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <div class="sim-result-title">Static Drawdown Recommended</div>
+      <div class="sim-result-text">Your risk profile suggests passing on trailing drawdowns. Look for firms with Static or EOD rules like FTMO.</div>
+    </div>
+  </div>
+</section>
+
+<section id="firms">
+  <div class="section-head">
+    <div class="section-title">Elite Prop Firms</div>
+    <div class="live-status"><div class="pulse-dot"></div> Matrix Active</div>
+  </div>
+
+  <div class="firms-grid" id="firms-container">
+    
+    <a href="https://ftmo.com" target="_blank" class="firm-card featured" id="firm-ftmo" data-category="forex futures" data-price="486" data-trust="9.4" data-phases="2" data-dd="static" data-news="true" data-ea="true" data-platforms="mt5 dxtrade ctrader" data-us="false" data-split="0.9" onclick="copyCode('FTMO10', event)">
+      <div class="firm-rank top">01</div>
+      <div class="firm-inner">
+        <div class="compare-checkbox-wrapper" onclick="event.stopPropagation()">
+          <label class="custom-checkbox" title="Add to Compare">
+            <input type="checkbox" value="firm-ftmo" onchange="toggleCompare(this)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="firm-logo-img" style="border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);">
+          <img src="FTMO.svg" alt="FTMO" onerror="this.style.display='none';">
+        </div>
+        <div class="firm-info">
+          <div class="firm-name">FTMO <span class="firm-tag tag-gold">Gold Tier</span></div>
+          <div class="firm-meta"><span>FX, INDICES, FUTURES</span></div>
+        </div>
+      </div>
+      
+      <div class="pricing-engine" onclick="event.stopPropagation()">
+        <select class="account-size-select" onchange="updatePrice(this, 'FTMO')">
+          <option value="50k" data-old="$344" data-new="$309">$50K Account</option>
+          <option value="100k" data-old="$540" data-new="$486" selected>$100K Account</option>
+          <option value="200k" data-old="$1080" data-new="$972">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="FTMO-old">$540</span>
+          <span class="new-price" id="FTMO-new">$486</span>
+        </div>
+      </div>
+
+      <div class="trust-score">
+        <div class="trust-num highlight-success">9.4</div>
+        <div class="trust-label">Trust Index</div>
+      </div>
+      
+      <div class="discount-wrap">
+        <div class="discount-pill">FTMO10</div>
+        <div class="discount-off">10% Discount</div>
+      </div>
+      
+      <button class="btn-get">Apply Code</button>
+
+      <div class="metrics-row" onclick="event.stopPropagation()">
+        <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">
+          View Pass Metrics
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="metrics-dropdown">
+          <div class="metrics-grid-inner">
+            <div class="metric-item"><span class="metric-label">Profit Target</span><span class="metric-value">10% Phase 1</span></div>
+            <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Static</span></div>
+            <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value warn">5% Limit</span></div>
+            <div class="metric-item"><span class="metric-label">News Trading</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
+            <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">Up to 90%</span></div>
+            <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, DXTrade</span></div>
+          </div>
+          <div class="split-calc-container">
+            <div class="split-calc-header">Profit Split Calc (Target $)</div>
+            <div class="split-calc-inputs">
+              <input type="number" placeholder="e.g. 10000" oninput="calcSplit(this, 0.90)">
+              <div class="split-results">
+                <span class="trader-share-label">Share: <span class="trader-share">$0.00</span></span>
+                <span class="firm-share-label">Firm: <span class="firm-share">$0.00</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://fundednext.com" target="_blank" class="firm-card" id="firm-fn" data-category="forex" data-price="441" data-trust="9.1" data-phases="2" data-dd="trailing" data-news="false" data-ea="true" data-platforms="mt5 dxtrade" data-us="false" data-split="0.95" onclick="copyCode('NEXT15', event)">
+      <div class="firm-rank top">02</div>
+      <div class="firm-inner">
+        <div class="compare-checkbox-wrapper" onclick="event.stopPropagation()">
+          <label class="custom-checkbox" title="Add to Compare">
+            <input type="checkbox" value="firm-fn" onchange="toggleCompare(this)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="firm-logo-img" style="border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
+          <img src="Funded Next.svg" alt="FundedNext" onerror="this.style.display='none';">
+        </div>
+        <div class="firm-info">
+          <div class="firm-name">FundedNext <span class="firm-tag tag-cyan">Trending</span></div>
+          <div class="firm-meta"><span>FX, CRYPTO</span></div>
+        </div>
+      </div>
+      
+      <div class="pricing-engine" onclick="event.stopPropagation()">
+        <select class="account-size-select" onchange="updatePrice(this, 'NEXT')">
+          <option value="50k" data-old="$299" data-new="$254">$50K Account</option>
+          <option value="100k" data-old="$519" data-new="$441" selected>$100K Account</option>
+          <option value="200k" data-old="$999" data-new="$849">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="NEXT-old">$519</span>
+          <span class="new-price" id="NEXT-new">$441</span>
+        </div>
+      </div>
+
+      <div class="trust-score">
+        <div class="trust-num highlight-success">9.1</div>
+        <div class="trust-label">Trust Index</div>
+      </div>
+      
+      <div class="discount-wrap">
+        <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">NEXT15</div>
+        <div class="discount-off" style="color: var(--accent-cyan);">15% Discount</div>
+      </div>
+
+      <button class="btn-get">Apply Code</button>
+
+      <div class="metrics-row" onclick="event.stopPropagation()">
+        <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">
+          View Pass Metrics
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="metrics-dropdown">
+          <div class="metrics-grid-inner">
+            <div class="metric-item"><span class="metric-label">Profit Target</span><span class="metric-value">8% Phase 1</span></div>
+            <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Trailing</span></div>
+            <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value">5% Limit</span></div>
+            <div class="metric-item"><span class="metric-label">News Trading</span><span class="metric-value warn">Restricted</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
+            <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">95% MAX</span></div>
+            <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT4, MT5</span></div>
+          </div>
+          <div class="split-calc-container">
+            <div class="split-calc-header">Profit Split Calc (Target $)</div>
+            <div class="split-calc-inputs">
+              <input type="number" placeholder="e.g. 10000" oninput="calcSplit(this, 0.95)">
+              <div class="split-results">
+                <span class="trader-share-label">Share: <span class="trader-share">$0.00</span></span>
+                <span class="firm-share-label">Firm: <span class="firm-share">$0.00</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://blueberrymarkets.com" target="_blank" class="firm-card" id="firm-blue" data-category="forex" data-price="30" data-trust="8.8" data-phases="1" data-dd="trailing" data-news="true" data-ea="true" data-platforms="mt5 ctrader matchtrader" data-us="true" data-split="0.8" onclick="copyCode('APEX90', event)">
+      <div class="firm-rank">03</div>
+      <div class="firm-inner">
+        <div class="compare-checkbox-wrapper" onclick="event.stopPropagation()">
+          <label class="custom-checkbox" title="Add to Compare">
+            <input type="checkbox" value="firm-blue" onchange="toggleCompare(this)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="firm-logo-img" style="border-color: #fff; background: #fff;">
+          <img src="blueberry.jpg" alt="Blueberry Funded" onerror="this.style.display='none';">
+        </div>
+        <div class="firm-info">
+          <div class="firm-name">Blueberry Funded</div>
+          <div class="firm-meta"><span>FOREX</span></div>
+        </div>
+      </div>
+
+      <div class="pricing-engine" onclick="event.stopPropagation()">
+        <select class="account-size-select" onchange="updatePrice(this, 'BLUE')">
+          <option value="50k" data-old="$167" data-new="$16.7">$50K Account</option>
+          <option value="100k" data-old="$300" data-new="$30" selected>$100K Account</option>
+          <option value="200k" data-old="$600" data-new="$60">$200K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="BLUE-old">$300</span>
+          <span class="new-price" id="BLUE-new">$30</span>
+        </div>
+      </div>
+
+      <div class="trust-score">
+        <div class="trust-num highlight-success">8.8</div>
+        <div class="trust-label">Trust Index</div>
+      </div>
+      
+      <div class="discount-wrap">
+        <div class="discount-pill" style="border-color: #fff; color: #fff;">APEX90</div>
+        <div class="discount-off" style="color: var(--text-muted);">90% Discount</div>
+      </div>
+
+      <button class="btn-get">Apply Code</button>
+
+      <div class="metrics-row" onclick="event.stopPropagation()">
+        <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">
+          View Pass Metrics
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="metrics-dropdown">
+          <div class="metrics-grid-inner">
+            <div class="metric-item"><span class="metric-label">Profit Target</span><span class="metric-value good">6% Phase 1</span></div>
+            <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value warn">10% Trailing</span></div>
+            <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value">4% Limit</span></div>
+            <div class="metric-item"><span class="metric-label">US Allowed</span><span class="metric-value good">Yes</span></div>
+            <div class="metric-item"><span class="metric-label">EAs / Bots</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">Time Limit</span><span class="metric-value good">None</span></div>
+            <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">80% Base</span></div>
+            <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, cTrader</span></div>
+          </div>
+          <div class="split-calc-container">
+            <div class="split-calc-header">Profit Split Calc</div>
+            <div class="split-calc-inputs">
+              <input type="number" placeholder="e.g. 10000" oninput="calcSplit(this, 0.80)">
+              <div class="split-results">
+                <span class="trader-share-label">Share: <span class="trader-share">$0.00</span></span>
+                <span class="firm-share-label">Firm: <span class="firm-share">$0.00</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://goatfundedtrader.com" target="_blank" class="firm-card" id="firm-goat" data-category="forex instant" data-price="399" data-trust="8.6" data-phases="1" data-dd="static" data-news="true" data-ea="true" data-platforms="mt5 dxtrade" data-us="true" data-split="0.9" onclick="copyCode('GOAT20', event)">
+      <div class="firm-rank">04</div>
+      <div class="firm-inner">
+        <div class="compare-checkbox-wrapper" onclick="event.stopPropagation()">
+          <label class="custom-checkbox" title="Add to Compare">
+            <input type="checkbox" value="firm-goat" onchange="toggleCompare(this)">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="firm-logo-img" style="border-color: #fff;">
+          <img src="GFT.svg" alt="Goat Funded Trader" onerror="this.style.display='none';">
+        </div>
+        <div class="firm-info">
+          <div class="firm-name">Goat Funded Trader</div>
+          <div class="firm-meta"><span>FX, INDICES</span></div>
+        </div>
+      </div>
+
+      <div class="pricing-engine" onclick="event.stopPropagation()">
+        <select class="account-size-select" onchange="updatePrice(this, 'GOAT')">
+          <option value="50k" data-old="$299" data-new="$239">$50K Account</option>
+          <option value="100k" data-old="$499" data-new="$399" selected>$100K Account</option>
+        </select>
+        <div class="price-display">
+          <span class="old-price" id="GOAT-old">$499</span>
+          <span class="new-price" id="GOAT-new">$399</span>
+        </div>
+      </div>
+
+      <div class="trust-score">
+        <div class="trust-num highlight-success">8.6</div>
+        <div class="trust-label">Trust Index</div>
+      </div>
+      
+      <div class="discount-wrap">
+        <div class="discount-pill" style="border-color: #fff; color: #fff;">GOAT20</div>
+        <div class="discount-off" style="color: var(--text-muted);">20% Discount</div>
+      </div>
+
+      <button class="btn-get">Apply Code</button>
+
+      <div class="metrics-row" onclick="event.stopPropagation()">
+        <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">
+          View Pass Metrics
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="metrics-dropdown">
+          <div class="metrics-grid-inner">
+            <div class="metric-item"><span class="metric-label">Profit Target</span><span class="metric-value">8% Phase 1</span></div>
+            <div class="metric-item"><span class="metric-label">Max Drawdown</span><span class="metric-value">8% Static</span></div>
+            <div class="metric-item"><span class="metric-label">Daily Loss</span><span class="metric-value">4% Limit</span></div>
+            <div class="metric-item"><span class="metric-label">US Allowed</span><span class="metric-value good">Yes</span></div>
+            <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">EAs/Bots</span><span class="metric-value good">Allowed</span></div>
+            <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">Up to 90%</span></div>
+            <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, DXTrade</span></div>
+          </div>
+          <div class="split-calc-container">
+            <div class="split-calc-header">Profit Split Calc</div>
+            <div class="split-calc-inputs">
+              <input type="number" placeholder="e.g. 10000" oninput="calcSplit(this, 0.90)">
+              <div class="split-results">
+                <span class="trader-share-label">Share: <span class="trader-share">$0.00</span></span>
+                <span class="firm-share-label">Firm: <span class="firm-share">$0.00</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="payouts" class="payout-section">
+  <div class="section-head">
+    <div class="section-title">Verified Payout Proofs</div>
+  </div>
+  <div class="masonry-grid">
+    <div class="payout-card">
+      <div class="payout-img-placeholder">Certificate Image</div>
+      <div class="payout-info">
+        <div><div class="payout-firm">FTMO</div><div class="payout-date">May 29, 2026</div></div>
+        <div class="payout-amt">+$12,450</div>
+      </div>
+    </div>
+    <div class="payout-card">
+      <div class="payout-img-placeholder" style="height: 140px;">Screenshot</div>
+      <div class="payout-info">
+        <div><div class="payout-firm">FundedNext</div><div class="payout-date">May 28, 2026</div></div>
+        <div class="payout-amt">+$4,200</div>
+      </div>
+    </div>
+    <div class="payout-card">
+      <div class="payout-img-placeholder" style="height: 220px;">Deel Dashboard</div>
+      <div class="payout-info">
+        <div><div class="payout-firm">Goat Funded</div><div class="payout-date">May 27, 2026</div></div>
+        <div class="payout-amt">+$8,900</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="discord-banner">
+  <div class="discord-text">
+    <h3>
+      <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6A12 12 0 0 0 6 6M21 12A18 18 0 0 0 3 12M24 18A24 24 0 0 0 0 18"></path><circle cx="12" cy="22" r="2"></circle></svg>
+      Join the Night Trader Discord
+    </h3>
+    <p>Get instant automated alerts when prop firms change hidden rules or release flash discount codes.</p>
+  </div>
+  <a href="#" class="btn-discord">
+    Join Community
+    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+  </a>
+</section>
+
+<footer class="elite-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="night trader.png" alt="Logo" style="height: 40px; margin-bottom: 10px;" onerror="this.style.display='none'">
+      <p>Providing institutional-grade analytics, transparent drawdown rules, and exclusive cashback deals for the modern swing trader.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Analytics Matrix</h4>
+      <ul><li><a href="#">Forex Prop Firms</a></li><li><a href="#">Futures Prop Firms</a></li><li><a href="#">Instant Funding</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Trader Resources</h4>
+      <ul><li><a href="#">Live Discount Codes</a></li><li><a href="#">Cashback Portal</a></li><li><a href="#simulator">Drawdown Calculator</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal & Risk</h4>
+      <ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Risk Disclaimer</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="copyright">© 2026 Night Trader. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="compare-tray" id="compareTray">
+  <div class="compare-tray-info"><span class="compare-tray-count" id="compareCount">0</span> Firms Selected</div>
+  <div class="compare-tray-actions">
+    <button class="btn-compare-clear" onclick="clearCompare()">Clear</button>
+    <button class="btn-primary" onclick="openCompareModal()">Compare Now</button>
+  </div>
+</div>
+
+<div class="compare-modal-overlay" id="compareModalOverlay">
+  <div class="compare-modal">
+    <div class="compare-header">
+      <h2 style="font-family: var(--font-head); font-size: 22px;">Matrix Comparison</h2>
+      <button class="quiz-close" onclick="closeCompareModal()">✕</button>
+    </div>
+    <div class="compare-body">
+      <table class="compare-table">
+        <thead id="compareHead"></thead>
+        <tbody id="compareBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-modal">
+    <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    <div class="quiz-step active" id="quiz-step-1">
+      <div class="quiz-title">Trading Style?</div>
+      <div class="quiz-options">
+        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Scalping <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Swing <span>→</span></button>
+      </div>
+    </div>
+    <div class="quiz-step" id="quiz-step-2">
+      <div class="quiz-title">Trade News?</div>
+      <div class="quiz-options">
+        <button class="quiz-option-btn" onclick="nextQuizStep(3)">Yes <span>→</span></button>
+        <button class="quiz-option-btn" onclick="nextQuizStep(3)">No <span>→</span></button>
+      </div>
+    </div>
+    <div class="quiz-step" id="quiz-step-3">
+      <div class="quiz-title">A.I. Complete</div>
+      <p style="color:var(--text-muted);font-size:14px;">We recommend a firm with static rules and news allowed.</p>
+      <div class="quiz-result-box">
+        <div style="font-size:11px;text-transform:uppercase;">Top Match:</div>
+        <div class="quiz-match-name">FTMO</div>
+        <a href="#firms" class="btn-primary" onclick="closeQuiz()" style="width:100%;justify-content:center;">View Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bottom-nav">
+  <a href="#" class="nav-item active"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+  <a href="#firms" class="nav-item"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="20" x2="18" y2="10"></line></svg><span>Compare</span></a>
+</div>
+
+<div class="toast" id="toast">Code Copied Successfully!</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => { 
+    entries.forEach((entry, i) => { 
+      if(entry.isIntersecting) { 
+        entry.target.style.animation = `slideUpFade 0.6s ease-out ${i * 0.15}s both`; 
+        observer.unobserve(entry.target); 
+      } 
+    }); 
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.firm-card').forEach(card => { 
+    card.style.opacity = '0'; 
+    observer.observe(card); 
+  });
+
+  const filterButtons = document.querySelectorAll('.filter-tab');
+  const searchInput = document.getElementById('firmSearch');
+
+  filterButtons.forEach(btn => { 
+    btn.addEventListener('click', () => { 
+      filterButtons.forEach(t => t.classList.remove('active')); 
+      btn.classList.add('active'); 
+      runPropFirmMatchEngine(); 
+    }); 
+  });
+  
+  if(searchInput) {
+    searchInput.addEventListener('input', runPropFirmMatchEngine);
+  }
+});
+
+function runPropFirmMatchEngine() {
+  const searchVal = document.getElementById('firmSearch') ? document.getElementById('firmSearch').value.toLowerCase() : '';
+  const tabVal = document.querySelector('.filter-tab.active').getAttribute('data-filter') || 'all';
+  const platformVal = document.getElementById('filterPlatform') ? document.getElementById('filterPlatform').value : 'all';
+  const usVal = document.getElementById('filterUS') ? document.getElementById('filterUS').value : 'all';
+  const ddVal = document.getElementById('filterDD') ? document.getElementById('filterDD').value : 'all';
+  const sortVal = document.getElementById('sortFirms') ? document.getElementById('sortFirms').value : 'trust';
+  const reqNews = document.getElementById('featureNews') ? document.getElementById('featureNews').checked : false;
+  const reqEA = document.getElementById('featureEA') ? document.getElementById('featureEA').checked : false;
+
+  const container = document.getElementById('firms-container');
+  let cardsArr = Array.from(container.querySelectorAll('.firm-card'));
+
+  cardsArr.forEach(card => {
+    let show = true;
+    const name = card.querySelector('.firm-name').innerText.toLowerCase();
+    const cat = card.getAttribute('data-category') || '';
+    const plat = card.getAttribute('data-platforms') || '';
+    const usAllowed = card.getAttribute('data-us');
+    const ddType = card.getAttribute('data-dd');
+    const newsAllowed = card.getAttribute('data-news') === 'true';
+    const eaAllowed = card.getAttribute('data-ea') === 'true';
+
+    if(searchVal && !name.includes(searchVal)) show = false;
+    if(tabVal !== 'all' && !cat.includes(tabVal)) show = false;
+    if(platformVal !== 'all' && !plat.includes(platformVal)) show = false;
+    if(usVal !== 'all' && usAllowed !== usVal) show = false;
+    if(ddVal !== 'all' && ddType !== ddVal) show = false;
+    if(reqNews && !newsAllowed) show = false;
+    if(reqEA && !eaAllowed) show = false;
+
+    if(show) { 
+      card.classList.remove('hidden'); 
+      card.style.animation = 'none'; 
+      card.offsetHeight; 
+      card.style.animation = `slideUpFade 0.4s ease-out forwards`; 
+    } else { 
+      card.classList.add('hidden'); 
+    }
+  });
+
+  cardsArr.sort((a, b) => {
+    const trustA = parseFloat(a.getAttribute('data-trust')) || 0, trustB = parseFloat(b.getAttribute('data-trust')) || 0;
+    const priceA = parseFloat(a.getAttribute('data-price')) || 0, priceB = parseFloat(b.getAttribute('data-price')) || 0;
+    if(sortVal === 'trust') return trustB - trustA; 
+    if(sortVal === 'priceLow') return priceA - priceB; 
+    if(sortVal === 'priceHigh') return priceB - priceA; 
+    return 0;
+  });
+  
+  cardsArr.forEach(card => container.appendChild(card));
+}
+
+function toggleAdvancedFilters(btn) { 
+  btn.classList.toggle('open'); 
+  document.getElementById('advancedFilters').classList.toggle('open'); 
+}
+
+function updatePrice(selectElement, firmPrefix) {
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  document.getElementById(`${firmPrefix}-old`).innerText = selectedOption.getAttribute('data-old');
+  document.getElementById(`${firmPrefix}-new`).innerText = selectedOption.getAttribute('data-new');
+}
+
+function copyCode(code, e, link) { 
+  if(e) e.preventDefault(); 
+  navigator.clipboard.writeText(code).then(() => { 
+    const t = document.getElementById('toast'); 
+    t.textContent = code + ' Copied!'; 
+    t.classList.add('show'); 
+    setTimeout(() => { 
+      t.classList.remove('show'); 
+      if(link && link !== 'undefined') window.open(link, '_blank'); 
+    }, 2000); 
+  }); 
+}
+
+function toggleMetrics(btn) { 
+  btn.classList.toggle('active'); 
+  btn.nextElementSibling.classList.toggle('open'); 
+}
+
+let compareList = [];
+function toggleCompare(cb) { 
+  if(cb.checked) { 
+    if(compareList.length >= 4) { 
+      alert("Max 4 firms allowed"); 
+      cb.checked=false; 
+      return; 
+    } 
+    compareList.push(cb.value); 
+  } else { 
+    compareList = compareList.filter(id => id !== cb.value); 
+  } 
+  document.getElementById('compareTray').classList.toggle('show', compareList.length > 0); 
+  document.getElementById('compareCount').innerText = compareList.length; 
+}
+
+function clearCompare() { 
+  compareList = []; 
+  document.querySelectorAll('.custom-checkbox input').forEach(c => c.checked=false); 
+  document.getElementById('compareTray').classList.remove('show'); 
+}
+
+function openCompareModal() { 
+  const tableHead = document.getElementById('compareHead'); 
+  const tableBody = document.getElementById('compareBody');
+  tableHead.innerHTML = '<th>Feature Matrix</th>'; 
+  tableBody.innerHTML = '';
+  
+  const rows = [ 
+    { key: 'name', label: 'Firm Name' }, 
+    { key: 'price', label: '100K Account Cost' }, 
+    { key: 'trust', label: 'Trust Score' }, 
+    { key: 'dd', label: 'Drawdown Type' }, 
+    { key: 'phases', label: 'Evaluation' }, 
+    { key: 'platforms', label: 'Trading Platforms' }, 
+    { key: 'us', label: 'US Allowed' } 
+  ];
+  
+  compareList.forEach(id => { 
+    const card = document.getElementById(id); 
+    const name = card.querySelector('.firm-name').childNodes[0].nodeValue.trim(); 
+    tableHead.innerHTML += `<th>${name}</th>`; 
+  });
+  
+  rows.forEach(row => {
+      if(row.key === 'name') return; 
+      let tr = `<tr><td>${row.label}</td>`;
+      compareList.forEach(id => {
+          const card = document.getElementById(id); 
+          let val = card.getAttribute('data-' + row.key) || '-';
+          if(row.key === 'price') val = '$' + val;
+          if(row.key === 'us') val = val === 'true' ? '<span style="color:var(--status-success)">Yes</span>' : '<span style="color:var(--status-danger)">No</span>';
+          if(row.key === 'platforms') val = val.toUpperCase().replace(/ /g, ', ');
+          if(row.key === 'dd') val = val.toUpperCase();
+          if(row.key === 'phases') val = val + '-Step Phase';
+          tr += `<td>${val}</td>`;
+      });
+      tr += `</tr>`; 
+      tableBody.innerHTML += tr;
+  });
+  document.getElementById('compareModalOverlay').classList.add('active'); 
+}
+
+function closeCompareModal() { 
+  document.getElementById('compareModalOverlay').classList.remove('active'); 
+}
+
+function calcSplit(inp, ratio) { 
+  const share = (parseFloat(inp.value) || 0) * ratio; 
+  inp.nextElementSibling.querySelector('.trader-share').innerText = '$' + share.toFixed(2); 
+}
+
+function openQuiz() { document.getElementById('quizOverlay').classList.add('active'); }
+function closeQuiz() { document.getElementById('quizOverlay').classList.remove('active'); }
+function nextQuizStep(n) { 
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active')); 
+  document.getElementById(`quiz-step-${n}`).classList.add('active'); 
+}
+function calculateDrawdownRisk() {
+  const style = document.getElementById('simStyle').value;
+  const risk = parseFloat(document.getElementById('simRisk').value);
+  const resultBox = document.getElementById('simResultBox');
+  resultBox.classList.remove('result-safe', 'result-risk');
+
+  if (style === 'swing' && risk >= 1.0) {
+    resultBox.classList.add('result-risk');
+    resultBox.querySelector('.sim-result-title').innerText = "Trailing DD = High Risk";
+  } else if (style === 'scalp') {
+    resultBox.classList.add('result-safe');
+    resultBox.querySelector('.sim-result-title').innerText = "All DD Types Allowed";
+  } else {
+    resultBox.classList.add('result-safe');
+    resultBox.querySelector('.sim-result-title').innerText = "Static DD Recommended";
+  }
+}
+</script>
+</body>
+</html>
