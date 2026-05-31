@@ -59,7 +59,6 @@ body {
 .marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 30px; font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text-main); }
 .marquee-logo { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #fff; }
 .marquee-badge.trusted { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-/* Feature 4: Clickable Coupon Badge in Marquee */
 .marquee-badge.code { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; }
 .marquee-badge.code:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
 .marquee-separator { color: var(--text-muted); opacity: 0.5; margin: 0 10px; }
@@ -96,6 +95,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .mobile-menu-btn { display: none; } 
 .desktop-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #000; font-weight: 700; padding: 8px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
 
+/* --- NEW: SIDE DRAWER (HAMBURGER MENU) --- */
+.mobile-drawer { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 9999; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
+.mobile-drawer.open { right: 0; }
+.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; visibility: hidden; transition: 0.3s; }
+.drawer-overlay.open { opacity: 1; visibility: visible; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-dim); padding-bottom: 20px;}
+.drawer-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--text-main); }
+.close-drawer-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+.close-drawer-btn:hover { color: #fff; background: var(--status-danger); border-color: var(--status-danger); }
+.drawer-links { display: flex; flex-direction: column; gap: 16px; }
+.drawer-link { display: flex; align-items: center; gap: 14px; color: var(--text-main); text-decoration: none; font-family: var(--font-head); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim); transition: 0.3s; }
+.drawer-link:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateX(5px); }
+.drawer-link svg { color: var(--accent-cyan); }
+
+
 /* --- HERO SECTION --- */
 .hero { position: relative; padding: 220px 4% 80px; text-align: center; overflow: hidden; } 
 .hero-content { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
@@ -125,7 +139,7 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .stat-num { font-family: var(--font-head); font-size: 32px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
 .stat-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-/* --- PROPFIRMMATCH STYLE ADVANCED FILTER ENGINE + COUNTRY/PLATFORM --- */
+/* --- PROPFIRMMATCH STYLE ADVANCED FILTER ENGINE --- */
 .filter-bar-wrapper { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); display: flex; flex-direction: column; }
 .filter-bar-main { padding: 16px 4%; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar-main::-webkit-scrollbar { display: none; }
@@ -150,30 +164,13 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .checkbox-group input { width: 16px; height: 16px; accent-color: var(--accent-cyan); cursor: pointer; }
 .checkbox-group span { font-size: 13px; color: var(--text-main); font-weight: 500; }
 
-/* DRAWDOWN SIMULATOR */
-.simulator-section { padding: 40px 4%; max-width: 1200px; margin: 0 auto; }
-.simulator-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(3, 7, 18, 0.9)); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; box-shadow: 0 10px 40px rgba(56, 189, 248, 0.1); position: relative; overflow: hidden; }
-.simulator-card::before { content:''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 60%); pointer-events: none; }
-.sim-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin-bottom: 10px; }
-.sim-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
-.sim-input-group { margin-bottom: 20px; }
-.sim-label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
-.sim-select { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim); border-radius: 8px; color: #fff; font-family: var(--font-body); font-size: 15px; outline: none; transition: 0.3s; }
-.sim-select:focus { border-color: var(--accent-cyan); }
-.sim-result-box { background: rgba(0,0,0,0.4); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid var(--border-dim); transition: all 0.4s ease;}
-.sim-result-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: rgba(255,255,255,0.05); font-size: 24px; }
-.sim-result-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.sim-result-text { font-size: 14px; color: var(--text-muted); }
-.result-safe .sim-result-icon { background: rgba(16, 185, 129, 0.2); color: var(--status-success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
-.result-safe .sim-result-title { color: var(--status-success); }
-.result-risk .sim-result-icon { background: rgba(239, 68, 68, 0.2); color: var(--status-danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
-.result-risk .sim-result-title { color: var(--status-danger); }
-
 /* --- SECTION HEADERS --- */
 section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
 .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
 .section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
 .section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
+
+/* LIVE STATUS PULSE */
 .live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); white-space: nowrap;}
 .pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
 
@@ -185,7 +182,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-card:hover::before { width: 100%; }
 .firm-card.hidden { display: none !important; }
 
-/* Compare Checkbox - Feature 1 */
+/* Compare Checkbox */
 .compare-checkbox-wrapper { display: flex; align-items: center; justify-content: center; }
 .custom-checkbox { position: relative; display: inline-flex; cursor: pointer; }
 .custom-checkbox input { display: none; }
@@ -245,7 +242,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .metric-value.good { color: var(--status-success); }
 .metric-value.warn { color: var(--status-warn); }
 
-/* NEW FEATURE 3: Profit Split Calculator */
 .split-calc-container { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.03); border-top: none; border-radius: 0 0 12px 12px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px;}
 .split-calc-header { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 .split-calc-inputs { display: flex; align-items: center; gap: 16px; flex: 1; }
@@ -257,7 +253,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-share-label { color: var(--text-muted); }
 .firm-share { color: var(--status-warn); font-family: var(--font-mono); font-size: 15px; margin-left: 6px;}
 
-/* --- NEW FEATURE 1: STICKY COMPARE TRAY & MODAL --- */
+/* --- STICKY COMPARE TRAY & MODAL --- */
 .compare-tray { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.98); border-top: 1px solid var(--accent-cyan); padding: 16px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(15px); box-shadow: 0 -10px 30px rgba(0,0,0,0.6); }
 .compare-tray.show { transform: translateY(0); }
 .compare-tray-info { font-family: var(--font-head); font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 12px; }
@@ -360,14 +356,12 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .filter-bar-main { padding: 12px 16px; }
   .advanced-grid { grid-template-columns: 1fr; }
   
-  /* Simulator & Masonry Mobile */
-  .simulator-card { grid-template-columns: 1fr; padding: 24px; }
   .discord-banner { flex-direction: column; text-align: center; gap: 20px; padding: 24px; margin: 40px 16px 0; }
   .masonry-grid { column-count: 1; }
 
   /* Cards Mobile */
   .firm-card { display: flex; flex-direction: column; padding: 20px 16px; gap: 12px; align-items: stretch; border-radius: 16px; position: relative; }
-  .compare-checkbox-wrapper { display: none; /* Hide custom checkbox visual on mobile if it breaks layout, or adjust */ }
+  .compare-checkbox-wrapper { display: none; }
   .firm-rank { display: none; }
   .firm-inner { flex-direction: row; align-items: flex-start; justify-content: flex-start; gap: 16px; border-bottom: 1px solid var(--border-dim); padding-bottom: 16px; padding-right: 70px; }
   .firm-logo-img { width: 48px; height: 48px; }
@@ -393,7 +387,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .footer-bottom { flex-direction: column; text-align: center; }
   .disclaimer { text-align: center !important; }
 
-  /* BOTTOM NAVIGATION BAR & TRAY ALIGNMENT */
+  /* BOTTOM NAVIGATION BAR */
   .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5); }
   .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
   .nav-item.active { color: var(--accent-cyan); }
@@ -406,7 +400,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
 
   .floating-fab { bottom: 90px; right: 20px; width: 50px; height: 50px; }
-  .compare-tray.show { bottom: 75px; } /* Sits above mobile nav */
+  .compare-tray.show { bottom: 75px; } 
 }
 </style>
 </head>
@@ -419,7 +413,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </a>
   <ul class="nav-links">
     <li><a href="#firms">Matrix</a></li>
-    <li><a href="#" onclick="openQuiz()">Matchmaker</a></li>
+    <li><a href="simulator.html">Risk Tool</a></li>
     <li><a href="#leaderboard">Leaderboard</a></li>
   </ul>
   
@@ -427,12 +421,39 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <a href="#" class="icon-btn">
       <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
     </a>
-    <a href="#" class="icon-btn mobile-menu-btn">
+    <a href="#" class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu(event)">
       <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </a>
     <a href="#" class="nav-cta desktop-cta" onclick="openQuiz()">Find My Firm</a>
   </div>
 </nav>
+
+<!-- SIDE DRAWER MENU (MOBILE) -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Menu</span>
+    <button class="close-drawer-btn" onclick="toggleMobileMenu()">✕</button>
+  </div>
+  <div class="drawer-links">
+    <a href="#" class="drawer-link" onclick="toggleMobileMenu()">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      Home Matrix
+    </a>
+    <a href="simulator.html" class="drawer-link">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+      Drawdown Simulator
+    </a>
+    <a href="#" class="drawer-link" onclick="openQuiz(); toggleMobileMenu();">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      Matchmaker Quiz
+    </a>
+    <a href="#codes" class="drawer-link" onclick="toggleMobileMenu()">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+      Discounts & Offers
+    </a>
+  </div>
+</div>
 
 <!-- INFINITE MARQUEE BANNER -->
 <div class="marquee-container">
@@ -500,7 +521,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </div>
 
-<!-- ADVANCED FILTER ENGINE + COUNTRY/PLATFORM -->
+<!-- ADVANCED FILTER ENGINE -->
 <div class="filter-bar-wrapper">
   <div class="filter-bar-main">
     <div class="filter-tabs-group">
@@ -529,7 +550,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
           <option value="priceHigh">Price: High to Low</option>
         </select>
       </div>
-      
       <div class="adv-filter-group">
         <span class="adv-label">Trading Platform</span>
         <select class="adv-select" id="filterPlatform" onchange="runPropFirmMatchEngine()">
@@ -540,7 +560,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
           <option value="matchtrader">Match-Trader</option>
         </select>
       </div>
-
       <div class="adv-filter-group">
         <span class="adv-label">US Allowed Only</span>
         <select class="adv-select" id="filterUS" onchange="runPropFirmMatchEngine()">
@@ -548,7 +567,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
           <option value="true">Yes, US Traders Welcome</option>
         </select>
       </div>
-
       <div class="adv-filter-group">
         <span class="adv-label">Drawdown Type</span>
         <select class="adv-select" id="filterDD" onchange="runPropFirmMatchEngine()">
@@ -557,7 +575,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
           <option value="trailing">Trailing / Equity Based</option>
         </select>
       </div>
-
       <div class="adv-filter-group">
         <span class="adv-label">Trading Features</span>
         <label class="checkbox-group"><input type="checkbox" id="featureNews" onchange="runPropFirmMatchEngine()"><span>News Trading Allowed</span></label>
@@ -566,45 +583,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     </div>
   </div>
 </div>
-
-<section id="simulator" class="simulator-section">
-  <div class="section-head">
-    <div class="section-title">Drawdown Risk Simulator <span>For Swing & Day Traders</span></div>
-  </div>
-  <div class="simulator-card">
-    <div>
-      <h3 class="sim-title">Evaluate Your Strategy</h3>
-      <p class="sim-desc">Enter your average risk per trade and style to see which drawdown type (Static vs Trailing) is mathematically safest for you.</p>
-      
-      <div class="sim-input-group">
-        <label class="sim-label">Primary Trading Style</label>
-        <select class="sim-select" id="simStyle" onchange="calculateDrawdownRisk()">
-          <option value="scalp">Scalping (Fast entries, tight SL)</option>
-          <option value="day" selected>Day Trading (Intraday holds)</option>
-          <option value="swing">Swing Trading (Multi-day holds, wide SL)</option>
-        </select>
-      </div>
-
-      <div class="sim-input-group">
-        <label class="sim-label">Average Risk Per Trade</label>
-        <select class="sim-select" id="simRisk" onchange="calculateDrawdownRisk()">
-          <option value="0.5">0.5% - Conservative</option>
-          <option value="1.0" selected>1.0% - Standard</option>
-          <option value="2.0">2.0% - Aggressive</option>
-          <option value="3.0">3.0%+ - Very Aggressive</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="sim-result-box" id="simResultBox">
-      <div class="sim-result-icon">
-        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      </div>
-      <div class="sim-result-title">Static Drawdown Recommended</div>
-      <div class="sim-result-text">Your risk profile suggests passing on trailing drawdowns. Look for firms with Static or EOD rules like FTMO.</div>
-    </div>
-  </div>
-</section>
 
 <section id="firms">
   <div class="section-head">
@@ -690,7 +668,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">Up to 90%</span></div>
             <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, DXTrade</span></div>
           </div>
-          <!-- PROFIT SPLIT CALCULATOR -->
           <div class="split-calc-container">
             <div class="split-calc-header">Profit Split Calculator (Your Target $)</div>
             <div class="split-calc-inputs">
@@ -778,7 +755,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value good">95% MAX</span></div>
             <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT4, MT5</span></div>
           </div>
-          <!-- PROFIT SPLIT CALCULATOR -->
           <div class="split-calc-container">
             <div class="split-calc-header">Profit Split Calculator (Your Target $)</div>
             <div class="split-calc-inputs">
@@ -866,7 +842,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">80% Base</span></div>
             <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, cTrader</span></div>
           </div>
-          <!-- PROFIT SPLIT CALCULATOR -->
           <div class="split-calc-container">
             <div class="split-calc-header">Profit Split Calculator (Your Target $)</div>
             <div class="split-calc-inputs">
@@ -951,9 +926,8 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
             <div class="metric-item"><span class="metric-label">Weekend Hold</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">EAs/Bots</span><span class="metric-value good">Allowed</span></div>
             <div class="metric-item"><span class="metric-label">Payout Split</span><span class="metric-value">Up to 90%</span></div>
-            <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">MT5, DXTrade</span></div>
+            <div class="metric-item"><span class="metric-label">Eval Type</span><span class="metric-value">Instant</span></div>
           </div>
-          <!-- PROFIT SPLIT CALCULATOR -->
           <div class="split-calc-container">
             <div class="split-calc-header">Profit Split Calculator (Your Target $)</div>
             <div class="split-calc-inputs">
@@ -1035,7 +1009,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <ul>
         <li><a href="#">Live Discount Codes</a></li>
         <li><a href="#">Cashback Portal</a></li>
-        <li><a href="#simulator">Drawdown Calculator</a></li>
+        <li><a href="simulator.html">Drawdown Calculator</a></li>
         <li><a href="#payouts">Payout Proofs</a></li>
       </ul>
     </div>
@@ -1055,7 +1029,7 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </footer>
 
-<!-- NEW FEATURE 1: STICKY COMPARE TRAY -->
+<!-- STICKY COMPARE TRAY -->
 <div class="compare-tray" id="compareTray">
   <div class="compare-tray-info">
     <span class="compare-tray-count" id="compareCount">0</span> Firms Selected
@@ -1145,11 +1119,10 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </a>
 </div>
 
-
+<div class="toast" id="toast">Code Copied Successfully!</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Intersection Observer
   const cards = document.querySelectorAll('.firm-card, .stat-box, .payout-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -1165,7 +1138,6 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(card);
   });
 
-  // Filter Buttons Setup
   const filterButtons = document.querySelectorAll('.filter-tab');
   const searchInput = document.getElementById('firmSearch');
 
@@ -1181,7 +1153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', runPropFirmMatchEngine);
   }
 
-  // Mobile Bottom Nav Active State
   const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
   navItems.forEach(item => {
     item.addEventListener('click', function() {
@@ -1189,11 +1160,14 @@ document.addEventListener('DOMContentLoaded', () => {
       this.classList.add('active');
     });
   });
-
-  calculateDrawdownRisk();
 });
 
-// --- ADVANCED PROPFIRMMATCH ENGINE LOGIC ---
+function toggleMobileMenu(e) {
+  if(e) e.preventDefault();
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('open');
+}
+
 function runPropFirmMatchEngine() {
   const searchVal = document.getElementById('firmSearch') ? document.getElementById('firmSearch').value.toLowerCase() : '';
   const tabVal = document.querySelector('.filter-tab.active').getAttribute('data-filter');
@@ -1238,29 +1212,77 @@ function runPropFirmMatchEngine() {
     }
   });
 
-  // Sorting
   cardsArr.sort((a, b) => {
     const trustA = parseFloat(a.getAttribute('data-trust'));
     const trustB = parseFloat(b.getAttribute('data-trust'));
     const priceA = parseFloat(a.getAttribute('data-price'));
     const priceB = parseFloat(b.getAttribute('data-price'));
 
-    if (sortVal === 'trust') {
-      return trustB - trustA; // High to Low
-    } else if (sortVal === 'priceLow') {
-      return priceA - priceB; // Low to High
-    } else if (sortVal === 'priceHigh') {
-      return priceB - priceA; // High to Low
-    }
+    if (sortVal === 'trust') return trustB - trustA; 
+    if (sortVal === 'priceLow') return priceA - priceB; 
+    if (sortVal === 'priceHigh') return priceB - priceA; 
     return 0;
   });
 
   cardsArr.forEach(card => cardsContainer.appendChild(card));
 }
 
-// --- NEW: COMPARE MATRIX LOGIC ---
-let compareList = [];
+function toggleAdvancedFilters(btn) {
+  const panel = document.getElementById('advancedFilters');
+  btn.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    panel.classList.remove('open');
+  } else {
+    panel.classList.add('open');
+  }
+}
 
+function updatePrice(selectElement, firmPrefix) {
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  document.getElementById(`${firmPrefix}-old`).innerText = selectedOption.getAttribute('data-old');
+  document.getElementById(`${firmPrefix}-new`).innerText = selectedOption.getAttribute('data-new');
+}
+
+function copyCode(code, e, affiliateLink) {
+  e.preventDefault();
+  navigator.clipboard.writeText(code).then(() => {
+    const t = document.getElementById('toast');
+    t.textContent = code + ' Copied! Redirecting...';
+    t.classList.add('show');
+    
+    const btn = e.target;
+    if(btn.classList.contains('marquee-badge')) {
+       btn.style.background = "var(--accent-gold)";
+       btn.style.color = "#000";
+       setTimeout(() => { btn.style.background = ""; btn.style.color = ""; }, 2000);
+    } else {
+       const originalText = btn.innerText;
+       btn.innerText = "Copied!";
+       btn.style.background = "var(--status-success)";
+       btn.style.color = "#000";
+       setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; btn.style.color = ""; }, 2000);
+    }
+    
+    setTimeout(() => { 
+      t.classList.remove('show'); 
+      if(affiliateLink) window.open(affiliateLink, '_blank');
+    }, 2000);
+  });
+}
+
+function toggleMetrics(btn) {
+  const dropdown = btn.nextElementSibling;
+  btn.classList.toggle('active');
+  if (dropdown.classList.contains('open')) {
+    dropdown.classList.remove('open');
+    btn.innerHTML = 'View Pass Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+  } else {
+    dropdown.classList.add('open');
+    btn.innerHTML = 'Hide Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+  }
+}
+
+let compareList = [];
 function toggleCompare(checkbox) {
   const firmId = checkbox.value;
   if(checkbox.checked) {
@@ -1319,7 +1341,7 @@ function openCompareModal() {
   });
 
   rows.forEach(row => {
-      if(row.key === 'name') return; // Skip name in body, it's in header
+      if(row.key === 'name') return; 
       let tr = `<tr><td>${row.label}</td>`;
       compareList.forEach(id => {
           const card = document.getElementById(id);
@@ -1344,7 +1366,6 @@ function closeCompareModal() {
   document.getElementById('compareModalOverlay').classList.remove('active');
 }
 
-// --- NEW: NET PROFIT SPLIT CALCULATOR ---
 function calcSplit(inputElem, splitRatio) {
   const profit = parseFloat(inputElem.value) || 0;
   const traderShare = profit * splitRatio;
@@ -1355,90 +1376,6 @@ function calcSplit(inputElem, splitRatio) {
   container.querySelector('.firm-share').innerText = '$' + firmShare.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
-// Toggle Advanced Filters Panel
-function toggleAdvancedFilters(btn) {
-  const panel = document.getElementById('advancedFilters');
-  btn.classList.toggle('open');
-  if (panel.classList.contains('open')) {
-    panel.classList.remove('open');
-  } else {
-    panel.classList.add('open');
-  }
-}
-
-// Dynamic Pricing Function
-function updatePrice(selectElement, firmPrefix) {
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-  document.getElementById(`${firmPrefix}-old`).innerText = selectedOption.getAttribute('data-old');
-  document.getElementById(`${firmPrefix}-new`).innerText = selectedOption.getAttribute('data-new');
-}
-
-// Copy Code & Redirect
-function copyCode(code, e, affiliateLink) {
-  e.preventDefault();
-  navigator.clipboard.writeText(code).then(() => {
-    const t = document.getElementById('toast');
-    t.textContent = code + ' Copied! Redirecting...';
-    t.classList.add('show');
-    
-    const btn = e.target;
-    // Check if it's the marquee badge or normal button
-    if(btn.classList.contains('marquee-badge')) {
-       btn.style.background = "var(--accent-gold)";
-       btn.style.color = "#000";
-       setTimeout(() => { btn.style.background = ""; btn.style.color = ""; }, 2000);
-    } else {
-       const originalText = btn.innerText;
-       btn.innerText = "Copied!";
-       btn.style.background = "var(--status-success)";
-       btn.style.color = "#000";
-       setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; btn.style.color = ""; }, 2000);
-    }
-    
-    setTimeout(() => { 
-      t.classList.remove('show'); 
-      if(affiliateLink) window.open(affiliateLink, '_blank');
-    }, 2000);
-  });
-}
-
-// Accordion Toggle for Metrics
-function toggleMetrics(btn) {
-  const dropdown = btn.nextElementSibling;
-  btn.classList.toggle('active');
-  if (dropdown.classList.contains('open')) {
-    dropdown.classList.remove('open');
-    btn.innerHTML = 'View Pass Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-  } else {
-    dropdown.classList.add('open');
-    btn.innerHTML = 'Hide Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="18 15 12 9 6 15"></polyline></svg>';
-  }
-}
-
-// Drawdown Simulator Logic
-function calculateDrawdownRisk() {
-  const style = document.getElementById('simStyle').value;
-  const risk = parseFloat(document.getElementById('simRisk').value);
-  const resultBox = document.getElementById('simResultBox');
-  
-  resultBox.classList.remove('result-safe', 'result-risk');
-
-  if (style === 'swing' && risk >= 1.0) {
-    resultBox.classList.add('result-risk');
-    resultBox.querySelector('.sim-result-title').innerText = "Trailing DD = High Risk";
-    resultBox.querySelector('.sim-result-text').innerText = "As a swing trader with normal/high risk, deep pullbacks will blow a trailing drawdown account. Stick to FTMO or Static DD firms.";
-  } else if (style === 'scalp') {
-    resultBox.classList.add('result-safe');
-    resultBox.querySelector('.sim-result-title').innerText = "All DD Types Allowed";
-    resultBox.querySelector('.sim-result-text').innerText = "With fast entries and tight stop losses, you can safely trade on Trailing or Static Drawdown firms.";
-  } else {
-    resultBox.classList.add('result-safe');
-    resultBox.querySelector('.sim-result-title').innerText = "Static DD Recommended";
-    resultBox.querySelector('.sim-result-text').innerText = "Your risk profile is balanced. While Trailing DD is possible, Static rules will give you the most psychological comfort.";
-  }
-}
-
-// Quiz Modal Logic
 function openQuiz() {
   document.getElementById('quizOverlay').classList.add('active');
   showQuizStep(1);
