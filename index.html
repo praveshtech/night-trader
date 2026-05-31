@@ -2,69 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Night Trader — Elite Prop Firm Analytics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Night Trader — Prop Firm Discount & Reviews</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
-/* --- ELITE FINANCIAL PSYCHOLOGY COLOR SYSTEM --- */
-:root {
-  --bg-base: #030712;       
-  --bg-surface: rgba(15, 23, 42, 0.65); 
-  --bg-surface-light: rgba(30, 41, 59, 0.8);
-  --border-dim: rgba(255, 255, 255, 0.04);
-  --border-glow: rgba(56, 189, 248, 0.2);
-  --accent-gold: #F59E0B;   
-  --accent-gold-glow: rgba(245, 158, 11, 0.2);
-  --accent-cyan: #38BDF8;   
-  --accent-purple: #818CF8; 
-  --accent-discord: #5865F2;
-  --status-success: #10B981;
-  --status-success-dim: rgba(16, 185, 129, 0.1);
-  --status-warn: #F59E0B;
-  --status-danger: #EF4444;
-  --text-main: #F8FAFC;     
-  --text-muted: #94A3B8;
-  
-  --font-head: 'Space Grotesk', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --radius: 12px;
-  --radius-lg: 20px;
-}
-
+:root { --bg-base: #030712; --bg-surface: rgba(15, 23, 42, 0.65); --bg-surface-light: rgba(30, 41, 59, 0.8); --border-dim: rgba(255, 255, 255, 0.04); --border-glow: rgba(56, 189, 248, 0.2); --accent-gold: #F59E0B; --accent-gold-glow: rgba(245, 158, 11, 0.2); --accent-cyan: #38BDF8; --accent-purple: #818CF8; --status-success: #10B981; --status-success-dim: rgba(16, 185, 129, 0.1); --status-warn: #F59E0B; --status-danger: #EF4444; --text-main: #F8FAFC; --text-muted: #94A3B8; --font-head: 'Space Grotesk', sans-serif; --font-body: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace; --radius: 12px; --radius-lg: 20px; }
+.logo-image { height: 60px; width: auto; object-fit: contain; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-body); font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; background-image: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%); background-attachment: fixed; }
 
-body {
-  background-color: var(--bg-base); color: var(--text-main);
-  font-family: var(--font-body); font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden;
-  background-image: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
-  background-attachment: fixed;
-}
-
-/* --- TEXT & CARD ANIMATIONS --- */
 @keyframes glowPulse { 0% { box-shadow: 0 0 10px var(--accent-gold-glow); } 50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); } 100% { box-shadow: 0 0 10px var(--accent-gold-glow); } }
 @keyframes textGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-/* --- ORBIT ANIMATIONS (FIXED: Added Back) --- */
-.bg-orbit-container {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%; max-width: 1200px; height: 800px;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.orbit-icon {
-  position: absolute;
-  top: 50%; left: 50%;
-  filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
-}
+.marquee-container { width: 100%; overflow: hidden; background: rgba(10, 15, 28, 0.98); border-bottom: 1px solid var(--border-dim); padding: 8px 0; white-space: nowrap; position: fixed; top: 70px; left: 0; z-index: 98; display: flex; backdrop-filter: blur(10px); }
+.marquee-content { display: inline-flex; animation: marquee-scroll 25s linear infinite; }
+.marquee-container:hover .marquee-content { animation-play-state: paused; }
+.marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 30px; font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text-main); }
+.marquee-logo { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #fff; }
+.marquee-badge.trusted { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.marquee-badge.code { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; }
+.marquee-badge.code:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+.marquee-separator { color: var(--text-muted); opacity: 0.5; margin: 0 10px; }
+@keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+.bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
+/* THE FIX IS HERE: Added max-width and max-height to ensure SVGs don't break the layout */
+.orbit-icon { position: absolute; top: 50%; left: 50%; max-width: 140px; max-height: 140px; object-fit: contain; filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
 .orbit-1 { animation: orbitCW1 35s linear infinite; width: 120px; margin-top: -60px; margin-left: -60px; }
 .orbit-2 { animation: orbitCCW1 45s linear infinite; width: 100px; margin-top: -50px; margin-left: -50px; }
 .orbit-3 { animation: orbitCW2 25s linear infinite; width: 140px; margin-top: -70px; margin-left: -70px; }
@@ -77,26 +45,12 @@ body {
 @keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
 @keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
 
-/* --- INFINITE MARQUEE BANNER --- */
-.marquee-container { width: 100%; overflow: hidden; background: rgba(10, 15, 28, 0.98); border-bottom: 1px solid var(--border-dim); padding: 8px 0; white-space: nowrap; position: fixed; top: 70px; left: 0; z-index: 98; display: flex; backdrop-filter: blur(10px); }
-.marquee-content { display: inline-flex; animation: marquee-scroll 25s linear infinite; }
-.marquee-container:hover .marquee-content { animation-play-state: paused; }
-.marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 30px; font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--text-main); }
-.marquee-logo { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; background: #fff; }
-.marquee-badge.trusted { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-.marquee-badge.code { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; }
-.marquee-badge.code:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
-.marquee-separator { color: var(--text-muted); opacity: 0.5; margin: 0 10px; }
-@keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
 .highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
 .highlight-gold { color: var(--accent-gold); font-weight: 700; }
 .highlight-success { color: var(--status-success); font-weight: 600; }
 
-/* --- NAV --- */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
 .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.logo-image { height: 36px; width: auto; object-fit: contain; border-radius: 5px; }
 .logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
 .nav-links { display: flex; gap: 8px; list-style: none; }
 .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
@@ -107,7 +61,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .mobile-menu-btn { display: none; } 
 .desktop-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #000; font-weight: 700; padding: 8px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
 
-/* --- HERO SECTION --- */
 .hero { position: relative; padding: 220px 4% 80px; text-align: center; overflow: hidden; } 
 .hero-content { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
@@ -116,19 +69,23 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .h1-accent { background: linear-gradient(to right, #fff, var(--accent-cyan), var(--accent-purple), #fff); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .hero-sub { color: var(--text-muted); font-size: clamp(15px, 2vw, 19px); max-width: 680px; margin: 0 auto 30px; line-height: 1.7; animation: slideUpFade 1s ease-out 0.2s both; }
 
-/* INSTANT SEARCH BAR */
 .search-container { position: relative; max-width: 500px; margin: 0 auto 30px; animation: slideUpFade 1.1s ease-out 0.25s both; }
 .search-container input { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glow); border-radius: 100px; padding: 16px 20px 16px 54px; color: #fff; font-size: 16px; font-family: var(--font-body); outline: none; transition: 0.3s; box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); backdrop-filter: blur(10px); }
 .search-container input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 25px rgba(56, 189, 248, 0.3); }
 .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--accent-cyan); pointer-events: none; }
-
 .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; animation: slideUpFade 1.2s ease-out 0.3s both; }
 .btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
 .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6); }
 .btn-secondary { background: rgba(255,255,255,0.02); color: var(--text-main); border: 1px solid var(--border-dim); padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); }
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
-/* --- PROPFIRMMATCH STYLE ADVANCED FILTER ENGINE --- */
+.trust-stats-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; animation: slideUpFade 1.4s ease-out 0.4s both; }
+.stat-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-dim); border-radius: 16px; padding: 20px; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.3s; }
+.stat-box:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.1); }
+.stat-icon { color: var(--accent-purple); margin-bottom: 8px; }
+.stat-num { font-family: var(--font-head); font-size: 32px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
+.stat-text { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
 .filter-bar-wrapper { position: sticky; top: 107px; z-index: 90; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); display: flex; flex-direction: column; }
 .filter-bar-main { padding: 16px 4%; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar-main::-webkit-scrollbar { display: none; }
@@ -153,13 +110,14 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .checkbox-group input { width: 16px; height: 16px; accent-color: var(--accent-cyan); cursor: pointer; }
 .checkbox-group span { font-size: 13px; color: var(--text-main); font-weight: 500; }
 
-/* --- SECTION HEADERS --- */
 section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
 .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
 .section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
 .section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
+.live-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--status-success); font-family: var(--font-mono); background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); white-space: nowrap;}
+.pulse-dot { width: 8px; height: 8px; background-color: var(--status-success); border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
 
-/* --- ELITE FIRM CARDS --- */
 .firms-grid { display: flex; flex-direction: column; gap: 16px; }
 .firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1.5fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(16px); position: relative; overflow: visible; text-decoration: none; color: inherit; }
 .firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); z-index: 10; }
@@ -174,27 +132,33 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .custom-checkbox input:checked ~ .checkmark { background: var(--accent-cyan); border-color: var(--accent-cyan); }
 .custom-checkbox input:checked ~ .checkmark::after { content: '✓'; color: #000; font-size: 14px; font-weight: bold; }
 
+.firm-tooltip { position: absolute; right: 20px; top: 50%; transform: translateY(-50%) translateX(20px); background: rgba(15, 23, 42, 0.98); border: 1px solid var(--accent-cyan); padding: 18px; border-radius: 12px; width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 15px rgba(56, 189, 248, 0.1); pointer-events: none; z-index: 20;}
+.firm-card:hover .firm-tooltip { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(110%); }
+.tooltip-title { font-family: var(--font-head); font-weight: 700; color: var(--text-main); margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid var(--border-dim); padding-bottom: 6px; }
+.tooltip-list { list-style: none; font-size: 12px; color: var(--text-muted); }
+.tooltip-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+.tooltip-list li.pro::before { content: '✓'; color: var(--status-success); font-weight: bold; font-size: 14px; }
+.tooltip-list li.con::before { content: '✕'; color: var(--status-danger); font-weight: bold; font-size: 12px; margin-top: 1px; }
+
 .firm-rank { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); text-align: center; font-weight: 600; }
 .firm-rank.top { color: var(--accent-gold); font-weight: 700; font-size: 18px; text-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
 
 .firm-logo-img { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; background: #080C14; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
 .firm-logo-img img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
 .fallback-logo { font-family: var(--font-head); font-weight: 700; font-size: 16px; color: #fff; }
-
 .firm-inner { display: flex; align-items: center; gap: 20px; min-width: 0; }
 .firm-name { font-family: var(--font-head); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
 .firm-tag { font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
 .tag-gold { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
+.tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
 .firm-meta { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-weight: 500; }
 .pricing-engine { display: flex; flex-direction: column; gap: 8px; }
 .account-size-select { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--border-dim); padding: 6px 10px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; cursor: pointer; outline: none; transition: 0.3s; }
 .account-size-select:focus { border-color: var(--accent-cyan); }
-.account-size-select option { background: var(--bg-surface-light); color: var(--text-main); }
 .price-display { display: flex; align-items: baseline; gap: 8px; }
 .old-price { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
 .new-price { font-size: 18px; font-weight: 700; color: var(--accent-gold); font-family: var(--font-head); }
 
-/* Absolute Trust Score (Fixed for both Desktop and Mobile) */
 .trust-score { position: absolute; top: 24px; right: 30px; text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
 .trust-num { font-family: var(--font-head); font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
 .trust-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -203,16 +167,13 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .discount-pill { background: rgba(255,255,255,0.03); border: 1px dashed var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-size: 15px; font-weight: 700; padding: 8px 18px; border-radius: 10px; letter-spacing: 1px; transition: 0.3s; }
 .firm-card:hover .discount-pill { background: rgba(245, 158, 11, 0.05); box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.1); }
 .discount-off { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
-
 .btn-get { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
 .firm-card:hover .btn-get { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
 
-/* Premium Featured Card */
 .firm-card.featured { background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box, linear-gradient(135deg, var(--accent-gold), transparent, var(--accent-cyan)) border-box; border: 1px solid transparent; background-size: 200% 200%; animation: borderFlow 5s linear infinite; }
 .firm-card.featured:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 30px rgba(245, 158, 11, 0.05); }
 .firm-card.featured::after { content: '★ INSTITUTIONAL PICK'; position: absolute; top: -1px; left: 60px; width: auto; height: auto; background: var(--accent-gold); color: #000; font-size: 10px; font-weight: 800; font-family: var(--font-head); letter-spacing: 1px; padding: 4px 14px; border-radius: 0 0 8px 8px; pointer-events: auto; }
 
-/* ACCORDION METRICS & SPLIT CALCULATOR */
 .metrics-row { grid-column: 1 / -1; width: 100%; margin-top: 10px; }
 .toggle-metrics-btn { width: 100%; padding: 12px; border: none; border-top: 1px dashed var(--border-dim); background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s; outline: none; }
 .toggle-metrics-btn:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.01); }
@@ -238,7 +199,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-share-label { color: var(--text-muted); }
 .firm-share { color: var(--status-warn); font-family: var(--font-mono); font-size: 15px; margin-left: 6px;}
 
-/* --- STICKY COMPARE TRAY & MODAL --- */
 .compare-tray { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.98); border-top: 1px solid var(--accent-cyan); padding: 16px 4%; display: flex; justify-content: space-between; align-items: center; z-index: 999; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(15px); box-shadow: 0 -10px 30px rgba(0,0,0,0.6); }
 .compare-tray.show { transform: translateY(0); }
 .compare-tray-info { font-family: var(--font-head); font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 12px; }
@@ -259,7 +219,22 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .compare-table th { background: rgba(0,0,0,0.3); font-family: var(--font-head); color: var(--text-main); font-weight: 700; white-space: nowrap;}
 .compare-table td:first-child { font-weight: 600; color: var(--text-muted); background: rgba(0,0,0,0.1); border-right: 1px solid var(--border-dim); width: 180px; }
 
-/* QUIZ MODAL */
+.payout-section { padding-top: 20px; }
+.masonry-grid { column-count: 3; column-gap: 20px; margin-top: 30px; }
+.payout-card { break-inside: avoid; margin-bottom: 20px; background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: 16px; padding: 20px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden;}
+.payout-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
+.payout-img-placeholder { width: 100%; height: 180px; background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.05)); border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;}
+.payout-info { display: flex; justify-content: space-between; align-items: flex-end; }
+.payout-amt { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--status-success); }
+.payout-firm { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.payout-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+.discord-banner { background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(3, 7, 18, 0.9)); border: 1px solid rgba(88, 101, 242, 0.3); border-radius: var(--radius-lg); padding: 40px; display: flex; align-items: center; justify-content: space-between; margin: 60px auto 0; max-width: 1200px; box-shadow: 0 10px 40px rgba(88, 101, 242, 0.1); }
+.discord-text h3 { font-family: var(--font-head); font-size: 28px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.discord-text p { color: var(--text-muted); font-size: 15px; max-width: 600px; }
+.btn-discord { background: var(--accent-discord); color: #fff; border: none; padding: 14px 30px; border-radius: 10px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); text-decoration: none; }
+.btn-discord:hover { background: #4752C4; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6); }
+
 .quiz-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; }
 .quiz-overlay.active { opacity: 1; visibility: visible; }
 .quiz-modal { background: var(--bg-surface); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); width: 90%; max-width: 500px; padding: 40px; position: relative; transform: translateY(20px); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(56, 189, 248, 0.05); }
@@ -275,11 +250,19 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .quiz-result-box { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 24px; margin-top: 20px; }
 .quiz-match-name { font-family: var(--font-head); font-size: 28px; font-weight: 700; color: var(--status-success); margin: 10px 0; }
 
-/* TOAST NOTIFICATION */
+.elite-footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-dim); padding: 60px 4% 30px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+.footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 15px; max-width: 300px; line-height: 1.8; }
+.footer-col h4 { font-family: var(--font-head); color: var(--text-main); margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-size: 14px; }
+.footer-col ul li a:hover { color: var(--accent-cyan); }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
+
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 3000; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-/* --- MOBILE SPECIFIC APP-LIKE LAYOUT --- */
 .mobile-bottom-nav { display: none; } 
 @media (max-width: 900px) {
   nav { padding: 0 16px; }
@@ -288,20 +271,20 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .logo-image { height: 32px; width: auto; }
   .desktop-cta { display: none !important; }
   .mobile-menu-btn { display: flex; }
-  
+  .nav-actions { gap: 14px; }
   body { padding-bottom: 80px; }
-  
   .marquee-container { top: 70px; }
   .filter-bar-wrapper { top: 106px; }
   .hero { padding: 160px 16px 40px; } 
   h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 16px;}
   .hero-actions { flex-direction: column; padding: 0 20px; }
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-  
+  .trust-stats-container { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat-num { font-size: 24px; }
   .filter-bar-main { padding: 12px 16px; }
   .advanced-grid { grid-template-columns: 1fr; }
-  
-  /* Cards Mobile */
+  .discord-banner { flex-direction: column; text-align: center; gap: 20px; padding: 24px; margin: 40px 16px 0; }
+  .masonry-grid { column-count: 1; }
   .firm-card { display: flex; flex-direction: column; padding: 20px 16px; padding-top: 50px; gap: 12px; align-items: stretch; border-radius: 16px; position: relative; }
   .compare-checkbox-wrapper { display: none; }
   .firm-rank { display: none; }
@@ -310,12 +293,9 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .firm-name { font-size: 16px; flex-wrap: wrap; margin-bottom: 4px; }
   .firm-tag { font-size: 9px; }
   .firm-card.featured::after { left: 50%; transform: translateX(-50%); font-size: 9px; padding: 2px 10px; }
-  
-  /* Trust Score Top Right Mobile */
   .trust-score { position: absolute; top: 16px; right: 16px; text-align: right; min-width: auto; }
   .trust-num { font-size: 24px; line-height: 1; margin-bottom: 4px; }
   .trust-label { font-size: 9px; }
-
   .pricing-engine { flex-direction: row; justify-content: space-between; align-items: center; background: transparent; padding: 4px 0; }
   .account-size-select { padding: 4px 8px; font-size: 11px; }
   .discount-wrap { display: flex; flex-direction: column; align-items: flex-end; margin-top: -4px; }
@@ -325,18 +305,17 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .metrics-grid-inner { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .split-calc-container { flex-direction: column; align-items: stretch; gap: 10px; }
   .split-calc-inputs input { width: 100%; }
-
-  /* BOTTOM NAVIGATION BAR */
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+  .footer-brand p { margin: 15px auto; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .disclaimer { text-align: center !important; }
   .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5); }
   .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
   .nav-item.active { color: var(--accent-cyan); }
   .nav-item.active::before { content: ''; position: absolute; top: -8px; width: 24px; height: 3px; background: var(--accent-cyan); border-radius: 0 0 4px 4px; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.5); }
   .nav-item:hover { color: var(--text-main); }
-  .nav-item svg { transition: transform 0.2s; }
-  .nav-item:active svg { transform: scale(0.9); }
   .center-item { transform: translateY(-20px); color: var(--text-main); }
   .center-circle { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4); border: 5px solid var(--bg-base); margin-bottom: 4px; transition: transform 0.3s; }
-  .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
   .compare-tray.show { bottom: 75px; } 
 }
 </style>
@@ -352,16 +331,11 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <li><a href="#firms">Matrix</a></li>
     <li><a href="simulator.html">Risk Tool</a></li>
   </ul>
-  
   <div class="nav-actions">
-    <a href="#" class="icon-btn mobile-menu-btn">
-      <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </a>
     <a href="#" class="nav-cta desktop-cta" onclick="openQuiz()">Find My Firm</a>
   </div>
 </nav>
 
-<!-- INFINITE MARQUEE BANNER -->
 <div class="marquee-container">
   <div class="marquee-content">
     <div class="marquee-item"><img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'"><span>FTMO</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
@@ -369,18 +343,12 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <div class="marquee-item"><img src="image_013a60.svg" alt="The 5ers" class="marquee-logo" onerror="this.style.display='none'"><span>The 5ers</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
     <div class="marquee-item"><img src="blueberry.jpg" alt="Blueberry" class="marquee-logo" onerror="this.style.display='none'"><span>Blueberry</span><button class="marquee-badge code" onclick="copyCode('APEX90', event)">APEX90</button><span class="marquee-separator">✦</span></div>
     <div class="marquee-item"><img src="GFT.svg" alt="Goat Funded" class="marquee-logo" onerror="this.style.display='none'"><span>Goat Funded</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
-    
-    <!-- Duplicated items for infinite scroll -->
     <div class="marquee-item"><img src="FTMO.svg" alt="FTMO" class="marquee-logo" onerror="this.style.display='none'"><span>FTMO</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
     <div class="marquee-item"><img src="Funded Next.svg" alt="FundedNext" class="marquee-logo" onerror="this.style.display='none'"><span>FundedNext</span><button class="marquee-badge code" onclick="copyCode('NEXT15', event)">15% OFF</button><span class="marquee-separator">✦</span></div>
-    <div class="marquee-item"><img src="image_013a60.svg" alt="The 5ers" class="marquee-logo" onerror="this.style.display='none'"><span>The 5ers</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
-    <div class="marquee-item"><img src="blueberry.jpg" alt="Blueberry" class="marquee-logo" onerror="this.style.display='none'"><span>Blueberry</span><button class="marquee-badge code" onclick="copyCode('APEX90', event)">APEX90</button><span class="marquee-separator">✦</span></div>
-    <div class="marquee-item"><img src="GFT.svg" alt="Goat Funded" class="marquee-logo" onerror="this.style.display='none'"><span>Goat Funded</span><span class="marquee-badge trusted">✔ Trusted</span><span class="marquee-separator">✦</span></div>
   </div>
 </div>
 
 <div class="hero">
-  <!-- THE FIX: Orbit CSS container correctly restored below -->
   <div class="bg-orbit-container">
     <img src="FTMO.svg" class="orbit-icon orbit-1" alt="FTMO" onerror="this.style.display='none'">
     <img src="Funded Next.svg" class="orbit-icon orbit-2" alt="FundedNext" onerror="this.style.display='none'">
@@ -388,17 +356,14 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <img src="GFT.svg" class="orbit-icon orbit-4" alt="Goat" onerror="this.style.display='none'">
     <img src="blueberry.jpg" class="orbit-icon orbit-5" alt="Blueberry" onerror="this.style.display='none'">
   </div>
-
   <div class="hero-content">
     <div class="hero-badge">Verified Analytics Data — May 2026</div>
     <h1>Precision Funding.<br><span class="h1-accent">Maximum Edge.</span></h1>
     <p class="hero-sub">Compare trailing drawdowns, hidden consistency rules, and verified payout speeds. Use code <span class="highlight-gold">VAULT</span> to unlock maximum allocation discounts.</p>
-    
     <div class="search-container">
       <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <input type="text" id="firmSearch" placeholder="Search for FTMO, FundedNext, Apex..." autocomplete="off">
     </div>
-
     <div class="hero-actions">
       <a href="#firms" class="btn-primary">Initialize Matrix</a>
       <a href="#" class="btn-secondary" onclick="openQuiz()">A.I. Matchmaker Quiz</a>
@@ -406,7 +371,6 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </div>
 
-<!-- ADVANCED FILTER ENGINE -->
 <div class="filter-bar-wrapper">
   <div class="filter-bar-main">
     <div class="filter-tabs-group">
@@ -418,149 +382,96 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <button class="filter-tab" data-filter="instant">Instant</button>
       </div>
     </div>
-    
     <button class="btn-advanced-toggle" onclick="toggleAdvancedFilters(this)">
-      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-      Deep Filters
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Deep Filters
     </button>
   </div>
-
   <div id="advancedFilters" class="advanced-filters-panel">
     <div class="advanced-grid">
-      <div class="adv-filter-group">
-        <span class="adv-label">Sort By</span>
-        <select class="adv-select" id="sortFirms" onchange="runPropFirmMatchEngine()">
-          <option value="trust">Highest Trust Score</option>
-          <option value="priceLow">Price: Low to High</option>
-          <option value="priceHigh">Price: High to Low</option>
-        </select>
-      </div>
-      <div class="adv-filter-group">
-        <span class="adv-label">Trading Platform</span>
-        <select class="adv-select" id="filterPlatform" onchange="runPropFirmMatchEngine()">
-          <option value="all">Any Platform</option>
-          <option value="mt5">MT4 / MT5</option>
-          <option value="dxtrade">DXTrade</option>
-          <option value="ctrader">cTrader</option>
-        </select>
-      </div>
-      <div class="adv-filter-group">
-        <span class="adv-label">US Allowed Only</span>
-        <select class="adv-select" id="filterUS" onchange="runPropFirmMatchEngine()">
-          <option value="all">Global (Any)</option>
-          <option value="true">Yes, US Traders Welcome</option>
-        </select>
-      </div>
-      <div class="adv-filter-group">
-        <span class="adv-label">Drawdown Type</span>
-        <select class="adv-select" id="filterDD" onchange="runPropFirmMatchEngine()">
-          <option value="all">Any Drawdown</option>
-          <option value="static">Static / Balance Based</option>
-          <option value="trailing">Trailing / Equity Based</option>
-        </select>
-      </div>
-      <div class="adv-filter-group">
-        <span class="adv-label">Trading Features</span>
-        <label class="checkbox-group"><input type="checkbox" id="featureNews" onchange="runPropFirmMatchEngine()"><span>News Trading Allowed</span></label>
-        <label class="checkbox-group"><input type="checkbox" id="featureEA" onchange="runPropFirmMatchEngine()"><span>EAs / Bots Allowed</span></label>
-      </div>
+      <div class="adv-filter-group"><span class="adv-label">Sort By</span><select class="adv-select" id="sortFirms" onchange="runPropFirmMatchEngine()"><option value="trust">Highest Trust Score</option><option value="priceLow">Price: Low to High</option><option value="priceHigh">Price: High to Low</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Trading Platform</span><select class="adv-select" id="filterPlatform" onchange="runPropFirmMatchEngine()"><option value="all">Any Platform</option><option value="mt5">MT4 / MT5</option><option value="dxtrade">DXTrade</option><option value="ctrader">cTrader</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">US Allowed Only</span><select class="adv-select" id="filterUS" onchange="runPropFirmMatchEngine()"><option value="all">Global (Any)</option><option value="true">Yes, US Traders Welcome</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Drawdown Type</span><select class="adv-select" id="filterDD" onchange="runPropFirmMatchEngine()"><option value="all">Any Drawdown</option><option value="static">Static / Balance Based</option><option value="trailing">Trailing / Equity Based</option></select></div>
+      <div class="adv-filter-group"><span class="adv-label">Trading Features</span><label class="checkbox-group"><input type="checkbox" id="featureNews" onchange="runPropFirmMatchEngine()"><span>News Trading Allowed</span></label><label class="checkbox-group"><input type="checkbox" id="featureEA" onchange="runPropFirmMatchEngine()"><span>EAs / Bots Allowed</span></label></div>
     </div>
   </div>
 </div>
 
 <section id="firms">
   <div class="section-head">
-    <div class="section-title">Elite Prop Firms <span>Matching Your Criteria</span></div>
+    <div class="section-title">Elite Prop Firms</div>
+    <div class="live-status"><div class="pulse-dot"></div> Live Database Sync</div>
   </div>
-  
   <div class="firms-grid" id="firms-container">
-    <!-- Firebase Data renders here -->
+    <!-- HARDCODED FALLBACK: This will be overwritten by Firebase Data -->
+    <div class="firm-card featured" onclick="copyCode('FTMO10', event)">
+      <div class="firm-rank top">01</div>
+      <div class="firm-inner">
+        <div class="firm-logo-img" style="border-color: var(--accent-gold);"><img src="FTMO.svg" alt="FTMO" onerror="this.style.display='none';"></div>
+        <div class="firm-info"><div class="firm-name">FTMO <span class="firm-tag tag-gold">Gold Tier</span></div><div class="firm-meta"><span>FX, Indices, Futures</span></div></div>
+      </div>
+      <div class="trust-score"><div class="trust-num highlight-success">9.4</div><div class="trust-label">Trust Index</div></div>
+      <div class="discount-wrap"><div class="discount-pill">FTMO10</div><div class="discount-off">10% Discount</div></div>
+      <button class="btn-get">Apply Code</button>
+    </div>
   </div>
 </section>
 
+<!-- LIVE PAYOUT PROOF WALL -->
+<section id="payouts" class="payout-section">
+  <div class="section-head"><div class="section-title">Verified Payout Proofs <span>Live Data Stream</span></div></div>
+  <div class="masonry-grid">
+    <div class="payout-card"><div class="payout-img-placeholder">Certificate Image</div><div class="payout-info"><div><div class="payout-firm">FTMO</div><div class="payout-date">May 29, 2026</div></div><div class="payout-amt">+$12,450</div></div></div>
+    <div class="payout-card"><div class="payout-img-placeholder" style="height: 140px;">Screenshot</div><div class="payout-info"><div><div class="payout-firm">FundedNext</div><div class="payout-date">May 28, 2026</div></div><div class="payout-amt">+$4,200</div></div></div>
+    <div class="payout-card"><div class="payout-img-placeholder" style="height: 220px;">Deel Dashboard</div><div class="payout-info"><div><div class="payout-firm">Goat Funded</div><div class="payout-date">May 27, 2026</div></div><div class="payout-amt">+$8,900</div></div></div>
+  </div>
+</section>
+
+<!-- DISCORD COMMUNITY BANNER -->
+<section class="discord-banner">
+  <div class="discord-text">
+    <h3><svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6A12 12 0 0 0 6 6M21 12A18 18 0 0 0 3 12M24 18A24 24 0 0 0 0 18"></path><circle cx="12" cy="22" r="2"></circle></svg> Join the Night Trader Discord</h3>
+    <p>Get instant automated alerts when prop firms change hidden rules or release flash discount codes.</p>
+  </div>
+  <a href="#" class="btn-discord">Join Community</a>
+</section>
+
+<footer class="elite-footer">
+  <div class="footer-grid">
+    <div class="footer-brand"><img src="night trader.png" alt="Logo" style="height: 40px; margin-bottom: 10px;"><p>Providing institutional-grade analytics.</p></div>
+  </div>
+</footer>
+
 <!-- STICKY COMPARE TRAY -->
 <div class="compare-tray" id="compareTray">
-  <div class="compare-tray-info">
-    <span class="compare-tray-count" id="compareCount">0</span> Firms Selected
-  </div>
-  <div class="compare-tray-actions">
-    <button class="btn-compare-clear" onclick="clearCompare()">Clear</button>
-    <button class="btn-primary" onclick="openCompareModal()">Compare Now</button>
-  </div>
+  <div class="compare-tray-info"><span class="compare-tray-count" id="compareCount">0</span> Firms Selected</div>
+  <div class="compare-tray-actions"><button class="btn-compare-clear" onclick="clearCompare()">Clear</button><button class="btn-primary" onclick="openCompareModal()">Compare Now</button></div>
 </div>
 
 <!-- COMPARE MODAL -->
 <div class="compare-modal-overlay" id="compareModalOverlay">
   <div class="compare-modal">
-    <div class="compare-header">
-      <h2>Matrix Comparison</h2>
-      <button class="quiz-close" onclick="closeCompareModal()">✕</button>
-    </div>
-    <div class="compare-body">
-      <table class="compare-table">
-        <thead id="compareHead"></thead>
-        <tbody id="compareBody"></tbody>
-      </table>
-    </div>
+    <div class="compare-header"><h2>Matrix Comparison</h2><button class="quiz-close" onclick="closeCompareModal()">✕</button></div>
+    <div class="compare-body"><table class="compare-table"><thead id="compareHead"></thead><tbody id="compareBody"></tbody></table></div>
   </div>
 </div>
 
-<!-- PROP FIRM MATCHMAKER QUIZ MODAL -->
+<!-- QUIZ MODAL -->
 <div class="quiz-overlay" id="quizOverlay">
   <div class="quiz-modal">
     <button class="quiz-close" onclick="closeQuiz()">✕</button>
-    <div class="quiz-step active" id="quiz-step-1">
-      <div class="quiz-title">What is your Trading Style?</div>
-      <div class="quiz-options">
-        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Scalping (Fast entries) <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Day Trading (Intraday) <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(2)">Swing Trading (Multi-day) <span>→</span></button>
-      </div>
-    </div>
-    <div class="quiz-step" id="quiz-step-2">
-      <div class="quiz-title">Do you trade the News?</div>
-      <div class="quiz-options">
-        <button class="quiz-option-btn" onclick="nextQuizStep(3)">Yes, strictly trade events <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(3)">Sometimes, if the setup is good <span>→</span></button>
-        <button class="quiz-option-btn" onclick="nextQuizStep(3)">No, I avoid high volatility <span>→</span></button>
-      </div>
-    </div>
-    <div class="quiz-step" id="quiz-step-3">
-      <div class="quiz-title">A.I. Analysis Complete</div>
-      <p style="color: var(--text-muted); font-size: 14px;">Based on your inputs, trailing drawdowns are too risky for you. We recommend a firm with static rules and news allowed.</p>
-      <div class="quiz-result-box">
-        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Top Recommended Firm:</div>
-        <div class="quiz-match-name">FTMO</div>
-        <a href="#firms" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="closeQuiz()">View Details & Discount</a>
-      </div>
-    </div>
+    <div class="quiz-step active" id="quiz-step-1"><div class="quiz-title">Trading Style?</div><div class="quiz-options"><button class="quiz-option-btn" onclick="nextQuizStep(2)">Scalping <span>→</span></button><button class="quiz-option-btn" onclick="nextQuizStep(2)">Swing <span>→</span></button></div></div>
+    <div class="quiz-step" id="quiz-step-2"><div class="quiz-title">Trade News?</div><div class="quiz-options"><button class="quiz-option-btn" onclick="nextQuizStep(3)">Yes <span>→</span></button><button class="quiz-option-btn" onclick="nextQuizStep(3)">No <span>→</span></button></div></div>
+    <div class="quiz-step" id="quiz-step-3"><div class="quiz-title">A.I. Complete</div><div class="quiz-result-box"><div class="quiz-match-name">FTMO</div><a href="#firms" class="btn-primary" onclick="closeQuiz()">View Details</a></div></div>
   </div>
 </div>
 
-<!-- MOBILE BOTTOM NAVIGATION BAR -->
 <div class="mobile-bottom-nav">
-  <a href="#" class="nav-item active">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-    <span>Home</span>
-  </a>
-  <a href="#firms" class="nav-item">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-    <span>Compare</span>
-  </a>
-  <a href="#codes" class="nav-item center-item">
-    <div class="center-circle">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-    </div>
-    <span>Deals</span>
-  </a>
-  <a href="simulator.html" class="nav-item">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-    <span>Risk Tool</span>
-  </a>
+  <a href="#" class="nav-item active"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+  <a href="#firms" class="nav-item"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="20" x2="18" y2="10"></line></svg><span>Compare</span></a>
 </div>
 
 <div class="toast" id="toast">Code Copied Successfully!</div>
-
 
 <!-- --- JAVASCRIPT LOGIC --- -->
 <script type="module">
@@ -581,12 +492,9 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     async function fetchLiveFirms() {
       const q = query(collection(db, "propFirms"), orderBy("trustScore", "desc"));
       const snapshot = await getDocs(q);
-      
       const container = document.getElementById('firms-container');
       
-      if(!snapshot.empty) {
-        container.innerHTML = ''; 
-      }
+      if(!snapshot.empty) { container.innerHTML = ''; }
 
       let rank = 1;
       snapshot.forEach((doc) => {
@@ -599,111 +507,54 @@ section { padding: 60px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 
         const html = `
         <div class="firm-card ${featuredClass}" id="firm-${firmId}" data-category="${data.categories}" data-price="${data.discountPrice}" data-trust="${data.trustScore}" data-phases="${data.phases}" data-dd="${data.ddType}" data-news="${data.newsAllowed}" data-ea="${data.eaAllowed}" data-platforms="${data.platforms}" data-us="${data.usAllowed}" data-split="${data.splitRatio}">
-          
           <div class="firm-rank ${rankClass}">${rankText}</div>
-          
           <div class="firm-inner">
-            <div class="compare-checkbox-wrapper">
-              <label class="custom-checkbox" title="Add to Compare">
-                <input type="checkbox" value="firm-${firmId}" onchange="toggleCompare(this)">
-                <span class="checkmark"></span>
-              </label>
-            </div>
+            <div class="compare-checkbox-wrapper"><label class="custom-checkbox"><input type="checkbox" value="firm-${firmId}" onchange="toggleCompare(this)"><span class="checkmark"></span></label></div>
             <div class="firm-logo-img"><img src="${data.logo}" onerror="this.style.display='none'"></div>
-            <div class="firm-info">
-              <div class="firm-name">${data.name}</div>
-              <div class="firm-meta"><span>${data.categories.toUpperCase()}</span></div>
-            </div>
+            <div class="firm-info"><div class="firm-name">${data.name}</div><div class="firm-meta"><span>${data.categories.toUpperCase()}</span></div></div>
           </div>
-          
           <div class="pricing-engine">
             <select class="account-size-select" onclick="event.stopPropagation()"><option>$100K Account</option></select>
             <div class="price-display"><span style="text-decoration:line-through; font-size:13px; color:#94A3B8;">$${data.basePrice}</span> $${data.discountPrice}</div>
           </div>
-
-          <div class="trust-score">
-            <div class="trust-num ${isTop ? 'highlight-success' : ''}">${data.trustScore}</div>
-            <div class="trust-label">Trust Index</div>
-          </div>
-
-          <div class="discount-wrap">
-            <div class="discount-pill">${data.discountCode}</div>
-            <div class="discount-off">Active Discount</div>
-          </div>
-
+          <div class="trust-score"><div class="trust-num ${isTop ? 'highlight-success' : ''}">${data.trustScore}</div><div class="trust-label">Trust Index</div></div>
+          <div class="discount-wrap"><div class="discount-pill">${data.discountCode}</div></div>
           <button class="btn-get" onclick="copyCode('${data.discountCode}', event, '${data.affiliateLink}')">Apply Code</button>
-
           <div class="metrics-row" onclick="event.stopPropagation()">
-            <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">
-              View Pass Metrics
-              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <button class="toggle-metrics-btn" onclick="toggleMetrics(this)">View Pass Metrics</button>
             <div class="metrics-dropdown">
               <div class="metrics-grid-inner">
                 <div class="metric-item"><span class="metric-label">Target</span><span class="metric-value">${data.profitTarget}</span></div>
                 <div class="metric-item"><span class="metric-label">Drawdown</span><span class="metric-value">${data.maxDD} (${data.ddType})</span></div>
-                <div class="metric-item"><span class="metric-label">News</span><span class="metric-value">${data.newsAllowed === 'true' ? 'Allowed' : 'No'}</span></div>
-                <div class="metric-item"><span class="metric-label">Platforms</span><span class="metric-value">${data.platforms.toUpperCase()}</span></div>
               </div>
               <div class="split-calc-container">
-                <div class="split-calc-header">Profit Split Calc (Target $)</div>
+                <div class="split-calc-header">Profit Split Calc</div>
                 <div class="split-calc-inputs">
                   <input type="number" placeholder="e.g. 10000" oninput="calcSplit(this, ${data.splitRatio})" onclick="event.stopPropagation()">
-                  <div class="split-results">
-                    <span class="trader-share-label">Share: <span class="trader-share">$0.00</span></span>
-                    <span class="firm-share-label">Firm: <span class="firm-share">$0.00</span></span>
-                  </div>
+                  <div class="split-results"><span>Share: <span class="trader-share">$0.00</span></span></div>
                 </div>
               </div>
             </div>
           </div>
         </div>`;
-        
         container.insertAdjacentHTML('beforeend', html);
         rank++;
       });
-      
       if(window.attachFilters) window.attachFilters();
     }
-
     fetchLiveFirms();
-  } catch(e) {
-    console.log("Firebase not setup.");
-  }
+  } catch(e) { console.log("Firebase not setup."); }
 </script>
 
-<!-- UI LOGIC SCRIPT -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting && !entry.target.classList.contains('hidden')) {
-        entry.target.style.animation = `slideUpFade 0.6s ease-out ${index * 0.15}s both`;
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  
-  document.querySelectorAll('.firm-card').forEach(card => {
-    card.style.opacity = '0';
-    observer.observe(card);
-  });
+  const observer = new IntersectionObserver((entries) => { entries.forEach((entry, i) => { if(entry.isIntersecting) { entry.target.style.animation = `slideUpFade 0.6s ease-out ${i * 0.15}s both`; observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
+  document.querySelectorAll('.firm-card').forEach(card => { card.style.opacity = '0'; observer.observe(card); });
 
   window.attachFilters = function() {
     const filterButtons = document.querySelectorAll('.filter-tab');
-    const searchInput = document.getElementById('firmSearch');
-
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        runPropFirmMatchEngine();
-      });
-    });
-
-    if(searchInput) {
-      searchInput.addEventListener('input', runPropFirmMatchEngine);
-    }
+    filterButtons.forEach(btn => { btn.addEventListener('click', () => { filterButtons.forEach(t => t.classList.remove('active')); btn.classList.add('active'); runPropFirmMatchEngine(); }); });
+    if(document.getElementById('firmSearch')) document.getElementById('firmSearch').addEventListener('input', runPropFirmMatchEngine);
   };
   window.attachFilters(); 
 });
@@ -711,219 +562,46 @@ document.addEventListener('DOMContentLoaded', () => {
 function runPropFirmMatchEngine() {
   const searchVal = document.getElementById('firmSearch') ? document.getElementById('firmSearch').value.toLowerCase() : '';
   const tabVal = document.querySelector('.filter-tab.active').getAttribute('data-filter');
-  
   const platformVal = document.getElementById('filterPlatform') ? document.getElementById('filterPlatform').value : 'all';
-  const usVal = document.getElementById('filterUS') ? document.getElementById('filterUS').value : 'all';
-  const ddVal = document.getElementById('filterDD') ? document.getElementById('filterDD').value : 'all';
   const sortVal = document.getElementById('sortFirms') ? document.getElementById('sortFirms').value : 'trust';
-  
-  const reqNews = document.getElementById('featureNews') ? document.getElementById('featureNews').checked : false;
-  const reqEA = document.getElementById('featureEA') ? document.getElementById('featureEA').checked : false;
-
-  let cardsContainer = document.getElementById('firms-container');
-  let cardsArr = Array.from(cardsContainer.querySelectorAll('.firm-card'));
+  const container = document.getElementById('firms-container');
+  let cardsArr = Array.from(container.querySelectorAll('.firm-card'));
 
   cardsArr.forEach(card => {
     let show = true;
-    const firmName = card.querySelector('.firm-name').innerText.toLowerCase();
-    const categories = card.getAttribute('data-category') || '';
-    const cardPlatforms = card.getAttribute('data-platforms') || '';
-    const cardUS = card.getAttribute('data-us');
-    const cardDD = card.getAttribute('data-dd');
-    const cardNews = card.getAttribute('data-news') === 'true';
-    const cardEA = card.getAttribute('data-ea') === 'true';
-
-    if (searchVal && !firmName.includes(searchVal)) show = false;
-    if (tabVal && tabVal !== 'all' && !categories.includes(tabVal)) show = false;
-    if (platformVal && platformVal !== 'all' && !cardPlatforms.includes(platformVal)) show = false;
-    if (usVal && usVal !== 'all' && cardUS !== usVal) show = false;
-    if (ddVal && ddVal !== 'all' && cardDD !== ddVal) show = false;
-    if (reqNews && !cardNews) show = false;
-    if (reqEA && !cardEA) show = false;
-
-    if (show) {
-      card.classList.remove('hidden');
-      card.style.animation = 'none'; 
-      card.offsetHeight; 
-      card.style.animation = `slideUpFade 0.4s ease-out forwards`;
-    } else {
-      card.classList.add('hidden');
-    }
+    const name = card.querySelector('.firm-name').innerText.toLowerCase();
+    const cat = card.getAttribute('data-category') || '';
+    const plat = card.getAttribute('data-platforms') || '';
+    if(searchVal && !name.includes(searchVal)) show = false;
+    if(tabVal && tabVal !== 'all' && !cat.includes(tabVal)) show = false;
+    if(platformVal !== 'all' && !plat.includes(platformVal)) show = false;
+    if(show) { card.classList.remove('hidden'); card.style.animation = 'none'; card.offsetHeight; card.style.animation = `slideUpFade 0.4s ease-out forwards`; } else { card.classList.add('hidden'); }
   });
 
   cardsArr.sort((a, b) => {
-    const trustA = parseFloat(a.getAttribute('data-trust')) || 0;
-    const trustB = parseFloat(b.getAttribute('data-trust')) || 0;
-    const priceA = parseFloat(a.getAttribute('data-price')) || 0;
-    const priceB = parseFloat(b.getAttribute('data-price')) || 0;
-
-    if (sortVal === 'trust') return trustB - trustA; 
-    if (sortVal === 'priceLow') return priceA - priceB; 
-    if (sortVal === 'priceHigh') return priceB - priceA; 
+    const trustA = parseFloat(a.getAttribute('data-trust')) || 0, trustB = parseFloat(b.getAttribute('data-trust')) || 0;
+    const priceA = parseFloat(a.getAttribute('data-price')) || 0, priceB = parseFloat(b.getAttribute('data-price')) || 0;
+    if(sortVal === 'trust') return trustB - trustA; 
+    if(sortVal === 'priceLow') return priceA - priceB; 
+    if(sortVal === 'priceHigh') return priceB - priceA; 
     return 0;
   });
-
-  cardsArr.forEach(card => cardsContainer.appendChild(card));
+  cardsArr.forEach(card => container.appendChild(card));
 }
 
-function toggleAdvancedFilters(btn) {
-  const panel = document.getElementById('advancedFilters');
-  btn.classList.toggle('open');
-  if (panel.classList.contains('open')) {
-    panel.classList.remove('open');
-  } else {
-    panel.classList.add('open');
-  }
-}
-
-window.copyCode = function(code, e, affiliateLink) {
-  if(e) e.preventDefault();
-  navigator.clipboard.writeText(code).then(() => {
-    const t = document.getElementById('toast');
-    t.textContent = code + ' Copied! Redirecting...';
-    t.classList.add('show');
-    
-    if(e && e.target) {
-        const btn = e.target;
-        if(btn.classList.contains('marquee-badge')) {
-           btn.style.background = "var(--accent-gold)";
-           btn.style.color = "#000";
-           setTimeout(() => { btn.style.background = ""; btn.style.color = ""; }, 2000);
-        } else if (btn.tagName === 'BUTTON') {
-           const originalText = btn.innerText;
-           btn.innerText = "Copied!";
-           btn.style.background = "var(--status-success)";
-           btn.style.color = "#000";
-           setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; btn.style.color = ""; }, 2000);
-        }
-    }
-    setTimeout(() => { 
-      t.classList.remove('show'); 
-      if(affiliateLink && affiliateLink !== 'undefined') window.open(affiliateLink, '_blank');
-    }, 2000);
-  });
-};
-
-window.toggleMetrics = function(btn) {
-  const dropdown = btn.nextElementSibling;
-  btn.classList.toggle('active');
-  if (dropdown.classList.contains('open')) {
-    dropdown.classList.remove('open');
-    btn.innerHTML = 'View Pass Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-  } else {
-    dropdown.classList.add('open');
-    btn.innerHTML = 'Hide Metrics <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="18 15 12 9 6 15"></polyline></svg>';
-  }
-};
+function toggleAdvancedFilters(btn) { btn.classList.toggle('open'); document.getElementById('advancedFilters').classList.toggle('open'); }
+window.copyCode = function(code, e, link) { if(e) e.preventDefault(); navigator.clipboard.writeText(code).then(() => { const t = document.getElementById('toast'); t.textContent = code + ' Copied!'; t.classList.add('show'); setTimeout(() => { t.classList.remove('show'); if(link) window.open(link, '_blank'); }, 2000); }); };
+window.toggleMetrics = function(btn) { btn.classList.toggle('active'); btn.nextElementSibling.classList.toggle('open'); };
 
 let compareList = [];
-window.toggleCompare = function(checkbox) {
-  const firmId = checkbox.value;
-  if(checkbox.checked) {
-    if(compareList.length >= 4) {
-      alert("You can compare up to 4 firms at once.");
-      checkbox.checked = false;
-      return;
-    }
-    compareList.push(firmId);
-  } else {
-    compareList = compareList.filter(id => id !== firmId);
-  }
-  updateCompareTray();
-};
-
-function updateCompareTray() {
-  const tray = document.getElementById('compareTray');
-  const countSpan = document.getElementById('compareCount');
-  countSpan.innerText = compareList.length;
-  
-  if(compareList.length > 0) {
-    tray.classList.add('show');
-  } else {
-    tray.classList.remove('show');
-  }
-}
-
-window.clearCompare = function() {
-  compareList = [];
-  document.querySelectorAll('.custom-checkbox input').forEach(cb => cb.checked = false);
-  updateCompareTray();
-};
-
-window.openCompareModal = function() {
-  if(compareList.length === 0) return;
-  
-  const tableHead = document.getElementById('compareHead');
-  const tableBody = document.getElementById('compareBody');
-  tableHead.innerHTML = '<th>Feature Matrix</th>';
-  tableBody.innerHTML = '';
-  
-  const rows = [
-      { key: 'name', label: 'Firm Name' },
-      { key: 'price', label: '100K Account Cost' },
-      { key: 'trust', label: 'Trust Score' },
-      { key: 'dd', label: 'Drawdown Type' },
-      { key: 'phases', label: 'Evaluation' },
-      { key: 'platforms', label: 'Trading Platforms' },
-      { key: 'us', label: 'US Allowed' }
-  ];
-
-  compareList.forEach(id => {
-     const card = document.getElementById(id);
-     const name = card.querySelector('.firm-name').childNodes[0].nodeValue.trim();
-     tableHead.innerHTML += `<th>${name}</th>`;
-  });
-
-  rows.forEach(row => {
-      if(row.key === 'name') return; 
-      let tr = `<tr><td>${row.label}</td>`;
-      compareList.forEach(id => {
-          const card = document.getElementById(id);
-          let val = card.getAttribute('data-' + row.key) || '-';
-          
-          if(row.key === 'price') val = '$' + val;
-          if(row.key === 'us') val = val === 'true' ? '<span style="color:var(--status-success)">Yes</span>' : '<span style="color:var(--status-danger)">No</span>';
-          if(row.key === 'platforms') val = val.toUpperCase().replace(/ /g, ', ');
-          if(row.key === 'dd') val = val.toUpperCase();
-          if(row.key === 'phases') val = val + '-Step Phase';
-          
-          tr += `<td>${val}</td>`;
-      });
-      tr += `</tr>`;
-      tableBody.innerHTML += tr;
-  });
-  
-  document.getElementById('compareModalOverlay').classList.add('active');
-};
-
-window.closeCompareModal = function() {
-  document.getElementById('compareModalOverlay').classList.remove('active');
-};
-
-window.calcSplit = function(inputElem, splitRatio) {
-  const profit = parseFloat(inputElem.value) || 0;
-  const traderShare = profit * splitRatio;
-  const firmShare = profit - traderShare;
-  
-  const container = inputElem.closest('.split-calc-container');
-  container.querySelector('.trader-share').innerText = '$' + traderShare.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-  container.querySelector('.firm-share').innerText = '$' + firmShare.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-};
-
-window.openQuiz = function() {
-  document.getElementById('quizOverlay').classList.add('active');
-  showQuizStep(1);
-};
-window.closeQuiz = function() {
-  document.getElementById('quizOverlay').classList.remove('active');
-};
-function showQuizStep(step) {
-  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
-  document.getElementById(`quiz-step-${step}`).classList.add('active');
-}
-window.nextQuizStep = function(nextStep) {
-  showQuizStep(nextStep);
-};
+window.toggleCompare = function(cb) { if(cb.checked) { if(compareList.length >= 4) { alert("Max 4 firms"); cb.checked=false; return; } compareList.push(cb.value); } else { compareList = compareList.filter(id => id !== cb.value); } document.getElementById('compareTray').classList.toggle('show', compareList.length > 0); document.getElementById('compareCount').innerText = compareList.length; };
+window.clearCompare = function() { compareList = []; document.querySelectorAll('.custom-checkbox input').forEach(c => c.checked=false); document.getElementById('compareTray').classList.remove('show'); };
+window.openCompareModal = function() { document.getElementById('compareModalOverlay').classList.add('active'); };
+window.closeCompareModal = function() { document.getElementById('compareModalOverlay').classList.remove('active'); };
+window.calcSplit = function(inp, ratio) { const share = (parseFloat(inp.value) || 0) * ratio; inp.nextElementSibling.querySelector('.trader-share').innerText = '$' + share.toFixed(2); };
+window.openQuiz = function() { document.getElementById('quizOverlay').classList.add('active'); };
+window.closeQuiz = function() { document.getElementById('quizOverlay').classList.remove('active'); };
+window.nextQuizStep = function(n) { document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active')); document.getElementById(`quiz-step-${n}`).classList.add('active'); };
 </script>
 </body>
 </html>
