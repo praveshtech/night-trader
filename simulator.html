@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Drawdown Simulator — Night Trader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-base: #030712;       
+  --bg-surface: rgba(15, 23, 42, 0.65); 
+  --border-dim: rgba(255, 255, 255, 0.04);
+  --accent-gold: #F59E0B;   
+  --accent-cyan: #38BDF8;   
+  --status-success: #10B981;
+  --status-danger: #EF4444;
+  --text-main: #F8FAFC;     
+  --text-muted: #94A3B8;
+  --font-head: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-lg: 20px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg-base); color: var(--text-main);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.6; min-height: 100vh;
+  background-image: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* --- NAV --- */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-image { height: 36px; width: 36px; object-fit: contain; border-radius: 50%; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+.logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
+.nav-links { display: flex; gap: 8px; list-style: none; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
+.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; }
+.icon-btn:hover { color: var(--text-main); }
+.mobile-menu-btn { display: none; } 
+.desktop-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706); color: #000; font-weight: 700; padding: 8px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); }
+
+/* --- SIDE DRAWER --- */
+.mobile-drawer { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 9999; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
+.mobile-drawer.open { right: 0; }
+.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; visibility: hidden; transition: 0.3s; }
+.drawer-overlay.open { opacity: 1; visibility: visible; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-dim); padding-bottom: 20px;}
+.drawer-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--text-main); }
+.close-drawer-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+.close-drawer-btn:hover { color: #fff; background: var(--status-danger); border-color: var(--status-danger); }
+.drawer-links { display: flex; flex-direction: column; gap: 16px; }
+.drawer-link { display: flex; align-items: center; gap: 14px; color: var(--text-main); text-decoration: none; font-family: var(--font-head); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim); transition: 0.3s; }
+.drawer-link:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateX(5px); }
+
+/* --- SIMULATOR PAGE SPECIFIC --- */
+.simulator-page-wrapper { padding: 120px 4% 80px; max-width: 1000px; margin: 0 auto; min-height: 80vh; }
+.section-title { font-family: var(--font-head); font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 40px; text-align: center; }
+.section-title span { color: var(--accent-cyan); display: block; font-size: 16px; font-weight: 500; margin-top: 8px;}
+
+.simulator-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(3, 7, 18, 0.9)); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; box-shadow: 0 10px 40px rgba(56, 189, 248, 0.1); position: relative; overflow: hidden; }
+.simulator-card::before { content:''; position: absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 60%); pointer-events: none; }
+.sim-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+.sim-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+.sim-input-group { margin-bottom: 20px; }
+.sim-label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+.sim-select { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim); border-radius: 8px; color: #fff; font-family: var(--font-body); font-size: 15px; outline: none; transition: 0.3s; }
+.sim-select:focus { border-color: var(--accent-cyan); }
+.sim-result-box { background: rgba(0,0,0,0.4); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid var(--border-dim); transition: all 0.4s ease;}
+.sim-result-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; background: rgba(255,255,255,0.05); font-size: 24px; }
+.sim-result-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.sim-result-text { font-size: 14px; color: var(--text-muted); }
+.result-safe .sim-result-icon { background: rgba(16, 185, 129, 0.2); color: var(--status-success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+.result-safe .sim-result-title { color: var(--status-success); }
+.result-risk .sim-result-icon { background: rgba(239, 68, 68, 0.2); color: var(--status-danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+.result-risk .sim-result-title { color: var(--status-danger); }
+
+/* --- PREMIUM FOOTER --- */
+.elite-footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-dim); padding: 60px 4% 30px; margin-top: auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+.footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 15px; max-width: 300px; line-height: 1.8; }
+.footer-col h4 { font-family: var(--font-head); color: var(--text-main); margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-size: 14px; }
+.footer-col ul li a:hover { color: var(--accent-cyan); }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
+
+/* MOBILE SPECIFIC */
+.mobile-bottom-nav { display: none; } 
+@media (max-width: 900px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .desktop-cta { display: none !important; }
+  .mobile-menu-btn { display: flex; }
+  body { padding-bottom: 80px; }
+  
+  .simulator-page-wrapper { padding: 100px 16px 40px; }
+  .simulator-card { grid-template-columns: 1fr; padding: 24px; }
+
+  .footer-grid { grid-template-columns: 1fr; text-align: center; }
+  .footer-bottom { flex-direction: column; }
+
+  .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; padding: 8px 0 16px 0; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-weight: 600; gap: 4px; flex: 1; }
+  .nav-item.active { color: var(--accent-cyan); }
+  .center-item { transform: translateY(-20px); color: var(--text-main); }
+  .center-circle { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 5px solid var(--bg-base); margin-bottom: 4px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <img src="night trader.png" alt="Night Trader Logo" class="logo-image">
+    <span class="logo-text">Night Trader</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#firms">Matrix</a></li>
+    <li><a href="simulator.html">Risk Tool</a></li>
+    <li><a href="index.html#leaderboard">Leaderboard</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu(event)">
+      <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </a>
+    <a href="index.html" class="nav-cta desktop-cta">Find My Firm</a>
+  </div>
+</nav>
+
+<!-- SIDE DRAWER MENU (MOBILE) -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Menu</span>
+    <button class="close-drawer-btn" onclick="toggleMobileMenu()">✕</button>
+  </div>
+  <div class="drawer-links">
+    <a href="index.html" class="drawer-link">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      Home Matrix
+    </a>
+    <a href="simulator.html" class="drawer-link">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+      Drawdown Simulator
+    </a>
+  </div>
+</div>
+
+<div class="simulator-page-wrapper">
+  <h1 class="section-title">Drawdown Risk Simulator <span>For Swing & Day Traders</span></h1>
+  
+  <div class="simulator-card">
+    <div>
+      <h3 class="sim-title">Evaluate Your Strategy</h3>
+      <p class="sim-desc">Enter your average risk per trade and style to see which drawdown type (Static vs Trailing) is mathematically safest for you.</p>
+      
+      <div class="sim-input-group">
+        <label class="sim-label">Primary Trading Style</label>
+        <select class="sim-select" id="simStyle" onchange="calculateDrawdownRisk()">
+          <option value="scalp">Scalping (Fast entries, tight SL)</option>
+          <option value="day" selected>Day Trading (Intraday holds)</option>
+          <option value="swing">Swing Trading (Multi-day holds, wide SL)</option>
+        </select>
+      </div>
+
+      <div class="sim-input-group">
+        <label class="sim-label">Average Risk Per Trade</label>
+        <select class="sim-select" id="simRisk" onchange="calculateDrawdownRisk()">
+          <option value="0.5">0.5% - Conservative</option>
+          <option value="1.0" selected>1.0% - Standard</option>
+          <option value="2.0">2.0% - Aggressive</option>
+          <option value="3.0">3.0%+ - Very Aggressive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sim-result-box" id="simResultBox">
+      <div class="sim-result-icon">
+        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <div class="sim-result-title">Static Drawdown Recommended</div>
+      <div class="sim-result-text">Your risk profile suggests passing on trailing drawdowns. Look for firms with Static or EOD rules like FTMO.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="elite-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="night trader.png" alt="Night Trader Logo" style="height: 40px; margin-bottom: 10px;">
+      <p>Providing institutional-grade analytics, transparent drawdown rules, and exclusive cashback deals for the modern swing and day trader.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Analytics Matrix</h4>
+      <ul><li><a href="index.html">Forex Prop Firms</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="copyright">© 2026 Night Trader. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="mobile-bottom-nav">
+  <a href="index.html" class="nav-item">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Home</span>
+  </a>
+  <a href="index.html" class="nav-item center-item">
+    <div class="center-circle">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+    </div>
+    <span>Deals</span>
+  </a>
+  <a href="simulator.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+    <span>Risk Tool</span>
+  </a>
+</div>
+
+<script>
+function toggleMobileMenu(e) {
+  if(e) e.preventDefault();
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('open');
+}
+
+function calculateDrawdownRisk() {
+  const style = document.getElementById('simStyle').value;
+  const risk = parseFloat(document.getElementById('simRisk').value);
+  const resultBox = document.getElementById('simResultBox');
+  
+  resultBox.classList.remove('result-safe', 'result-risk');
+
+  if (style === 'swing' && risk >= 1.0) {
+    resultBox.classList.add('result-risk');
+    resultBox.querySelector('.sim-result-title').innerText = "Trailing DD = High Risk";
+    resultBox.querySelector('.sim-result-text').innerText = "As a swing trader with normal/high risk, deep pullbacks will blow a trailing drawdown account. Stick to FTMO or Static DD firms.";
+  } else if (style === 'scalp') {
+    resultBox.classList.add('result-safe');
+    resultBox.querySelector('.sim-result-title').innerText = "All DD Types Allowed";
+    resultBox.querySelector('.sim-result-text').innerText = "With fast entries and tight stop losses, you can safely trade on Trailing or Static Drawdown firms.";
+  } else {
+    resultBox.classList.add('result-safe');
+    resultBox.querySelector('.sim-result-title').innerText = "Static DD Recommended";
+    resultBox.querySelector('.sim-result-text').innerText = "Your risk profile is balanced. While Trailing DD is possible, Static rules will give you the most psychological comfort.";
+  }
+}
+calculateDrawdownRisk(); // Init on load
+</script>
+</body>
+</html>
