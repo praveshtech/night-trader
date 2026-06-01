@@ -88,7 +88,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 /* --- CART BADGE --- */
 .cart-badge { position: absolute; top: -6px; right: -8px; background: var(--status-danger); color: #fff; font-size: 10px; font-weight: bold; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: var(--font-mono); border: 2px solid var(--bg-base); display: none; }
 
-/* --- CART DRAWER --- */
+/* --- DRAWERS (Cart & Deals) --- */
 .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 380px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 10000; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
 .cart-drawer.open { right: 0; }
 .cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; padding-right: 5px; }
@@ -297,7 +297,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </ul>
   
   <div class="nav-actions">
-    <!-- CART ICON -->
+    <!-- CART ICON (Top Nav) -->
     <a href="#" class="icon-btn" onclick="toggleCartDrawer(event)">
       <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
       <span class="cart-badge" id="navCartBadge">0</span>
@@ -334,11 +334,10 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
 </div>
 
-<!-- MENU DRAWER OVERLAY -->
+<!-- OVERLAYS -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
-
-<!-- CART DRAWER OVERLAY -->
 <div class="drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+<div class="drawer-overlay" id="dealsOverlay" onclick="toggleDealsDrawer()"></div>
 
 <!-- MOBILE MENU DRAWER -->
 <div class="mobile-drawer" id="mobileDrawer">
@@ -373,6 +372,18 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
   <div class="cart-footer">
     <button class="btn-primary" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- DEALS DRAWER (BLANK PAGE) -->
+<div class="cart-drawer" id="dealsDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Exclusive Deals</span>
+    <button class="close-drawer-btn" onclick="toggleDealsDrawer()">✕</button>
+  </div>
+  <div class="cart-items" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+    <!-- FEATURE CONTENT WILL GO HERE LATER -->
+    <div class="empty-cart" style="margin-top: 0;">More deals coming soon...</div>
   </div>
 </div>
 
@@ -584,11 +595,12 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
     <span>Compare</span>
   </a>
-  <a href="#" class="nav-item center-item" onclick="toggleCartDrawer(event)">
+  <!-- CHANGED BOTTOM NAV BUTTON TO DEALS -->
+  <a href="#" class="nav-item center-item" onclick="toggleDealsDrawer(event)">
     <div class="center-circle">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
     </div>
-    <span>Cart</span>
+    <span>Deals</span>
   </a>
   <a href="#" class="nav-item" onclick="toggleMobileMenu(event)">
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -630,6 +642,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // INITIALIZE CART FROM LOCAL STORAGE
+  const savedCart = localStorage.getItem('nightTraderCart');
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartUI();
+  }
 });
 
 // Mobile Menu Logic
@@ -637,6 +656,13 @@ function toggleMobileMenu(e) {
   if(e) e.preventDefault();
   document.getElementById('mobileDrawer').classList.toggle('open');
   document.getElementById('drawerOverlay').classList.toggle('open');
+}
+
+// Deals Drawer Logic
+function toggleDealsDrawer(e) {
+  if(e) e.preventDefault();
+  document.getElementById('dealsDrawer').classList.toggle('open');
+  document.getElementById('dealsOverlay').classList.toggle('open');
 }
 
 // Custom Toast Logic
@@ -657,17 +683,7 @@ function copyCode(code, e) {
 }
 
 /* --- CART SYSTEM JAVASCRIPT --- */
-
 let cart = [];
-
-// Page load hone par LocalStorage se saved cart items uthana
-document.addEventListener('DOMContentLoaded', () => {
-  const savedCart = localStorage.getItem('nightTraderCart');
-  if (savedCart) {
-    cart = JSON.parse(savedCart);
-    updateCartUI(); // UI ko update kar do saved items ke sath
-  }
-});
 
 function toggleCartDrawer(e) {
   if(e) e.preventDefault();
@@ -697,8 +713,10 @@ function removeFromCart(index) {
 function updateCartUI() {
   const container = document.getElementById('cartItemsContainer');
   const badge = document.getElementById('navCartBadge');
-  localStorage.setItem('nightTraderCart', JSON.stringify(cart));
   
+  // SAVE CART TO LOCAL STORAGE
+  localStorage.setItem('nightTraderCart', JSON.stringify(cart));
+
   // Update Badge
   if(cart.length > 0) {
     badge.style.display = 'flex';
