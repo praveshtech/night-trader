@@ -65,7 +65,12 @@ body {
 @keyframes orbitCW2 { 0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); } }
 @keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
 @keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
-/* --- NAV (Now at the very top) --- */
+
+.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
+.highlight-gold { color: var(--accent-gold); font-weight: 700; }
+.highlight-success { color: var(--status-success); font-weight: 600; }
+
+/* --- NAV --- */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
 .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
 .logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
@@ -76,11 +81,31 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 
 /* HEADER ICONS & DRAWER */
 .nav-actions { display: flex; align-items: center; gap: 16px; }
-.icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; text-decoration: none; }
+.icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; text-decoration: none; position: relative; }
 .icon-btn:hover { color: var(--text-main); }
 .mobile-menu-btn { display: none; }
 
-/* --- TOP MARQUEE TICKER (Now just below the Nav) --- */
+/* --- CART BADGE --- */
+.cart-badge { position: absolute; top: -6px; right: -8px; background: var(--status-danger); color: #fff; font-size: 10px; font-weight: bold; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: var(--font-mono); border: 2px solid var(--bg-base); display: none; }
+
+/* --- CART DRAWER --- */
+.cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 380px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 10000; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
+.cart-drawer.open { right: 0; }
+.cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; padding-right: 5px; }
+.cart-items::-webkit-scrollbar { width: 4px; }
+.cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.cart-item { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim); padding: 12px; border-radius: 12px; animation: slideUpFade 0.3s ease-out forwards; }
+.cart-item-img { width: 44px; height: 44px; border-radius: 8px; background: #080C14; display: flex; align-items: center; justify-content: center; padding: 6px; border: 1px solid rgba(255,255,255,0.05); }
+.cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
+.cart-item-info { flex: 1; }
+.cart-item-title { font-family: var(--font-head); font-weight: 700; font-size: 15px; color: var(--text-main); margin-bottom: 2px; }
+.cart-item-code { font-size: 11px; font-weight: 600; font-family: var(--font-mono); color: var(--accent-gold); letter-spacing: 0.5px; }
+.cart-item-remove { color: var(--text-muted); font-size: 12px; cursor: pointer; background: none; border: none; font-weight: 600; transition: 0.2s; padding: 5px; }
+.cart-item-remove:hover { color: var(--status-danger); }
+.empty-cart { text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 40px; }
+.cart-footer { padding-top: 20px; border-top: 1px solid var(--border-dim); }
+
+/* --- TOP MARQUEE TICKER --- */
 .top-ticker { position: fixed; top: 70px; left: 0; width: 100%; height: 36px; background: rgba(2, 4, 8, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-dim); z-index: 99; display: flex; align-items: center; overflow: hidden; }
 .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: tickerScroll 25s linear infinite; }
 .ticker-track:hover { animation-play-state: paused; }
@@ -96,7 +121,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .mobile-drawer.open { right: 0; }
 .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; visibility: hidden; transition: 0.3s; }
 .drawer-overlay.open { opacity: 1; visibility: visible; }
-.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-dim); padding-bottom: 20px;}
+.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-dim); padding-bottom: 20px;}
 .drawer-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--text-main); }
 .close-drawer-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
 .close-drawer-btn:hover { color: #fff; background: var(--status-danger); border-color: var(--status-danger); }
@@ -114,16 +139,10 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .h1-accent { background: linear-gradient(to right, #fff, var(--accent-cyan), var(--accent-purple), #fff); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textGradient 6s linear infinite; }
 .hero-sub { color: var(--text-muted); font-size: clamp(15px, 2vw, 19px); max-width: 680px; margin: 0 auto 30px; line-height: 1.7; animation: slideUpFade 1s ease-out 0.2s both; }
 
-/* INSTANT SEARCH BAR */
-.search-container { position: relative; max-width: 500px; margin: 0 auto 30px; animation: slideUpFade 1.1s ease-out 0.25s both; }
-.search-container input { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glow); border-radius: 100px; padding: 16px 20px 16px 54px; color: #fff; font-size: 16px; font-family: var(--font-body); outline: none; transition: 0.3s; box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); backdrop-filter: blur(10px); }
-.search-container input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 25px rgba(56, 189, 248, 0.3); }
-.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--accent-cyan); pointer-events: none; }
-
 .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; animation: slideUpFade 1.2s ease-out 0.3s both; }
-.btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
+.btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
 .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6); }
-.btn-secondary { background: rgba(255,255,255,0.02); color: var(--text-main); border: 1px solid var(--border-dim); padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); }
+.btn-secondary { background: rgba(255,255,255,0.02); color: var(--text-main); border: 1px solid var(--border-dim); padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; backdrop-filter: blur(10px); }
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
 /* --- FILTER BAR --- */
@@ -142,7 +161,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 
 /* --- ELITE FIRM CARDS --- */
 .firms-grid { display: flex; flex-direction: column; gap: 16px; }
-.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
+.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
 .firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); }
 .firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
 .firm-card:hover::before { width: 100%; }
@@ -170,13 +189,13 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .trust-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: -2px;}
 
 .discount-wrap { text-align: center; }
-.discount-pill { background: rgba(255,255,255,0.03); border: 1px dashed var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-size: 15px; font-weight: 700; padding: 8px 18px; border-radius: 10px; letter-spacing: 1px; transition: 0.3s; }
+.discount-pill { background: rgba(255,255,255,0.03); border: 1px dashed var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-size: 15px; font-weight: 700; padding: 8px 18px; border-radius: 10px; letter-spacing: 1px; transition: 0.3s; cursor: pointer;}
 .firm-card:hover .discount-pill { background: rgba(245, 158, 11, 0.05); box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.1); }
 .discount-off { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
 /* --- NEW ACTION BUTTONS ROW --- */
 .action-row { display: flex; gap: 12px; width: auto; min-width: 220px; }
-.btn-view { flex: 1; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
+.btn-view { flex: 1; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; text-decoration: none;}
 .btn-view:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
 .btn-cart { flex: 1; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
 .btn-cart:hover { background: rgba(16, 185, 129, 0.2); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
@@ -204,7 +223,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
 
 /* --- TOAST NOTIFICATION --- */
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 3000; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); }
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 10001; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); pointer-events: none;}
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
 /* --- MOBILE SPECIFIC APP-LIKE LAYOUT --- */
@@ -277,8 +296,9 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </ul>
   
   <div class="nav-actions">
-    <a href="#" class="icon-btn">
+    <a href="#" class="icon-btn" onclick="toggleCartDrawer(event)">
       <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      <span class="cart-badge" id="navCartBadge">0</span>
     </a>
     <a href="#" class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu(event)">
       <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -312,6 +332,9 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 </div>
 
 <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
+
+<div class="drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+
 <div class="mobile-drawer" id="mobileDrawer">
   <div class="drawer-header">
     <span class="drawer-title">Menu</span>
@@ -330,6 +353,19 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
       <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
       Leaderboard
     </a>
+  </div>
+</div>
+
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Your Cart</span>
+    <button class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItemsContainer">
+    <div class="empty-cart">Your cart is empty</div>
+  </div>
+  <div class="cart-footer">
+    <button class="btn-primary" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
   </div>
 </div>
 
@@ -369,7 +405,7 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </div>
   
   <div class="firms-grid">
-    <a href="#" class="firm-card featured" onclick="copyCode('FTMO10', event)">
+    <div class="firm-card featured">
       <div class="firm-rank top">01</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);">
@@ -389,17 +425,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="trust-label">Trust Index</div>
       </div>
       <div class="discount-wrap">
-        <div class="discount-pill">FTMO10</div>
+        <div class="discount-pill" onclick="copyCode('FTMO10', event)">FTMO10</div>
         <div class="discount-off">10% Discount</div>
       </div>
       <div class="action-row">
-        <button class="btn-view">View More</button>
-        <button class="btn-cart">Add to Cart</button>
+        <a href="#" class="btn-view">View More</a>
+        <button class="btn-cart" onclick="addToCart('FTMO', 'FTMO.svg', 'FTMO10')">Add to Cart</button>
       </div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+      <button class="btn-get" onclick="copyCode('FTMO10', event)">Apply Code</button>
+    </div>
 
-    <a href="#" class="firm-card" onclick="copyCode('NEXT15', event)">
+    <div class="firm-card">
       <div class="firm-rank top">02</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
@@ -419,17 +455,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="trust-label">Trust Index</div>
       </div>
       <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">NEXT15</div>
+        <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);" onclick="copyCode('NEXT15', event)">NEXT15</div>
         <div class="discount-off" style="color: var(--accent-cyan);">15% Discount</div>
       </div>
       <div class="action-row">
-        <button class="btn-view">View More</button>
-        <button class="btn-cart">Add to Cart</button>
+        <a href="#" class="btn-view">View More</a>
+        <button class="btn-cart" onclick="addToCart('FundedNext', 'Funded Next.svg', 'NEXT15')">Add to Cart</button>
       </div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+      <button class="btn-get" onclick="copyCode('NEXT15', event)">Apply Code</button>
+    </div>
     
-    <a href="#" class="firm-card" onclick="copyCode('APEX90', event)">
+    <div class="firm-card">
       <div class="firm-rank">03</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: #fff; background: #fff;">
@@ -449,17 +485,17 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="trust-label">Trust Index</div>
       </div>
       <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;">APEX90</div>
+        <div class="discount-pill" style="border-color: #fff; color: #fff;" onclick="copyCode('APEX90', event)">APEX90</div>
         <div class="discount-off" style="color: var(--text-muted);">90% Discount</div>
       </div>
       <div class="action-row">
-        <button class="btn-view">View More</button>
-        <button class="btn-cart">Add to Cart</button>
+        <a href="#" class="btn-view">View More</a>
+        <button class="btn-cart" onclick="addToCart('Blueberry Funded', 'blueberry.jpg', 'APEX90')">Add to Cart</button>
       </div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+      <button class="btn-get" onclick="copyCode('APEX90', event)">Apply Code</button>
+    </div>
     
-    <a href="#" class="firm-card" onclick="copyCode('GOAT20', event)">
+    <div class="firm-card">
       <div class="firm-rank">04</div>
       <div class="firm-inner">
         <div class="firm-logo-img" style="border-color: #fff;">
@@ -479,15 +515,15 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
         <div class="trust-label">Trust Index</div>
       </div>
       <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;">GOAT20</div>
+        <div class="discount-pill" style="border-color: #fff; color: #fff;" onclick="copyCode('GOAT20', event)">GOAT20</div>
         <div class="discount-off" style="color: var(--text-muted);">20% Discount</div>
       </div>
       <div class="action-row">
-        <button class="btn-view">View More</button>
-        <button class="btn-cart">Add to Cart</button>
+        <a href="#" class="btn-view">View More</a>
+        <button class="btn-cart" onclick="addToCart('Goat Funded Trader', 'GFT.svg', 'GOAT20')">Add to Cart</button>
       </div>
-      <button class="btn-get">Apply Code</button>
-    </a>
+      <button class="btn-get" onclick="copyCode('GOAT20', event)">Apply Code</button>
+    </div>
   </div>
 </section>
 
@@ -537,11 +573,11 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
     <span>Compare</span>
   </a>
-  <a href="#codes" class="nav-item center-item">
+  <a href="#" class="nav-item center-item" onclick="toggleCartDrawer(event)">
     <div class="center-circle">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
     </div>
-    <span>Deals</span>
+    <span>Cart</span>
   </a>
   <a href="#" class="nav-item" onclick="toggleMobileMenu(event)">
     <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -553,10 +589,11 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   </a>
 </div>
 
-<div class="toast" id="toast">Code Copied Successfully!</div>
+<div class="toast" id="toast">Notification</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Intersection Observer for card animations
   const cards = document.querySelectorAll('.firm-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -584,20 +621,101 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Mobile Menu Logic
 function toggleMobileMenu(e) {
   if(e) e.preventDefault();
   document.getElementById('mobileDrawer').classList.toggle('open');
   document.getElementById('drawerOverlay').classList.toggle('open');
 }
 
+// Custom Toast Logic
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Code Copy Logic
 function copyCode(code, e) {
   e.preventDefault();
+  e.stopPropagation();
   navigator.clipboard.writeText(code).then(() => {
-    const t = document.getElementById('toast');
-    t.textContent = code + ' Copied to Clipboard!';
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    showToast(code + ' Copied to Clipboard!');
   });
+}
+
+/* --- CART SYSTEM JAVASCRIPT --- */
+let cart = [];
+
+function toggleCartDrawer(e) {
+  if(e) e.preventDefault();
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+function addToCart(name, img, code) {
+  // Prevent adding duplicates
+  const exists = cart.find(item => item.name === name);
+  if(exists) {
+    showToast(name + ' is already in your cart!');
+    return;
+  }
+  
+  // Add item to array
+  cart.push({ name, img, code });
+  updateCartUI();
+  showToast(name + ' added to cart!');
+  
+  // Optional: Auto open cart when item is added
+  // document.getElementById('cartDrawer').classList.add('open');
+  // document.getElementById('cartOverlay').classList.add('open');
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const container = document.getElementById('cartItemsContainer');
+  const badge = document.getElementById('navCartBadge');
+  
+  // Update Badge
+  if(cart.length > 0) {
+    badge.style.display = 'flex';
+    badge.textContent = cart.length;
+  } else {
+    badge.style.display = 'none';
+  }
+
+  // Update Drawer UI
+  if(cart.length === 0) {
+    container.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+    return;
+  }
+
+  container.innerHTML = cart.map((item, index) => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        <img src="${item.img}" alt="${item.name}" onerror="this.style.display='none'">
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-title">${item.name}</div>
+        <div class="cart-item-code">CODE: ${item.code}</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+    </div>
+  `).join('');
+}
+
+function checkout() {
+  if(cart.length === 0) {
+    showToast('Add some items to checkout first!');
+    return;
+  }
+  showToast('Proceeding to Checkout...');
+  // Logic for checkout redirection goes here
 }
 </script>
 </body>
