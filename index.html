@@ -70,8 +70,19 @@ body {
 .highlight-gold { color: var(--accent-gold); font-weight: 700; }
 .highlight-success { color: var(--status-success); font-weight: 600; }
 
-/* --- NAV --- */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+/* --- TOP MARQUEE TICKER --- */
+.top-ticker { position: fixed; top: 0; left: 0; width: 100%; height: 36px; background: #020408; border-bottom: 1px solid var(--border-dim); z-index: 1001; display: flex; align-items: center; overflow: hidden; }
+.ticker-track { display: flex; align-items: center; white-space: nowrap; animation: tickerScroll 25s linear infinite; }
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 24px; color: #F8FAFC; font-size: 11px; font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.ticker-badge { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700; }
+.ticker-badge.blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+.ticker-badge.green { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); }
+.ticker-separator { color: var(--text-muted); font-size: 14px; opacity: 0.4; }
+
+/* --- NAV (Updated Top to accommodate ticker) --- */
+nav { position: fixed; top: 36px; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
 .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
 .logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
 .nav-links { display: flex; gap: 8px; list-style: none; }
@@ -99,8 +110,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .drawer-link:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateX(5px); }
 .drawer-link svg { color: var(--accent-cyan); }
 
-/* --- HERO SECTION --- */
-.hero { position: relative; padding: 180px 4% 100px; text-align: center; overflow: hidden; } 
+/* --- HERO SECTION (Updated padding for ticker) --- */
+.hero { position: relative; padding: 216px 4% 100px; text-align: center; overflow: hidden; } 
 .hero-content { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
 .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--status-success); border-radius: 50%; box-shadow: 0 0 8px var(--status-success); }
@@ -120,8 +131,8 @@ h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weig
 .btn-secondary { background: rgba(255,255,255,0.02); color: var(--text-main); border: 1px solid var(--border-dim); padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); }
 .btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
 
-/* --- FILTER BAR (HORIZONTAL SCROLL FIX) --- */
-.filter-bar { position: sticky; top: 70px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+/* --- FILTER BAR (Updated top) --- */
+.filter-bar { position: sticky; top: 106px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
 .filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; }
 .filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; align-items: center; }
@@ -168,49 +179,12 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 .firm-card:hover .discount-pill { background: rgba(245, 158, 11, 0.05); box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.1); }
 .discount-off { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
 
-/* --- NEW ACTION BUTTONS ROW (Replaces Cashback Chip) --- */
-.action-row { 
-  display: flex; 
-  gap: 12px; 
-  width: auto; 
-  min-width: 220px;
-}
-.btn-view { 
-  flex: 1; 
-  background: rgba(255,255,255,0.05); 
-  color: #fff; 
-  border: 1px solid var(--border-dim); 
-  padding: 12px 10px; 
-  border-radius: 10px; 
-  font-size: 14px; 
-  font-weight: 700; 
-  font-family: var(--font-head); 
-  cursor: pointer; 
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-  text-align: center; 
-}
-.btn-view:hover { 
-  background: rgba(255,255,255,0.1); 
-  border-color: rgba(255,255,255,0.2);
-}
-.btn-cart { 
-  flex: 1; 
-  background: var(--status-success-dim); 
-  border: 1px solid rgba(16, 185, 129, 0.3); 
-  color: var(--status-success); 
-  padding: 12px 10px; 
-  border-radius: 10px; 
-  font-size: 14px; 
-  font-weight: 700; 
-  font-family: var(--font-head); 
-  cursor: pointer; 
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-  text-align: center; 
-}
-.btn-cart:hover { 
-  background: rgba(16, 185, 129, 0.2); 
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); 
-}
+/* --- NEW ACTION BUTTONS ROW --- */
+.action-row { display: flex; gap: 12px; width: auto; min-width: 220px; }
+.btn-view { flex: 1; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
+.btn-view:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+.btn-cart { flex: 1; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
+.btn-cart:hover { background: rgba(16, 185, 129, 0.2); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
 
 .btn-get { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
 .firm-card:hover .btn-get { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
@@ -248,54 +222,27 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .logo-image { height: 32px; width: auto; }
   .nav-cta { display: none !important; }
   
-  /* Make mobile menu buttons visible */
   .mobile-menu-btn { display: flex; }
   .nav-actions { gap: 14px; }
   
-  body { padding-bottom: 80px; } /* Space for bottom nav */
+  body { padding-bottom: 80px; } 
   
-  .hero { padding: 160px 16px 40px; } 
+  .hero { padding: 196px 16px 40px; } 
   h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 16px;}
   .hero-actions { flex-direction: column; padding: 0 20px; }
   .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
   
-  /* PERFECT MOBILE CARDS (Logo Left, Name Right, Score Top Right) */
-  .firm-card { 
-    display: flex; 
-    flex-direction: column; 
-    padding: 20px 16px; 
-    padding-top: 50px; /* Space for the top featured tag and trust score */
-    gap: 16px; 
-    align-items: stretch; 
-    text-align: left; 
-  }
-  .firm-inner { 
-    flex-direction: row; 
-    align-items: center; 
-    justify-content: flex-start; 
-    text-align: left; 
-    padding-right: 50px; /* Prevent text going under absolute trust score */
-  }
+  .firm-card { display: flex; flex-direction: column; padding: 20px 16px; padding-top: 50px; gap: 16px; align-items: stretch; text-align: left; }
+  .firm-inner { flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; padding-right: 50px; }
   .firm-rank { display: none; }
   .firm-meta { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 4px;}
   .firm-name { flex-wrap: wrap; margin-bottom: 4px; }
   .firm-card.featured::after { left: 16px; transform: none; top: -1px; }
 
-  /* Trust Score Absolute Positioning */
-  .trust-score { 
-    position: absolute; 
-    top: 16px; 
-    right: 16px; 
-    text-align: right; 
-    min-width: auto; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
+  .trust-score { position: absolute; top: 16px; right: 16px; text-align: right; min-width: auto; display: flex; flex-direction: column; align-items: flex-end; }
   .trust-num { font-size: 24px; line-height: 1; margin-bottom: 2px; }
   .trust-label { font-size: 9px; }
 
-  /* Adjust buttons and chips for column layout */
   .discount-wrap { width: 100%; display: flex; justify-content: space-between; align-items: center; border: 1px dashed var(--border-dim); padding: 10px 16px; border-radius: 12px; background: rgba(0,0,0,0.2);}
   .discount-pill { border: none; padding: 0; background: transparent; box-shadow: none !important;}
   .discount-off { margin-top: 0; }
@@ -303,12 +250,10 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
   .action-row { width: 100%; margin-top: 0; }
   .btn-get { text-align: center; justify-content: center; }
 
-  /* Footer Mobile */
   .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
   .footer-brand p { margin: 15px auto; }
   .footer-bottom { flex-direction: column; text-align: center; }
 
-  /* Mobile Nav Bar Styles */
   .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5); }
   .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
   .nav-item.active { color: var(--accent-cyan); }
@@ -323,6 +268,31 @@ section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relativ
 </style>
 </head>
 <body>
+
+<div class="top-ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">FundedNext <span class="ticker-badge blue">15% OFF</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">The 5ers <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">Blueberry <span class="ticker-badge blue">APEX90</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">Goat Funded <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">FTMO <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">FundedNext <span class="ticker-badge blue">15% OFF</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">The 5ers <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">Blueberry <span class="ticker-badge blue">APEX90</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">Goat Funded <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+    <div class="ticker-item">FTMO <span class="ticker-badge green">✓ TRUSTED</span></div>
+    <div class="ticker-separator">+</div>
+  </div>
+</div>
 
 <nav>
   <a href="#" class="logo">
