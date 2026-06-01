@@ -657,7 +657,17 @@ function copyCode(code, e) {
 }
 
 /* --- CART SYSTEM JAVASCRIPT --- */
+
 let cart = [];
+
+// Page load hone par LocalStorage se saved cart items uthana
+document.addEventListener('DOMContentLoaded', () => {
+  const savedCart = localStorage.getItem('nightTraderCart');
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartUI(); // UI ko update kar do saved items ke sath
+  }
+});
 
 function toggleCartDrawer(e) {
   if(e) e.preventDefault();
@@ -687,6 +697,7 @@ function removeFromCart(index) {
 function updateCartUI() {
   const container = document.getElementById('cartItemsContainer');
   const badge = document.getElementById('navCartBadge');
+  localStorage.setItem('nightTraderCart', JSON.stringify(cart));
   
   // Update Badge
   if(cart.length > 0) {
