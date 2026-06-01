@@ -53,23 +53,18 @@ body {
 
 /* --- ORBIT ANIMATIONS --- */
 .bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
-.orbit-icon { position: absolute; top: 50%; left: 50%; max-width: 140px; max-height: 140px; filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
-.orbit-1 { animation: orbitCW1 35s linear infinite; width: 120px; margin-top: -60px; margin-left: -60px; }
-.orbit-2 { animation: orbitCCW1 45s linear infinite; width: 100px; margin-top: -50px; margin-left: -50px; }
-.orbit-3 { animation: orbitCW2 25s linear infinite; width: 140px; margin-top: -70px; margin-left: -70px; }
-.orbit-4 { animation: orbitCCW2 40s linear infinite; width: 110px; margin-top: -55px; margin-left: -55px; }
-.orbit-5 { animation: orbitCW3 30s linear infinite; width: 130px; margin-top: -65px; margin-left: -65px; border-radius: 20px; }
+.orbit-icon { position: absolute; top: 50%; left: 50%; max-width: 80px; max-height: 80px; filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
+.orbit-1 { animation: orbitCW1 35s linear infinite; width: 70px; margin-top: -35px; margin-left: -35px; }
+.orbit-2 { animation: orbitCCW1 45s linear infinite; width: 60px; margin-top: -30px; margin-left: -30px; }
+.orbit-3 { animation: orbitCW2 25s linear infinite; width: 80px; margin-top: -40px; margin-left: -40px; }
+.orbit-4 { animation: orbitCCW2 40s linear infinite; width: 65px; margin-top: -32px; margin-left: -32px; }
+.orbit-5 { animation: orbitCW3 30s linear infinite; width: 75px; margin-top: -37px; margin-left: -37px; border-radius: 12px; }
 
 @keyframes orbitCW1 { 0% { transform: rotate(0deg) translateX(350px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(350px) rotate(-360deg); } }
 @keyframes orbitCCW1 { 0% { transform: rotate(360deg) translateX(450px) rotate(-360deg); } 100% { transform: rotate(0deg) translateX(450px) rotate(0deg); } }
 @keyframes orbitCW2 { 0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); } }
 @keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
 @keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
-
-.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
-.highlight-gold { color: var(--accent-gold); font-weight: 700; }
-.highlight-success { color: var(--status-success); font-weight: 600; }
-
 /* --- NAV (Now at the very top) --- */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
 .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
