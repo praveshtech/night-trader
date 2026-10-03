@@ -1,777 +1,1378 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Night Trader — Elite Prop Firm Analytics</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-<style>
-/* --- ELITE FINANCIAL PSYCHOLOGY COLOR SYSTEM --- */
-:root {
-  --bg-base: #030712;       
-  --bg-surface: rgba(15, 23, 42, 0.65); 
-  --bg-surface-light: rgba(30, 41, 59, 0.8);
-  --border-dim: rgba(255, 255, 255, 0.04);
-  --border-glow: rgba(56, 189, 248, 0.2);
-  --accent-gold: #F59E0B;   
-  --accent-gold-glow: rgba(245, 158, 11, 0.2);
-  --accent-cyan: #38BDF8;   
-  --accent-purple: #818CF8; 
-  --status-success: #10B981;
-  --status-success-dim: rgba(16, 185, 129, 0.1);
-  --status-warn: #F59E0B;
-  --status-danger: #EF4444;
-  --text-main: #F8FAFC;     
-  --text-muted: #94A3B8;
-  
-  --font-head: 'Space Grotesk', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --radius: 12px;
-  --radius-lg: 20px;
-}
-.logo-image { height: 50px; width: auto; object-fit: contain; }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
-  background-color: var(--bg-base); color: var(--text-main);
-  font-family: var(--font-body); font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden;
-  background-image: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
-  background-attachment: fixed;
-}
-
-/* --- TEXT & CARD ANIMATIONS --- */
-@keyframes glowPulse { 0% { box-shadow: 0 0 10px var(--accent-gold-glow); } 50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); } 100% { box-shadow: 0 0 10px var(--accent-gold-glow); } }
-@keyframes textGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-@keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
-@keyframes borderFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-/* --- ORBIT ANIMATIONS --- */
-.bg-orbit-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 1200px; height: 800px; z-index: 0; pointer-events: none; overflow: hidden; }
-.orbit-icon { position: absolute; top: 50%; left: 50%; max-width: 80px; max-height: 80px; filter: grayscale(100%) opacity(0.12) drop-shadow(0 0 15px rgba(56, 189, 248, 0.4)); }
-.orbit-1 { animation: orbitCW1 35s linear infinite; width: 70px; margin-top: -35px; margin-left: -35px; }
-.orbit-2 { animation: orbitCCW1 45s linear infinite; width: 60px; margin-top: -30px; margin-left: -30px; }
-.orbit-3 { animation: orbitCW2 25s linear infinite; width: 80px; margin-top: -40px; margin-left: -40px; }
-.orbit-4 { animation: orbitCCW2 40s linear infinite; width: 65px; margin-top: -32px; margin-left: -32px; }
-.orbit-5 { animation: orbitCW3 30s linear infinite; width: 75px; margin-top: -37px; margin-left: -37px; border-radius: 12px; }
-
-@keyframes orbitCW1 { 0% { transform: rotate(0deg) translateX(350px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(350px) rotate(-360deg); } }
-@keyframes orbitCCW1 { 0% { transform: rotate(360deg) translateX(450px) rotate(-360deg); } 100% { transform: rotate(0deg) translateX(450px) rotate(0deg); } }
-@keyframes orbitCW2 { 0% { transform: rotate(120deg) translateX(280px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(280px) rotate(-480deg); } }
-@keyframes orbitCCW2 { 0% { transform: rotate(240deg) translateX(400px) rotate(-240deg); } 100% { transform: rotate(-120deg) translateX(400px) rotate(120deg); } }
-@keyframes orbitCW3 { 0% { transform: rotate(70deg) translateX(520px) rotate(-70deg); } 100% { transform: rotate(430deg) translateX(520px) rotate(-430deg); } }
-
-.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
-.highlight-gold { color: var(--accent-gold); font-weight: 700; }
-.highlight-success { color: var(--status-success); font-weight: 600; }
-
-/* --- NAV --- */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-dim); padding: 0 4%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-.logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.logo-text { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
-.nav-links { display: flex; gap: 8px; list-style: none; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-head); text-transform: uppercase; }
-.nav-links a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
-.nav-cta { background: linear-gradient(135deg, var(--accent-gold), #D97706) !important; color: #000 !important; font-weight: 700 !important; padding: 8px 18px; border-radius: 8px; font-size: 13px; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; box-shadow: 0 4px 15px var(--accent-gold-glow); animation: glowPulse 3s infinite; }
-
-/* HEADER ICONS & DRAWER */
-.nav-actions { display: flex; align-items: center; gap: 16px; }
-.icon-btn { color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: color 0.2s; cursor: pointer; text-decoration: none; position: relative; }
-.icon-btn:hover { color: var(--text-main); }
-.mobile-menu-btn { display: none; }
-
-/* --- CART BADGE --- */
-.cart-badge { position: absolute; top: -6px; right: -8px; background: var(--status-danger); color: #fff; font-size: 10px; font-weight: bold; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: var(--font-mono); border: 2px solid var(--bg-base); display: none; }
-
-/* --- DRAWERS (Cart & Deals) --- */
-.cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 380px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 10000; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
-.cart-drawer.open { right: 0; }
-.cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; padding-right: 5px; }
-.cart-items::-webkit-scrollbar { width: 4px; }
-.cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-.cart-item { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim); padding: 12px; border-radius: 12px; animation: slideUpFade 0.3s ease-out forwards; }
-.cart-item-img { width: 44px; height: 44px; border-radius: 8px; background: #080C14; display: flex; align-items: center; justify-content: center; padding: 6px; border: 1px solid rgba(255,255,255,0.05); }
-.cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
-.cart-item-info { flex: 1; }
-.cart-item-title { font-family: var(--font-head); font-weight: 700; font-size: 15px; color: var(--text-main); margin-bottom: 2px; }
-.cart-item-code { font-size: 11px; font-weight: 700; font-family: var(--font-mono); color: var(--accent-gold); letter-spacing: 0.5px; display: inline-flex; align-items: center; cursor: pointer; padding: 4px 8px; background: rgba(245, 158, 11, 0.1); border: 1px dashed rgba(245, 158, 11, 0.4); border-radius: 6px; transition: 0.2s; margin-top: 4px; }
-.cart-item-code:hover { background: rgba(245, 158, 11, 0.2); box-shadow: 0 0 8px rgba(245, 158, 11, 0.2); }
-.cart-item-remove { color: var(--text-muted); font-size: 12px; cursor: pointer; background: none; border: none; font-weight: 600; transition: 0.2s; padding: 5px; }
-.cart-item-remove:hover { color: var(--status-danger); }
-.empty-cart { text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 40px; }
-.cart-footer { padding-top: 20px; border-top: 1px solid var(--border-dim); }
-
-/* --- TOP MARQUEE TICKER --- */
-.top-ticker { position: fixed; top: 70px; left: 0; width: 100%; height: 36px; background: rgba(2, 4, 8, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-dim); z-index: 99; display: flex; align-items: center; overflow: hidden; }
-.ticker-track { display: flex; align-items: center; white-space: nowrap; animation: tickerScroll 25s linear infinite; }
-.ticker-track:hover { animation-play-state: paused; }
-@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 24px; color: #F8FAFC; font-size: 11px; font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-.ticker-badge { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: var(--font-mono); font-weight: 700; }
-.ticker-badge.blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
-.ticker-badge.green { background: rgba(16, 185, 129, 0.15); color: var(--status-success); border: 1px solid rgba(16, 185, 129, 0.3); }
-.ticker-separator { color: var(--text-muted); font-size: 14px; opacity: 0.4; }
-
-/* --- SIDE DRAWER MENU (MOBILE) --- */
-.mobile-drawer { position: fixed; top: 0; right: -320px; width: 300px; height: 100vh; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); border-left: 1px solid var(--border-dim); z-index: 9999; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 30px 24px; box-shadow: -10px 0 40px rgba(0,0,0,0.8); }
-.mobile-drawer.open { right: 0; }
-.drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; visibility: hidden; transition: 0.3s; }
-.drawer-overlay.open { opacity: 1; visibility: visible; }
-.drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-dim); padding-bottom: 20px;}
-.drawer-title { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--text-main); }
-.close-drawer-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-muted); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-.close-drawer-btn:hover { color: #fff; background: var(--status-danger); border-color: var(--status-danger); }
-.drawer-links { display: flex; flex-direction: column; gap: 16px; }
-.drawer-link { display: flex; align-items: center; gap: 14px; color: var(--text-main); text-decoration: none; font-family: var(--font-head); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim); transition: 0.3s; }
-.drawer-link:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateX(5px); }
-.drawer-link svg { color: var(--accent-cyan); }
-
-/* --- HERO SECTION --- */
-.hero { position: relative; padding: 180px 4% 100px; text-align: center; overflow: hidden; } 
-.hero-content { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
-.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); font-size: 12px; font-weight: 700; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: slideUpFade 0.6s ease-out both; }
-.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--status-success); border-radius: 50%; box-shadow: 0 0 8px var(--status-success); }
-h1 { font-family: var(--font-head); font-size: clamp(36px, 6vw, 72px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; animation: slideUpFade 0.8s ease-out 0.1s both; }
-.h1-accent { background: linear-gradient(to right, #fff, var(--accent-cyan), var(--accent-purple), #fff); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textGradient 6s linear infinite; }
-.hero-sub { color: var(--text-muted); font-size: clamp(15px, 2vw, 19px); max-width: 680px; margin: 0 auto 30px; line-height: 1.7; animation: slideUpFade 1s ease-out 0.2s both; }
-
-.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; animation: slideUpFade 1.2s ease-out 0.3s both; }
-.btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; border: none; padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4); }
-.btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.6); }
-.btn-secondary { background: rgba(255,255,255,0.02); color: var(--text-main); border: 1px solid var(--border-dim); padding: 15px 36px; border-radius: 12px; font-family: var(--font-head); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; backdrop-filter: blur(10px); }
-.btn-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
-
-/* --- FILTER BAR --- */
-.filter-bar { position: sticky; top: 106px; z-index: 90; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-dim); padding: 16px 4%; display: flex; gap: 16px; align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.filter-bar::-webkit-scrollbar { display: none; }
-.filter-label { font-family: var(--font-head); font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; }
-.filter-tabs { display: flex; gap: 8px; flex-wrap: nowrap; align-items: center; }
-.filter-tab { padding: 8px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-dim); background: transparent; color: var(--text-muted); transition: all 0.2s; font-family: var(--font-body); white-space: nowrap; flex-shrink: 0; }
-.filter-tab.active, .filter-tab:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
-
-/* --- SECTION HEADERS --- */
-section { padding: 80px 4%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
-.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
-.section-title { font-family: var(--font-head); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
-.section-title span { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 8px; font-family: var(--font-body); }
-
-/* --- ELITE FIRM CARDS --- */
-.firms-grid { display: flex; flex-direction: column; gap: 16px; }
-.firm-card { background: var(--bg-surface); border: 1px solid var(--border-dim); border-radius: var(--radius-lg); padding: 24px 30px; display: grid; grid-template-columns: 30px 1fr auto auto auto auto; align-items: center; gap: 24px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; color: inherit; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
-.firm-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02); }
-.firm-card::before { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); transition: width 0.6s ease; }
-.firm-card:hover::before { width: 100%; }
-.firm-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); transition: left 0.6s; pointer-events: none; }
-.firm-card:hover::after { left: 100%; }
-
-.firm-rank { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); text-align: center; font-weight: 600; }
-.firm-rank.top { color: var(--accent-gold); font-weight: 700; font-size: 18px; text-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
-
-/* Updated Logo Image Container */
-.firm-logo-img { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; background: #080C14; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-.firm-logo-img img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-.fallback-logo { font-family: var(--font-head); font-weight: 700; font-size: 16px; color: #fff; }
-
-.firm-inner { display: flex; align-items: center; gap: 20px; min-width: 0; }
-.firm-name { font-family: var(--font-head); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.firm-tag { font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
-.tag-gold { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
-.tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
-.firm-meta { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-weight: 500; }
-.firm-meta span { display: flex; align-items: center; gap: 4px; }
-
-.trust-score { text-align: center; min-width: 80px; }
-.trust-num { font-family: var(--font-head); font-size: 28px; font-weight: 800; letter-spacing: -1px; }
-.trust-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: -2px;}
-
-.discount-wrap { text-align: center; }
-.discount-pill { background: rgba(255,255,255,0.03); border: 1px dashed var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-size: 15px; font-weight: 700; padding: 8px 18px; border-radius: 10px; letter-spacing: 1px; transition: 0.3s; cursor: pointer;}
-.firm-card:hover .discount-pill { background: rgba(245, 158, 11, 0.05); box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.1); }
-.discount-off { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
-
-/* --- NEW ACTION BUTTONS ROW --- */
-.action-row { display: flex; gap: 12px; width: auto; min-width: 220px; }
-.btn-view { flex: 1; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; text-decoration: none;}
-.btn-view:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-.btn-cart { flex: 1; background: var(--status-success-dim); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--status-success); padding: 12px 10px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
-.btn-cart:hover { background: rgba(16, 185, 129, 0.2); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
-
-.btn-get { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-dim); padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-head); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-.firm-card:hover .btn-get { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-
-/* Premium Featured Card */
-.firm-card.featured { background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box, linear-gradient(135deg, var(--accent-gold), transparent, var(--accent-cyan)) border-box; border: 1px solid transparent; background-size: 200% 200%; animation: borderFlow 5s linear infinite; }
-.firm-card.featured:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 30px rgba(245, 158, 11, 0.05); }
-.firm-card.featured::before { display: none; }
-.firm-card.featured::after { content: '★ INSTITUTIONAL PICK'; position: absolute; top: -1px; left: 60px; width: auto; height: auto; background: var(--accent-gold); color: #000; font-size: 10px; font-weight: 800; font-family: var(--font-head); letter-spacing: 1px; padding: 4px 14px; border-radius: 0 0 8px 8px; pointer-events: auto; left: auto; }
-.firm-card.featured .firm-inner::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: left 0.6s; pointer-events: none; }
-.firm-card.featured:hover .firm-inner::after { left: 100%; }
-
-/* --- PREMIUM FOOTER --- */
-.elite-footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-dim); padding: 60px 4% 30px; margin-top: 80px; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
-.footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 15px; max-width: 300px; line-height: 1.8; }
-.footer-col h4 { font-family: var(--font-head); color: var(--text-main); margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
-.footer-col ul { list-style: none; }
-.footer-col ul li { margin-bottom: 12px; }
-.footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-size: 14px; }
-.footer-col ul li a:hover { color: var(--accent-cyan); }
-.footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 10px; }
-
-/* --- TOAST NOTIFICATION --- */
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 80px); background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: #000; padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; font-family: var(--font-head); z-index: 10001; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 1px solid rgba(255,255,255,0.2); pointer-events: none;}
-.toast.show { transform: translate(-50%, 0); opacity: 1; }
-
-/* --- MOBILE SPECIFIC APP-LIKE LAYOUT --- */
-.mobile-bottom-nav { display: none; } 
-
-@media (max-width: 900px) {
-  nav { padding: 0 16px; }
-  .nav-links { display: none; }
-  .logo-text { font-size: 18px; }
-  .logo-image { height: 32px; width: auto; }
-  .nav-cta { display: none !important; }
-  
-  .mobile-menu-btn { display: flex; }
-  .nav-actions { gap: 14px; }
-  
-  body { padding-bottom: 80px; } 
-  
-  .hero { padding: 160px 16px 40px; } 
-  h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 16px;}
-  .hero-actions { flex-direction: column; padding: 0 20px; }
-  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-  
-  .firm-card { display: flex; flex-direction: column; padding: 20px 16px; padding-top: 50px; gap: 16px; align-items: stretch; text-align: left; }
-  .firm-inner { flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; padding-right: 50px; }
-  .firm-rank { display: none; }
-  .firm-meta { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 4px;}
-  .firm-name { flex-wrap: wrap; margin-bottom: 4px; }
-  .firm-card.featured::after { left: 16px; transform: none; top: -1px; }
-
-  .trust-score { position: absolute; top: 16px; right: 16px; text-align: right; min-width: auto; display: flex; flex-direction: column; align-items: flex-end; }
-  .trust-num { font-size: 24px; line-height: 1; margin-bottom: 2px; }
-  .trust-label { font-size: 9px; }
-
-  .discount-wrap { width: 100%; display: flex; justify-content: space-between; align-items: center; border: 1px dashed var(--border-dim); padding: 10px 16px; border-radius: 12px; background: rgba(0,0,0,0.2);}
-  .discount-pill { border: none; padding: 0; background: transparent; box-shadow: none !important;}
-  .discount-off { margin-top: 0; }
-  
-  .action-row { width: 100%; margin-top: 0; }
-  .btn-get { text-align: center; justify-content: center; }
-
-  .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
-  .footer-brand p { margin: 15px auto; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-
-  .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border-top: 1px solid var(--border-dim); z-index: 1000; justify-content: space-around; align-items: center; padding: 8px 0 16px 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.5); }
-  .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 10px; font-family: var(--font-body); font-weight: 600; gap: 4px; transition: color 0.3s; flex: 1; position: relative; }
-  .nav-item.active { color: var(--accent-cyan); }
-  .nav-item.active::before { content: ''; position: absolute; top: -8px; width: 24px; height: 3px; background: var(--accent-cyan); border-radius: 0 0 4px 4px; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.5); }
-  .nav-item:hover { color: var(--text-main); }
-  .nav-item svg { transition: transform 0.2s; }
-  .nav-item:active svg { transform: scale(0.9); }
-  .center-item { transform: translateY(-20px); color: var(--text-main); }
-  .center-circle { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4); border: 5px solid var(--bg-base); margin-bottom: 4px; transition: transform 0.3s; }
-  .center-item:active .center-circle { transform: translateY(2px); box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4); }
-}
-</style>
-</head>
-<body>
-
-<nav>
-  <a href="#" class="logo">
-    <img src="night trader.png" alt="Night Trader Logo" class="logo-image" onerror="this.style.display='none'">
-    <span class="logo-text">Night Trader</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#firms">Matrix</a></li>
-    <li><a href="#codes">Discounts</a></li>
-    <li><a href="#leaderboard">Leaderboard</a></li>
-    <li><a href="#" class="nav-cta">Claim Cashback</a></li>
-  </ul>
-  
-  <div class="nav-actions">
-    <!-- CART ICON (Top Nav) -->
-    <a href="#" class="icon-btn" onclick="toggleCartDrawer(event)">
-      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-      <span class="cart-badge" id="navCartBadge">0</span>
-    </a>
-    <a href="#" class="icon-btn mobile-menu-btn" onclick="toggleMobileMenu(event)">
-      <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </a>
-  </div>
-</nav>
-
-<!-- TOP MARQUEE TICKER -->
-<div class="top-ticker">
-  <div class="ticker-track">
-    <div class="ticker-item">FundedNext <span class="ticker-badge blue">15% OFF</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">The 5ers <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">Blueberry <span class="ticker-badge blue">APEX90</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">Goat Funded <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">FTMO <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">FundedNext <span class="ticker-badge blue">15% OFF</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">The 5ers <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">Blueberry <span class="ticker-badge blue">APEX90</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">Goat Funded <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-    <div class="ticker-item">FTMO <span class="ticker-badge green">✓ TRUSTED</span></div>
-    <div class="ticker-separator">+</div>
-  </div>
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "tertiary-container": "#ffb148",
+          "on-surface-variant": "#bbc9cf",
+          "text-secondary": "#9CA3AF",
+          "on-primary-fixed-variant": "#004e60",
+          "secondary-fixed-dim": "#b4c5ff",
+          "text-muted": "#64748B",
+          "surface-variant": "#313540",
+          "error-container": "#93000a",
+          "primary-fixed-dim": "#47d6ff",
+          "tertiary": "#ffd6a7",
+          "surface-tint": "#47d6ff",
+          "inverse-primary": "#00677f",
+          "surface": "#0f131d",
+          "on-error-container": "#ffdad6",
+          "background": "#0f131d",
+          "accent-gold-bright": "#FBBF24",
+          "on-surface": "#dfe2f1",
+          "border-glow-cyan": "rgba(0, 210, 255, 0.35)",
+          "surface-container-low": "#171b26",
+          "surface-canvas": "#0B0F19",
+          "secondary": "#b4c5ff",
+          "inverse-on-surface": "#2c303b",
+          "outline-variant": "#3c494e",
+          "on-tertiary-fixed": "#2a1700",
+          "surface-elevated": "#1E293B",
+          "border-glass": "rgba(255, 255, 255, 0.08)",
+          "on-tertiary-container": "#704500",
+          "on-tertiary": "#472a00",
+          "outline": "#859399",
+          "surface-container": "#1c1f2a",
+          "secondary-container": "#0053db",
+          "secondary-fixed": "#dbe1ff",
+          "tertiary-fixed": "#ffddb8",
+          "inverse-surface": "#dfe2f1",
+          "error": "#ffb4ab",
+          "on-primary-fixed": "#001f28",
+          "surface-container-highest": "#313540",
+          "on-secondary": "#002a78",
+          "on-secondary-container": "#cdd7ff",
+          "text-primary": "#F9FAFB",
+          "status-negative": "#EF4444",
+          "status-positive": "#10B981",
+          "surface-card": "#111827",
+          "accent-neon-cyan": "#00D2FF",
+          "surface-bright": "#353944",
+          "primary-fixed": "#b6ebff",
+          "surface-container-high": "#262a35",
+          "tertiary-fixed-dim": "#ffb95f",
+          "on-primary": "#003543",
+          "border-glow-amber": "rgba(245, 158, 11, 0.35)",
+          "on-secondary-fixed": "#00174b",
+          "on-error": "#690005",
+          "surface-overlay": "rgba(17, 24, 39, 0.75)",
+          "surface-container-lowest": "#0a0e18",
+          "on-background": "#dfe2f1",
+          "accent-gold": "#F59E0B",
+          "on-primary-container": "#00566a",
+          "on-tertiary-fixed-variant": "#653e00",
+          "on-secondary-fixed-variant": "#003ea8",
+          "surface-dim": "#0f131d",
+          "primary-container": "#00d2ff",
+          "primary": "#a5e7ff",
+          "accent-laser-blue": "#3B82F6"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin": "1rem",
+          "space-lg": "1.5rem",
+          "space-2xs": "0.25rem",
+          "space-2xl": "3rem",
+          "margin-desktop": "2rem",
+          "space-xl": "2rem",
+          "space-xs": "0.5rem",
+          "space-3xl": "4.5rem",
+          "gutter": "1.25rem",
+          "gutter-desktop": "1.5rem",
+          "space-md": "1rem",
+          "space-sm": "0.75rem"
+        },
+        "fontFamily": {
+          "headline-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "badge-label": [
+            "Inter"
+          ],
+          "body-sm": [
+            "Inter"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "numeric-stat-lg": [
+            "JetBrains Mono"
+          ],
+          "display-hero": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "numeric-stat-xl": [
+            "JetBrains Mono"
+          ],
+          "numeric-stat-sm": [
+            "JetBrains Mono"
+          ],
+          "headline-xl-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-xl": [
+            "Plus Jakarta Sans"
+          ],
+          "display-hero-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Inter"
+          ],
+          "label-caps": [
+            "JetBrains Mono"
+          ]
+        },
+        "fontSize": {
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "badge-label": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "numeric-stat-lg": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-hero": [
+            "56px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "-0.03em",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-sm": [
+            "18px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "600"
+            }
+          ],
+          "numeric-stat-xl": [
+            "32px",
+            {
+              "lineHeight": "38px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "numeric-stat-sm": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-xl-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-xl": [
+            "40px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "display-hero-mobile": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-md": [
+            "22px",
+            {
+              "lineHeight": "30px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-caps": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><div class="fixed top-0 left-0 right-0 z-50"><aside class="h-10 bg-surface-container-lowest px-4 flex items-center justify-between text-center overflow-hidden"><div class="max-w-7xl mx-auto w-full flex items-center justify-center gap-3"><span class="flex items-center gap-1.5 font-label-caps text-label-caps uppercase text-accent-gold-bright"><span class="material-symbols-outlined text-sm text-accent-gold">bolt</span> Flash Allocation Deal</span><span class="hidden md:inline font-body-sm text-body-sm text-on-surface">Use Promo Code <strong class="text-accent-gold-bright font-numeric-stat-sm text-numeric-stat-sm">NTARMY</strong> for up to 90% OFF + 15% Instant Cashback across all major Prop Firms!</span><button class="inline-flex items-center gap-1 bg-surface-container-high px-2.5 py-1 rounded text-accent-gold-bright hover:bg-surface-container-highest hover:text-on-surface transition-colors font-numeric-stat-sm text-numeric-stat-sm" type="button"><span class="material-symbols-outlined text-xs">content_copy</span><span>NTARMY</span></button></div></aside><header class="h-18 bg-surface-canvas/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div class="h-18 max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between gap-4"><div class="flex items-center gap-3"><img alt="Night Trader Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VqdUdlQlu1rhoMvihafQf5wH3bYQR9ki57feqVSx25NMED81QRbMU95mIsbWDP-bDffwHEZiaZ6JlcjmEJ00coDWlHIXEK9mj266zwxXh-DJJT8p-yrQJKZ1ylPZNGxzppSzubtGUI6ghF4Npo7hHxw1yVd3bGReQ2Heqa5AUcaY-yqvtwATRVr54aKctEJIu6yVAuuTrpwaJ5lGfzN2803Bi0HwROt1WMdyVoVDy5u0XRsxICQEGo0cA"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold hidden sm:inline">Night Trader</span></div><nav class="hidden xl:flex items-center gap-1" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg"><a aria-current="page" class="px-3 py-2 transition-colors bg-surface-container-high text-primary font-semibold rounded-lg" data-path="prop-firms-comparison" href="#">Prop Firms Comparison</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="futures-prop-firms" href="#">Futures Prop Firms</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="forex-brokers" href="#">Forex Brokers</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg flex items-center gap-1" data-path="exclusive-discounts" href="#">Discounts (NTARMY)</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="verified-reviews" href="#">Verified Reviews</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="leaderboard" href="#">Leaderboard</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="giveaways" href="#">Giveaways</a><a class="px-3 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm rounded-lg" data-path="discord-community" href="#">Discord Community</a></nav><div class="flex items-center gap-2.5"><button class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm" type="button"><span class="material-symbols-outlined text-base">search</span><span class="hidden lg:inline">Search firms...</span><kbd class="hidden lg:inline bg-surface-container-lowest px-1.5 py-0.5 rounded font-label-caps text-label-caps text-text-muted">/</kbd></button><a class="hidden sm:inline-flex items-center gap-1.5 bg-surface-container px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high transition-colors font-body-sm text-body-sm font-semibold" data-path="submit-review" href="#"><span class="material-symbols-outlined text-base text-accent-gold">rate_review</span><span>Submit Review</span></a><a class="inline-flex items-center gap-1.5 bg-primary-container px-3.5 py-1.5 rounded-lg text-on-primary-container font-headline-sm text-body-sm font-bold shadow-[0_0_20px_rgba(0,210,255,0.4)] hover:brightness-110 transition-all" data-path="trader-portal" href="#"><span>Trader Portal</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header></div><main class="w-full pt-28 bg-surface"><div class="flex flex-col w-full relative selection:bg-accent-neon-cyan selection:text-surface-canvas overflow-x-hidden">
+<!-- Floating Toast Notification (bottom-left) -->
+<aside aria-label="Live Deals Activity" class="fixed bottom-6 left-6 z-40 max-w-sm hidden sm:flex items-center gap-3 bg-surface-container-high/95 backdrop-blur-xl p-3.5 rounded-xl shadow-2xl transition-all duration-300 translate-y-0 opacity-100 hover:scale-[1.02]">
+<div class="relative flex-shrink-0">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-status-positive">
+<span class="material-symbols-outlined text-xl">payments</span>
 </div>
-
-<!-- OVERLAYS -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()"></div>
-<div class="drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
-<div class="drawer-overlay" id="dealsOverlay" onclick="toggleDealsDrawer()"></div>
-
-<!-- MOBILE MENU DRAWER -->
-<div class="mobile-drawer" id="mobileDrawer">
-  <div class="drawer-header">
-    <span class="drawer-title">Menu</span>
-    <button class="close-drawer-btn" onclick="toggleMobileMenu()">✕</button>
-  </div>
-  <div class="drawer-links">
-    <a href="#firms" class="drawer-link" onclick="toggleMobileMenu()">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      Home Matrix
-    </a>
-    <a href="#codes" class="drawer-link" onclick="toggleMobileMenu()">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line></svg>
-      Discounts & Offers
-    </a>
-    <a href="#leaderboard" class="drawer-link" onclick="toggleMobileMenu()">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-      Leaderboard
-    </a>
-  </div>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-accent-neon-cyan rounded-full animate-ping"></span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-accent-neon-cyan rounded-full"></span>
 </div>
-
-<!-- CART DRAWER -->
-<div class="cart-drawer" id="cartDrawer">
-  <div class="drawer-header">
-    <span class="drawer-title">Your Cart</span>
-    <button class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
-  </div>
-  <div class="cart-items" id="cartItemsContainer">
-    <div class="empty-cart">Your cart is empty</div>
-  </div>
-  <div class="cart-footer">
-    <button class="btn-primary" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
-  </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1">
+<p class="font-headline-sm text-body-sm text-text-primary font-semibold truncate">Trader Mark S. claimed deal</p>
+<span class="font-label-caps text-[10px] text-text-muted shrink-0">2m ago</span>
 </div>
-
-<!-- DEALS DRAWER (BLANK PAGE) -->
-<div class="cart-drawer" id="dealsDrawer">
-  <div class="drawer-header">
-    <span class="drawer-title">Exclusive Deals</span>
-    <button class="close-drawer-btn" onclick="toggleDealsDrawer()">✕</button>
-  </div>
-  <div class="cart-items" style="display: flex; align-items: center; justify-content: center; height: 100%;">
-    <!-- FEATURE CONTENT WILL GO HERE LATER -->
-    <div class="empty-cart" style="margin-top: 0;">More deals coming soon...</div>
-  </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+        Saved 20% on <strong class="text-accent-neon-cyan font-numeric-stat-sm">FTMO $100k</strong> with <span class="text-accent-gold-bright font-numeric-stat-sm font-bold">NTARMY</span>
+</p>
 </div>
-
-<div class="hero">
-  <div class="bg-orbit-container">
-    <img src="FTMO.svg" class="orbit-icon orbit-1" alt="FTMO" onerror="this.style.display='none'">
-    <img src="Funded Next.svg" class="orbit-icon orbit-2" alt="FundedNext" onerror="this.style.display='none'">
-    <img src="image_013a60.svg" class="orbit-icon orbit-3" alt="5ers" onerror="this.style.display='none'">
-    <img src="GFT.svg" class="orbit-icon orbit-4" alt="Goat" onerror="this.style.display='none'">
-    <img src="blueberry.jpg" class="orbit-icon orbit-5" alt="Blueberry" onerror="this.style.display='none'">
-  </div>
-
-  <div class="hero-content">
-    <div class="hero-badge">Verified Analytics Data — May 2026</div>
-    <h1>Precision Funding.<br><span class="h1-accent">Maximum Edge.</span></h1>
-    <p class="hero-sub">Compare trailing drawdowns, hidden consistency rules, and verified payout speeds. Use code <span class="highlight-gold">VAULT</span> to unlock maximum allocation discounts.</p>
-    <div class="hero-actions">
-      <a href="#firms" class="btn-primary">Initialize Matrix</a>
-      <a href="#codes" class="btn-secondary">View Live Codes</a>
-    </div>
-  </div>
+<button aria-label="Close notification" class="text-text-muted hover:text-text-primary p-1" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</aside>
+<!-- Ambient Backdrop Lights -->
+<div class="absolute top-0 left-1/4 w-96 h-96 bg-accent-neon-cyan/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="absolute top-60 right-10 w-[500px] h-[500px] bg-accent-laser-blue/5 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+<div class="absolute top-[1200px] left-10 w-96 h-96 bg-accent-gold/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<!-- ========================================================================= -->
+<!-- 1. HERO SECTION                                                          -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 pt-6 pb-16">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left Content (Col 7) -->
+<div class="lg:col-span-7 flex flex-col space-y-6">
+<!-- Live Promo Badge -->
+<div class="inline-flex items-center gap-2 self-start bg-surface-container-high/80 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-inner">
+<span class="flex h-2 w-2 rounded-full bg-accent-gold animate-pulse"></span>
+<span class="font-label-caps text-label-caps uppercase text-accent-gold-bright font-semibold">Special Promo Alert</span>
+<span class="text-text-muted font-body-sm text-xs">|</span>
+<span class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+            Use code <strong class="text-accent-gold-bright font-numeric-stat-sm font-bold tracking-wider">NTARMY</strong> for up to 90% OFF &amp; Cashback
+          </span>
 </div>
-
-<div class="filter-bar">
-  <span class="filter-label">Filter Algorithm:</span>
-  <div class="filter-tabs">
-    <button class="filter-tab active">All Markets</button>
-    <button class="filter-tab">Forex (FX)</button>
-    <button class="filter-tab">Futures</button>
-    <button class="filter-tab">Instant Funding</button>
-  </div>
+<!-- Main Heading -->
+<div class="space-y-3">
+<h1 class="font-display-hero text-headline-xl sm:text-display-hero text-text-primary tracking-tight font-extrabold leading-[1.1]">
+            Best Prop Firm <span class="bg-gradient-to-r from-accent-neon-cyan to-accent-laser-blue bg-clip-text text-transparent">Discounts,</span> Cashback &amp; Reviews
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            Compare 50+ vetted prop trading firms with exclusive promo code <strong class="text-accent-gold font-numeric-stat-sm">NTARMY</strong> up to 90% off, instant cashback on challenge fees, real payout telemetry, and algorithmic risk model analyses.
+          </p>
 </div>
-
-<section id="firms">
-  <div class="section-head">
-    <div class="section-title">Elite Prop Firms <span>Sorted by Institutional Trust Score</span></div>
-  </div>
-  
-  <div class="firms-grid">
-    <!-- CARD 1: FTMO -->
-    <div class="firm-card featured">
-      <div class="firm-rank top">01</div>
-      <div class="firm-inner">
-        <div class="firm-logo-img" style="border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);">
-          <img src="FTMO.svg" alt="FTMO" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="fallback-logo" style="display:none; color:var(--accent-gold);">FT</span>
-        </div>
-        <div class="firm-info">
-          <div class="firm-name">FTMO <span class="firm-tag tag-gold">Gold Tier</span></div>
-          <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $200K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Indices</span>
-          </div>
-        </div>
-      </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">9.4</div>
-        <div class="trust-label">Trust Index</div>
-      </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" onclick="copyCode('FTMO10', event)">FTMO10</div>
-        <div class="discount-off">10% Discount</div>
-      </div>
-      <div class="action-row">
-        <a href="#" class="btn-view">View More</a>
-        <button class="btn-cart" onclick="addToCart('FTMO', 'FTMO.svg', 'FTMO10')">Add to Cart</button>
-      </div>
-      <button class="btn-get" onclick="copyCode('FTMO10', event)">Apply Code</button>
-    </div>
-
-    <!-- CARD 2: FundedNext -->
-    <div class="firm-card">
-      <div class="firm-rank top">02</div>
-      <div class="firm-inner">
-        <div class="firm-logo-img" style="border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
-          <img src="Funded Next.svg" alt="FundedNext" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="fallback-logo" style="display:none; color:var(--accent-cyan);">FN</span>
-        </div>
-        <div class="firm-info">
-          <div class="firm-name">FundedNext <span class="firm-tag tag-cyan">Trending</span></div>
-          <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $300K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Crypto</span>
-          </div>
-        </div>
-      </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">9.1</div>
-        <div class="trust-label">Trust Index</div>
-      </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: var(--accent-cyan); color: var(--accent-cyan);" onclick="copyCode('NEXT15', event)">NEXT15</div>
-        <div class="discount-off" style="color: var(--accent-cyan);">15% Discount</div>
-      </div>
-      <div class="action-row">
-        <a href="#" class="btn-view">View More</a>
-        <button class="btn-cart" onclick="addToCart('FundedNext', 'Funded Next.svg', 'NEXT15')">Add to Cart</button>
-      </div>
-      <button class="btn-get" onclick="copyCode('NEXT15', event)">Apply Code</button>
-    </div>
-    
-    <!-- CARD 3: Blueberry -->
-    <div class="firm-card">
-      <div class="firm-rank">03</div>
-      <div class="firm-inner">
-        <div class="firm-logo-img" style="border-color: #fff; background: #fff;">
-          <img src="blueberry.jpg" alt="Blueberry Funded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="fallback-logo" style="display:none; color:#3305ff;">AT</span>
-        </div>
-        <div class="firm-info">
-          <div class="firm-name">Blueberry Funded</div>
-          <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $300K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> Forex</span>
-          </div>
-        </div>
-      </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">8.8</div>
-        <div class="trust-label">Trust Index</div>
-      </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;" onclick="copyCode('APEX90', event)">APEX90</div>
-        <div class="discount-off" style="color: var(--text-muted);">90% Discount</div>
-      </div>
-      <div class="action-row">
-        <a href="#" class="btn-view">View More</a>
-        <button class="btn-cart" onclick="addToCart('Blueberry Funded', 'blueberry.jpg', 'APEX90')">Add to Cart</button>
-      </div>
-      <button class="btn-get" onclick="copyCode('APEX90', event)">Apply Code</button>
-    </div>
-    
-    <!-- CARD 4: Goat -->
-    <div class="firm-card">
-      <div class="firm-rank">04</div>
-      <div class="firm-inner">
-        <div class="firm-logo-img" style="border-color: #fff;">
-          <img src="GFT.svg" alt="Goat Funded Trader" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <span class="fallback-logo" style="display:none;">GT</span>
-        </div>
-        <div class="firm-info">
-          <div class="firm-name">Goat Funded Trader</div>
-          <div class="firm-meta">
-            <span><span class="highlight-cyan">Allocation:</span> Up to $200K</span>
-            <span><span class="highlight-cyan">Asset Class:</span> FX, Indices</span>
-          </div>
-        </div>
-      </div>
-      <div class="trust-score">
-        <div class="trust-num highlight-success">8.6</div>
-        <div class="trust-label">Trust Index</div>
-      </div>
-      <div class="discount-wrap">
-        <div class="discount-pill" style="border-color: #fff; color: #fff;" onclick="copyCode('GOAT20', event)">GOAT20</div>
-        <div class="discount-off" style="color: var(--text-muted);">20% Discount</div>
-      </div>
-      <div class="action-row">
-        <a href="#" class="btn-view">View More</a>
-        <button class="btn-cart" onclick="addToCart('Goat Funded Trader', 'GFT.svg', 'GOAT20')">Add to Cart</button>
-      </div>
-      <button class="btn-get" onclick="copyCode('GOAT20', event)">Apply Code</button>
-    </div>
-  </div>
+<!-- Search Bar -->
+<div class="bg-surface-card p-2 rounded-xl shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+<div class="flex items-center gap-2.5 px-3 flex-1">
+<span class="material-symbols-outlined text-text-muted text-xl">search</span>
+<input class="w-full bg-transparent text-text-primary placeholder:text-text-muted font-body-md text-body-md focus:outline-none py-1.5" id="prop-firm-search" placeholder="Search 50+ prop firms e.g. FTMO, FundedNext, Apex, Topstep..." type="text"/>
+</div>
+<button class="bg-gradient-to-r from-accent-neon-cyan to-accent-laser-blue text-surface-canvas font-headline-sm text-body-md font-bold px-6 py-3 rounded-lg shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="triggerSearch()" type="button">
+<span>Search Deals</span>
+<span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+</button>
+</div>
+<!-- Filter Chips Rail -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+<button class="filter-chip active shrink-0 px-3.5 py-1.5 rounded-lg bg-accent-neon-cyan/15 text-accent-neon-cyan font-badge-label text-badge-label flex items-center gap-1.5" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-accent-neon-cyan"></span>
+            All Prop Firms
+          </button>
+<button class="filter-chip shrink-0 px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-text-primary transition font-badge-label text-badge-label" type="button">
+            Futures Prop Firms
+          </button>
+<button class="filter-chip shrink-0 px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-text-primary transition font-badge-label text-badge-label" type="button">
+            Forex Prop Firms
+          </button>
+<button class="filter-chip shrink-0 px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-text-primary transition font-badge-label text-badge-label" type="button">
+            Instant Funding
+          </button>
+<button class="filter-chip shrink-0 px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-accent-gold-bright transition font-badge-label text-badge-label flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">local_fire_department</span>
+            Code NTARMY Deals
+          </button>
+</div>
+<!-- Trust Stats Matrix -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+<div class="bg-surface-container/60 p-3 rounded-lg">
+<p class="font-numeric-stat-lg text-numeric-stat-lg text-text-primary font-bold">65+</p>
+<p class="font-label-caps text-label-caps uppercase text-text-muted mt-0.5">Vetted Prop Firms</p>
+</div>
+<div class="bg-surface-container/60 p-3 rounded-lg">
+<p class="font-numeric-stat-lg text-numeric-stat-lg text-text-primary font-bold">25,000+</p>
+<p class="font-label-caps text-label-caps uppercase text-text-muted mt-0.5">Verified Reviews</p>
+</div>
+<div class="bg-surface-container/60 p-3 rounded-lg">
+<p class="font-numeric-stat-lg text-numeric-stat-lg text-accent-neon-cyan font-bold">$4.2M+</p>
+<p class="font-label-caps text-label-caps uppercase text-text-muted mt-0.5">Cashback Distributed</p>
+</div>
+<div class="bg-surface-container/60 p-3 rounded-lg">
+<div class="flex items-center gap-1 text-accent-gold">
+<span class="font-numeric-stat-lg text-numeric-stat-lg font-bold text-text-primary">4.9</span>
+<span class="material-symbols-outlined text-sm text-status-positive fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-status-positive fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-status-positive fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-status-positive fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-label-caps text-label-caps uppercase text-text-muted mt-0.5">Trustpilot Score</p>
+</div>
+</div>
+<!-- Hero Actions -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="bg-primary-container text-on-primary-container font-headline-sm text-body-md font-bold px-7 py-3 rounded-lg shadow-[0_0_25px_rgba(0,210,255,0.4)] hover:brightness-110 active:scale-95 transition-all flex items-center gap-2" href="#comparison-table">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>Compare Prop Firms</span>
+</a>
+<a class="bg-surface-container hover:bg-surface-container-high text-text-primary font-headline-sm text-body-md font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2" href="#flash-deals">
+<span class="material-symbols-outlined text-accent-gold text-lg">bolt</span>
+<span>Browse NTARMY Deals</span>
+</a>
+</div>
+</div>
+<!-- Right Spotlight Card (Col 5) -->
+<div class="lg:col-span-5 relative">
+<div class="relative bg-surface-card/90 backdrop-blur-2xl rounded-2xl p-6 shadow-2xl overflow-hidden">
+<!-- Radial ambient top glow -->
+<div class="absolute -top-24 -right-24 w-60 h-60 bg-accent-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Spotlight Header -->
+<div class="flex items-center justify-between gap-2 pb-4">
+<div class="flex items-center gap-2">
+<span class="flex h-2.5 w-2.5 rounded-full bg-accent-gold-bright animate-ping"></span>
+<span class="font-label-caps text-label-caps uppercase text-accent-gold-bright font-bold tracking-wider">Special Offer Of The Day</span>
+</div>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[11px] font-label-caps text-text-muted">Verified Today</span>
+</div>
+<!-- Firm Identity & Badge -->
+<div class="flex items-center gap-4 py-3">
+<div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center text-accent-neon-cyan shadow-md">
+<span class="material-symbols-outlined text-3xl">token</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-text-primary font-bold">FundedNext</h3>
+<span class="material-symbols-outlined text-accent-neon-cyan text-base" title="Verified Prop Firm">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Stellar 2-Step &amp; Instant Funding Evaluation</p>
+</div>
+</div>
+<!-- Highlight Telemetry Metrics -->
+<div class="grid grid-cols-3 gap-2 py-4 my-2 bg-surface-container-low rounded-xl px-3 text-center">
+<div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Max Funding</p>
+<p class="font-numeric-stat-lg text-numeric-stat-sm text-text-primary font-bold mt-0.5">$300,000</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Profit Split</p>
+<p class="font-numeric-stat-lg text-numeric-stat-sm text-status-positive font-bold mt-0.5">Up to 95%</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Drawdown</p>
+<p class="font-numeric-stat-lg text-numeric-stat-sm text-accent-neon-cyan font-bold mt-0.5">10% Balance</p>
+</div>
+</div>
+<!-- Perk list -->
+<ul class="space-y-2.5 text-body-sm font-body-sm text-on-surface py-2">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-positive text-base">check_circle</span>
+<span>15% Profit Share from Challenge Phase</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-positive text-base">check_circle</span>
+<span>No Time Limits on Evaluation Stages</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-gold text-base">redeem</span>
+<span class="text-accent-gold-bright font-medium">Extra 10% Instant Night Trader Cashback</span>
+</li>
+</ul>
+<!-- One-Click Promo Code Box -->
+<div class="mt-5 p-3.5 bg-surface-container-high rounded-xl space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-text-muted">Exclusive Coupon Code</span>
+<span class="font-label-caps text-[10px] text-accent-gold font-bold">20% OFF + 150% REFUND</span>
+</div>
+<div class="flex items-center justify-between bg-surface-canvas rounded-lg px-3 py-2 gap-2">
+<span class="font-numeric-stat-lg text-numeric-stat-lg text-accent-gold-bright font-bold tracking-widest selection:bg-accent-gold selection:text-surface-canvas">NTARMY</span>
+<button class="bg-accent-gold/20 hover:bg-accent-gold/30 text-accent-gold-bright font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded flex items-center gap-1.5 transition active:scale-95" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span class="copy-label">Copy Code</span>
+</button>
+</div>
+</div>
+<!-- Direct Claim Button -->
+<button class="w-full mt-4 bg-gradient-to-r from-accent-neon-cyan to-accent-laser-blue text-surface-canvas font-headline-sm text-body-md font-bold py-3.5 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2" type="button">
+<span>Claim FundedNext Deal with NTARMY</span>
+<span class="material-symbols-outlined text-lg">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
 </section>
-
-  <!-- SOCIAL LINKS SECTION -->
-<section style="padding: 20px 4% 40px; text-align: center;">
-  <div style="font-family: var(--font-head); color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Join the Community</div>
-  <div style="display: flex; justify-content: center; gap: 20px;">
-    <a href="#" style="color: var(--text-muted); transition: 0.3s;" onmouseover="this.style.color='#7289DA'" onmouseout="this.style.color='var(--text-muted)'" title="Discord">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.579.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.842-1.28 1.136-1.97a.074.074 0 0 0-.04-.101 13.11 13.11 0 0 1-1.897-.91.076.076 0 0 1-.007-.128.078.078 0 0 1 .075-.011c3.96 1.83 8.16 1.83 12.067 0a.075.075 0 0 1 .076.01.077.077 0 0 1-.006.129 13.04 13.04 0 0 1-1.897.91.074.074 0 0 0-.039.102c.294.69.674 1.34 1.136 1.97a.077.077 0 0 0 .084.028 19.83 19.83 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.507-5.186-.816-9.67-3.69-14.33a.07.07 0 0 0-.031-.028zM8.02 15.332c-1.18 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-    </a>
-    <a href="#" style="color: var(--text-muted); transition: 0.3s;" onmouseover="this.style.color='#E1306C'" onmouseout="this.style.color='var(--text-muted)'" title="Instagram">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.173.055 1.83.25 2.257.417.575.225.986.494 1.419.927.433.433.702.844.927 1.419.167.427.362 1.084.417 2.257.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.055 1.173-.25 1.83-.417 2.257-.225.575-.494.986-.927 1.419-.433.433-.844.702-1.419.927-.427.167-1.084.362-2.257.417-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.173-.055-1.83-.25-2.257-.417-.575-.225-.986-.494-1.419-.927-.433-.433-.702-.844-.927-1.419-.167-.427-.362-1.084-.417-2.257-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.055-1.173.25-1.83.417-2.257.225-.575.494-.986.927-1.419.433-.433.844-.702 1.419-.927.427-.167 1.084-.362 2.257-.417.1.043 1.266-.058 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-1.277.058-2.149.256-2.913.553-.79.307-1.458.72-2.128 1.39-.67.67-1.083 1.338-1.39 2.128-.297.764-.495 1.636-.553 2.913-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.058 1.277.256 2.149.553 2.913.307.79.72 1.458 1.39 2.128.67.67 1.338 1.083 2.128 1.39.764.297 1.636.495 2.913.553 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.277-.058 2.149-.256 2.913-.553.79-.307 1.458-.72 2.128-1.39.67-.67 1.083-1.338 1.39-2.128.297-.764.495-1.636.553-2.913.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.058-1.277-.256-2.149-.553-2.913-.307-.79-.72-1.458-1.39-2.128-.67-.67-1.338-1.083-2.128-1.39-.764-.297-1.636-.495-2.913-.553-1.28-.058-1.688-.072-4.947-.072z"/><path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/><circle cx="18.406" cy="5.594" r="1.44"/></svg>
-    </a>
-    <a href="#" style="color: var(--text-muted); transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'" title="Twitter/X">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-    </a>
-  </div>
-</section>
-
-<footer class="elite-footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <img src="night trader.png" alt="Night Trader Logo" style="height: 40px; margin-bottom: 10px;" onerror="this.style.display='none'">
-      <p>Providing institutional-grade analytics, transparent drawdown rules, and exclusive cashback deals for the modern swing and day trader.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Analytics Matrix</h4>
-      <ul>
-        <li><a href="#">Forex Prop Firms</a></li>
-        <li><a href="#">Futures Prop Firms</a></li>
-        <li><a href="#">Instant Funding</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Trader Resources</h4>
-      <ul>
-        <li><a href="#">Live Discount Codes</a></li>
-        <li><a href="#">Cashback Portal</a></li>
-        <li><a href="#">Drawdown Calculator</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Legal & Risk</h4>
-      <ul>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Risk Disclaimer</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="copyright">© 2026 Night Trader. All rights reserved.</div>
-    <div class="disclaimer" style="max-width: 600px; text-align: right;">Trading involves significant risk. Night Trader is a comparison matrix and does not provide financial advice or direct capital execution.</div>
-  </div>
-</footer>
-
-<div class="mobile-bottom-nav">
-  <a href="#" class="nav-item active">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-    <span>Home</span>
-  </a>
-  <a href="#firms" class="nav-item">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-    <span>Compare</span>
-  </a>
-  <!-- CHANGED BOTTOM NAV BUTTON TO DEALS -->
-  <a href="#" class="nav-item center-item" onclick="toggleDealsDrawer(event)">
-    <div class="center-circle">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-    </div>
-    <span>Deals</span>
-  </a>
-  <a href="#" class="nav-item" onclick="toggleMobileMenu(event)">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    <span>Menu</span>
-  </a>
-  <a href="#" class="nav-item">
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-    <span>Login</span>
-  </a>
+<!-- ========================================================================= -->
+<!-- 2. LIVE PROMO CODES & FLASH DISCOUNTS GRID                               -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-12" id="flash-deals">
+<!-- Section Title & Meta -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8">
+<div>
+<div class="flex items-center gap-2 text-accent-neon-cyan mb-2">
+<span class="material-symbols-outlined text-base">bolt</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Active Allocations Radar</span>
 </div>
-
-<div class="toast" id="toast">Notification</div>
-
+<h2 class="font-headline-xl text-headline-lg sm:text-headline-xl text-text-primary font-bold">
+          Top Prop Firm Deals &amp; Discounts
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Hand-verified challenge discount codes and instant cashback promotions. Click to copy <strong class="text-accent-gold font-numeric-stat-sm">NTARMY</strong> for immediate redemption.
+        </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-full text-xs font-body-sm text-text-muted">
+<span class="w-2 h-2 rounded-full bg-status-positive animate-pulse"></span>
+          6 Active Flash Deals
+        </span>
+</div>
+</div>
+<!-- Deals Grid (6 Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- CARD 1: FTMO -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-accent-neon-cyan font-bold text-xl">
+                FT
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-accent-neon-cyan transition-colors">FTMO</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.9</span>
+<span>(12,800+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              20% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">20% Challenge Discount + 10% Cashback</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The gold standard in retail prop trading. Up to $200K balance with an industry leading 90% payout split.</p>
+</div>
+<!-- Feature Pills -->
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Max $200k Account</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">90% Profit Split</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Bi-weekly Payouts</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim FTMO Discount</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: FundedNext -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-accent-gold-bright font-bold text-xl">
+                FN
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-accent-gold-bright transition-colors">FundedNext</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.8</span>
+<span>(9,430+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              30% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">30% OFF + 150% Refund on Payout</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Stellar 1-step and 2-step evaluations. Includes 15% profit sharing during the evaluation phase itself.</p>
+</div>
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Up to $300k Size</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">95% Profit Split</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">No Time Limit</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim FundedNext Deal</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+<!-- CARD 3: Apex Trader Funding (Futures) -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-status-positive font-bold text-xl">
+                AT
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-status-positive transition-colors">Apex Trader Funding</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.8</span>
+<span>(16,200+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              80% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">80% OFF All Account Sizes + 90/10 Split</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The leader in futures evaluation. Trade full CME, CBOT, NYMEX contracts with simple 1-day passing rules.</p>
+</div>
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">1-Day Pass Eval</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Keep 100% 1st $25k</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Futures Only</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim Apex Deal</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+<!-- CARD 4: Topstep -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-accent-laser-blue font-bold text-xl">
+                TS
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-accent-laser-blue transition-colors">Topstep</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.7</span>
+<span>(11,200+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              70% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">70% OFF Trading Combine + Free Reset</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Chicago-based pioneer in futures prop trading. Live daily coaching, institutional fills, and automated payouts.</p>
+</div>
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Instant Payout Policy</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">No Daily Drawdown</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">CBOE Verified</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim Topstep Discount</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+<!-- CARD 5: The Funded Trader -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-accent-neon-cyan font-bold text-xl">
+                TF
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-accent-neon-cyan transition-colors">The Funded Trader</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.6</span>
+<span>(8,910+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              25% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">25% OFF + 125% Refund Bonus</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Royal and Knight challenge paths with customizable leverage, weekend holding, and EA algorithm allowances.</p>
+</div>
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Standard &amp; Royal</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">90% Scaled Payout</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">EAs Allowed</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim TFT Deal</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+<!-- CARD 6: Earn2Trade -->
+<div class="bg-surface-card rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300 shadow-xl group">
+<div>
+<div class="flex items-start justify-between gap-2 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-status-positive font-bold text-xl">
+                E2
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-status-positive transition-colors">Earn2Trade</h3>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="text-accent-gold">★ 4.8</span>
+<span>(4,100+ reviews)</span>
+</div>
+</div>
+</div>
+<span class="bg-accent-gold/15 text-accent-gold-bright px-2.5 py-1 rounded text-xs font-numeric-stat-sm font-bold">
+              50% OFF
+            </span>
+</div>
+<div class="space-y-2 py-2">
+<p class="font-headline-sm text-body-md text-text-primary font-bold">50% OFF Trader Career Path</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Scale directly into a $400K guaranteed funded account. Direct proprietary firm contract with institutional backing.</p>
+</div>
+<div class="flex flex-wrap gap-1.5 py-3">
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Scale to $400K</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Direct Prop Contract</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[11px] font-body-sm text-text-muted">Fixed Drawdown</span>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-[10px] text-text-muted uppercase">Code:</span>
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright tracking-wider">NTARMY</span>
+</div>
+<button class="text-xs text-accent-neon-cyan hover:underline flex items-center gap-1" onclick="copyCode('NTARMY', this)" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+<span class="copy-label">Copy</span>
+</button>
+</div>
+<button class="w-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-text-primary font-headline-sm text-body-sm font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5" type="button">
+<span>Claim Career Path Deal</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 3. INTERACTIVE PROP FIRM COMPARISON & RANKING MATRIX                     -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-12" id="comparison-table">
+<div class="bg-surface-card rounded-2xl p-6 sm:p-8 shadow-2xl">
+<!-- Table Header & Controls -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6">
+<div>
+<div class="flex items-center gap-2 text-accent-gold mb-1">
+<span class="material-symbols-outlined text-base">table_chart</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Quantitative Benchmark</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary font-bold">
+            2026 Prop Firm Comparison Table
+          </h2>
+</div>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto bg-surface-container-low p-1.5 rounded-xl scrollbar-none">
+<button class="table-tab active px-3.5 py-1.5 rounded-lg bg-surface-container-high text-accent-neon-cyan font-badge-label text-badge-label font-semibold" type="button">
+            Top Rated
+          </button>
+<button class="table-tab px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-text-primary font-badge-label text-badge-label" type="button">
+            Highest Discount (NTARMY)
+          </button>
+<button class="table-tab px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-text-primary font-badge-label text-badge-label" type="button">
+            Futures Only
+          </button>
+<button class="table-tab px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-text-primary font-badge-label text-badge-label" type="button">
+            Instant Funding
+          </button>
+</div>
+</div>
+<!-- Comparison Matrix Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/60 text-text-muted font-label-caps text-label-caps uppercase tracking-wider">
+<th class="py-3.5 px-4 rounded-l-lg">Firm &amp; Trust Score</th>
+<th class="py-3.5 px-4 text-center">Profit Split</th>
+<th class="py-3.5 px-4 text-center">Sizes</th>
+<th class="py-3.5 px-4 text-center">Max Drawdown</th>
+<th class="py-3.5 px-4">Exclusive Deal (Code NTARMY)</th>
+<th class="py-3.5 px-4 text-right rounded-r-lg">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 font-body-sm text-body-sm text-on-surface">
+<!-- ROW 1 -->
+<tr class="hover:bg-surface-container/40 transition">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-accent-neon-cyan shrink-0">
+                    FN
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">FundedNext</span>
+<span class="bg-accent-gold/20 text-accent-gold-bright text-[10px] font-label-caps px-1.5 py-0.2 rounded">#1 Choice</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-muted mt-0.5">
+<span class="text-accent-gold">★ 4.9</span>
+<span>(9.4k reviews)</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-status-positive">Up to 95%</span>
+<p class="text-[11px] text-text-muted">15% on challenge</p>
+</td>
+<td class="py-4 px-4 text-center font-numeric-stat-sm text-numeric-stat-sm text-text-primary">
+                $6K - $300K
+              </td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm text-text-primary font-semibold">10%</span>
+<p class="text-[11px] text-text-muted">Balance Based</p>
+</td>
+<td class="py-4 px-4">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-2.5 py-1.5 rounded-md">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright">NTARMY</span>
+<span class="text-xs text-on-surface-variant font-medium">30% OFF + 10% Cash</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition" onclick="copyCode('NTARMY', this)" type="button">
+                    Get Deal
+                  </button>
+<button class="hidden sm:inline-flex bg-surface-container px-2.5 py-1.5 rounded-lg text-text-muted hover:text-text-primary transition" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 2 -->
+<tr class="hover:bg-surface-container/40 transition">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-text-primary shrink-0">
+                    FT
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">FTMO</span>
+<span class="material-symbols-outlined text-accent-neon-cyan text-sm">verified</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-muted mt-0.5">
+<span class="text-accent-gold">★ 4.9</span>
+<span>(12.8k reviews)</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-status-positive">90%</span>
+<p class="text-[11px] text-text-muted">Bi-weekly payouts</p>
+</td>
+<td class="py-4 px-4 text-center font-numeric-stat-sm text-numeric-stat-sm text-text-primary">
+                $10K - $200K
+              </td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm text-text-primary font-semibold">10% Max</span>
+<p class="text-[11px] text-text-muted">5% Daily</p>
+</td>
+<td class="py-4 px-4">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-2.5 py-1.5 rounded-md">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright">NTARMY</span>
+<span class="text-xs text-on-surface-variant font-medium">20% OFF Challenges</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition" onclick="copyCode('NTARMY', this)" type="button">
+                    Get Deal
+                  </button>
+<button class="hidden sm:inline-flex bg-surface-container px-2.5 py-1.5 rounded-lg text-text-muted hover:text-text-primary transition" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 3 -->
+<tr class="hover:bg-surface-container/40 transition">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-status-positive shrink-0">
+                    AT
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">Apex Trader</span>
+<span class="bg-accent-laser-blue/20 text-accent-laser-blue text-[10px] font-label-caps px-1.5 py-0.2 rounded">Futures</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-muted mt-0.5">
+<span class="text-accent-gold">★ 4.8</span>
+<span>(16.2k reviews)</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-status-positive">90%</span>
+<p class="text-[11px] text-text-muted">100% first $25k</p>
+</td>
+<td class="py-4 px-4 text-center font-numeric-stat-sm text-numeric-stat-sm text-text-primary">
+                $25K - $300K
+              </td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm text-text-primary font-semibold">Trailing</span>
+<p class="text-[11px] text-text-muted">Live Threshold</p>
+</td>
+<td class="py-4 px-4">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-2.5 py-1.5 rounded-md">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright">NTARMY</span>
+<span class="text-xs text-on-surface-variant font-medium">80% OFF All Plans</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition" onclick="copyCode('NTARMY', this)" type="button">
+                    Get Deal
+                  </button>
+<button class="hidden sm:inline-flex bg-surface-container px-2.5 py-1.5 rounded-lg text-text-muted hover:text-text-primary transition" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 4 -->
+<tr class="hover:bg-surface-container/40 transition">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-accent-laser-blue shrink-0">
+                    TS
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">Topstep</span>
+<span class="bg-accent-laser-blue/20 text-accent-laser-blue text-[10px] font-label-caps px-1.5 py-0.2 rounded">Futures</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-muted mt-0.5">
+<span class="text-accent-gold">★ 4.7</span>
+<span>(11.2k reviews)</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-status-positive">90%</span>
+<p class="text-[11px] text-text-muted">100% first $10k</p>
+</td>
+<td class="py-4 px-4 text-center font-numeric-stat-sm text-numeric-stat-sm text-text-primary">
+                $50K - $150K
+              </td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm text-text-primary font-semibold">End-of-Day</span>
+<p class="text-[11px] text-text-muted">No Daily Max</p>
+</td>
+<td class="py-4 px-4">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-2.5 py-1.5 rounded-md">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright">NTARMY</span>
+<span class="text-xs text-on-surface-variant font-medium">70% OFF Combine</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition" onclick="copyCode('NTARMY', this)" type="button">
+                    Get Deal
+                  </button>
+<button class="hidden sm:inline-flex bg-surface-container px-2.5 py-1.5 rounded-lg text-text-muted hover:text-text-primary transition" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 5 -->
+<tr class="hover:bg-surface-container/40 transition">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-accent-neon-cyan shrink-0">
+                    AC
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-body-md text-text-primary font-bold">Alpha Capital Group</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-muted mt-0.5">
+<span class="text-accent-gold">★ 4.7</span>
+<span>(5.1k reviews)</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-status-positive">80% - 90%</span>
+<p class="text-[11px] text-text-muted">Zero commission</p>
+</td>
+<td class="py-4 px-4 text-center font-numeric-stat-sm text-numeric-stat-sm text-text-primary">
+                $10K - $200K
+              </td>
+<td class="py-4 px-4 text-center">
+<span class="font-numeric-stat-sm text-numeric-stat-sm text-text-primary font-semibold">10% Trailing</span>
+<p class="text-[11px] text-text-muted">4% Daily</p>
+</td>
+<td class="py-4 px-4">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-2.5 py-1.5 rounded-md">
+<span class="font-numeric-stat-sm text-numeric-stat-sm font-bold text-accent-gold-bright">NTARMY</span>
+<span class="text-xs text-on-surface-variant font-medium">18% OFF + Free Retry</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="bg-primary-container text-on-primary-container font-headline-sm text-body-sm font-bold px-3 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition" onclick="copyCode('NTARMY', this)" type="button">
+                    Get Deal
+                  </button>
+<button class="hidden sm:inline-flex bg-surface-container px-2.5 py-1.5 rounded-lg text-text-muted hover:text-text-primary transition" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Indicator -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-body-sm text-text-muted">
+<p>Showing 5 of 52 verified prop firms with active coupons</p>
+<button class="text-accent-neon-cyan hover:underline font-headline-sm font-semibold flex items-center gap-1" type="button">
+<span>View all 50+ prop firms comparison table</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 4. VERIFIED TRADER CERTIFICATES & PAYOUT PROOFS                          -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8">
+<div>
+<div class="flex items-center gap-2 text-status-positive mb-2">
+<span class="material-symbols-outlined text-base">verified_user</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Immutable On-Chain &amp; Wire Proofs</span>
+</div>
+<h2 class="font-headline-xl text-headline-lg sm:text-headline-xl text-text-primary font-bold">
+          Verified Certificates &amp; Community Payouts
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Real challenge completion certificates and verified trader cash deposits executed with code <strong class="text-accent-gold font-numeric-stat-sm">NTARMY</strong>.
+        </p>
+</div>
+<a class="text-accent-neon-cyan hover:underline font-body-sm text-body-sm font-semibold flex items-center gap-1 self-start md:self-auto" href="#">
+<span>View all 4,200+ payout proofs</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Certificate Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- CERTIFICATE 1 -->
+<div class="bg-surface-card rounded-2xl p-6 relative overflow-hidden shadow-2xl group hover:border-glow-cyan transition-all">
+<!-- Certificate Ornamental Badge -->
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-positive text-xl">workspace_premium</span>
+<span class="font-label-caps text-label-caps uppercase text-text-muted">Payout Certificate</span>
+</div>
+<span class="bg-status-positive/10 text-status-positive font-label-caps text-[11px] px-2 py-0.5 rounded font-bold">
+            CONFIRMED WIRE
+          </span>
+</div>
+<div class="my-3 p-4 bg-surface-container-low rounded-xl relative overflow-hidden">
+<div class="flex items-center justify-between text-xs text-text-muted pb-2">
+<span>Recipient: <strong class="text-text-primary">Alex M. (USA)</strong></span>
+<span class="font-numeric-stat-sm">Yesterday</span>
+</div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Disbursed Amount</p>
+<p class="font-numeric-stat-xl text-numeric-stat-xl text-status-positive font-bold mt-1 tracking-tight">
+            $12,467.24
+          </p>
+<div class="flex items-center justify-between text-[11px] text-text-muted pt-3">
+<span>Firm: <strong class="text-on-surface">FundedNext Stellar</strong></span>
+<span class="text-accent-gold-bright font-numeric-stat-sm">Used NTARMY</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 text-xs text-text-muted">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-status-positive text-sm">verified</span>
+            Direct Bank Wire Verified
+          </span>
+<span class="font-label-caps text-[10px] text-text-muted">#FN-88319-PO</span>
+</div>
+</div>
+<!-- CERTIFICATE 2 -->
+<div class="bg-surface-card rounded-2xl p-6 relative overflow-hidden shadow-2xl group hover:border-glow-amber transition-all">
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-gold text-xl">workspace_premium</span>
+<span class="font-label-caps text-label-caps uppercase text-text-muted">Payout Certificate</span>
+</div>
+<span class="bg-status-positive/10 text-status-positive font-label-caps text-[11px] px-2 py-0.5 rounded font-bold">
+            DEEL PROCESSED
+          </span>
+</div>
+<div class="my-3 p-4 bg-surface-container-low rounded-xl relative overflow-hidden">
+<div class="flex items-center justify-between text-xs text-text-muted pb-2">
+<span>Recipient: <strong class="text-text-primary">David R. (UK)</strong></span>
+<span class="font-numeric-stat-sm">3 Days Ago</span>
+</div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Disbursed Amount</p>
+<p class="font-numeric-stat-xl text-numeric-stat-xl text-accent-gold-bright font-bold mt-1 tracking-tight">
+            $8,900.00
+          </p>
+<div class="flex items-center justify-between text-[11px] text-text-muted pt-3">
+<span>Firm: <strong class="text-on-surface">Apex Trader Funding</strong></span>
+<span class="text-accent-gold-bright font-numeric-stat-sm">Used NTARMY</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 text-xs text-text-muted">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-status-positive text-sm">verified</span>
+            ACH Transfer Cleared
+          </span>
+<span class="font-label-caps text-[10px] text-text-muted">#APX-49102-FX</span>
+</div>
+</div>
+<!-- CERTIFICATE 3 -->
+<div class="bg-surface-card rounded-2xl p-6 relative overflow-hidden shadow-2xl group hover:border-glow-cyan transition-all">
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-neon-cyan text-xl">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase text-text-muted">Funded Certificate</span>
+</div>
+<span class="bg-accent-neon-cyan/15 text-accent-neon-cyan font-label-caps text-[11px] px-2 py-0.5 rounded font-bold">
+            PASS VERIFIED
+          </span>
+</div>
+<div class="my-3 p-4 bg-surface-container-low rounded-xl relative overflow-hidden">
+<div class="flex items-center justify-between text-xs text-text-muted pb-2">
+<span>Trader: <strong class="text-text-primary">Sarah K. (Germany)</strong></span>
+<span class="font-numeric-stat-sm">5 Days Ago</span>
+</div>
+<p class="font-label-caps text-[10px] text-text-muted uppercase">Account Allocated</p>
+<p class="font-numeric-stat-xl text-numeric-stat-xl text-accent-neon-cyan font-bold mt-1 tracking-tight">
+            $200,000
+          </p>
+<div class="flex items-center justify-between text-[11px] text-text-muted pt-3">
+<span>Firm: <strong class="text-on-surface">FTMO Account</strong></span>
+<span class="text-accent-gold-bright font-numeric-stat-sm">Used NTARMY</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 text-xs text-text-muted">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-status-positive text-sm">verified</span>
+            Stage 2 Audit Complete
+          </span>
+<span class="font-label-caps text-[10px] text-text-muted">#FTMO-9941-CERT</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 5. CASHBACK & REWARD ENGINE                                              -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-12">
+<div class="bg-gradient-to-br from-surface-card via-surface-container-high to-surface-card rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+<!-- Top Pill -->
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest px-3.5 py-1.5 rounded-full mb-6">
+<span class="material-symbols-outlined text-accent-gold text-base">savings</span>
+<span class="font-label-caps text-label-caps uppercase text-accent-gold-bright font-bold">Night Trader Cashback Protocol</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-5 space-y-4">
+<h2 class="font-headline-xl text-headline-lg sm:text-headline-xl text-text-primary font-extrabold leading-tight">
+            How to Get Instant Cashback on Every Challenge
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Never pay retail rates again. By using promo code <strong class="text-accent-gold font-numeric-stat-sm">NTARMY</strong>, you qualify for our community rebate pool, delivering direct reimbursement straight to your USDT or PayPal address.
+          </p>
+<div class="pt-2">
+<a class="inline-flex items-center gap-2 bg-gradient-to-r from-accent-neon-cyan to-accent-laser-blue text-surface-canvas font-headline-sm text-body-md font-bold px-6 py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition" href="#claim-cashback">
+<span>Submit Order for Cashback</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- STEP 1 -->
+<div class="bg-surface-container-low/80 p-5 rounded-xl space-y-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-numeric-stat-lg text-accent-neon-cyan font-bold">
+              01
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold">Pick Your Firm</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Select any tier-1 evaluation program from FTMO, FundedNext, Apex, or Topstep.
+            </p>
+</div>
+<!-- STEP 2 -->
+<div class="bg-surface-container-low/80 p-5 rounded-xl space-y-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-numeric-stat-lg text-accent-gold-bright font-bold">
+              02
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold">Apply NTARMY</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Enter promo code <span class="text-accent-gold-bright font-bold">NTARMY</span> at the checkout page to slice up to 90% off your fees.
+            </p>
+</div>
+<!-- STEP 3 -->
+<div class="bg-surface-container-low/80 p-5 rounded-xl space-y-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-numeric-stat-lg text-status-positive font-bold">
+              03
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold">Claim 15% Back</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Drop your order invoice ID into our portal and receive automated cashback within 24 hours.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 6. DISCORD COMMUNITY & ALPHA HUB                                         -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-12">
+<div class="bg-surface-card rounded-3xl p-8 lg:p-12 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-center gap-6">
+<div class="w-20 h-20 rounded-2xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-[0_0_30px_rgba(88,101,242,0.4)]">
+<span class="material-symbols-outlined text-4xl">forum</span>
+</div>
+<div class="space-y-2">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="font-headline-xl text-headline-lg sm:text-headline-xl text-text-primary font-bold">
+              Join the Night Trader Discord
+            </h2>
+<span class="bg-accent-gold/15 text-accent-gold-bright font-label-caps text-[11px] px-2.5 py-0.5 rounded-full font-bold">
+              $5,000 Monthly Giveaways
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Connect with 250+ quantitative and discretionary funded traders. Get instant flash-coupon pings, passing strategies, rule alerts, and free prop accounts every month.
+          </p>
+<div class="flex flex-wrap items-center gap-4 text-xs font-body-sm text-text-muted pt-1">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-status-positive"></span> 1,480 Active Now</span>
+<span>•</span>
+<span>Daily Drawdown Scanners</span>
+<span>•</span>
+<span>Verified Payout Channel</span>
+</div>
+</div>
+</div>
+<div class="shrink-0 flex flex-col items-center sm:items-end gap-2 w-full md:w-auto">
+<a class="w-full sm:w-auto bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline-sm text-body-md font-bold px-8 py-3.5 rounded-xl shadow-xl hover:shadow-[0_0_25px_rgba(88,101,242,0.6)] transition-all flex items-center justify-center gap-2" href="#">
+<span class="material-symbols-outlined text-lg">login</span>
+<span>Join Discord Community</span>
+</a>
+<span class="font-label-caps text-[11px] text-text-muted">100% Free Access • No Paywalls</span>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 7. GLOBAL FOOTER CALL-TO-ACTION                                         -->
+<!-- ========================================================================= -->
+<section class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-16 text-center">
+<div class="max-w-3xl mx-auto space-y-6">
+<div class="inline-flex items-center gap-2 bg-surface-container px-3.5 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-accent-neon-cyan text-base">rocket_launch</span>
+<span class="font-label-caps text-label-caps uppercase text-accent-neon-cyan font-bold">Get Capitalized in 2026</span>
+</div>
+<h2 class="font-display-hero text-headline-xl sm:text-headline-xl lg:text-headline-xl text-text-primary font-extrabold tracking-tight">
+        Start Your Funded Journey Today
+      </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+        Choose the right prop firm backed by real trader telemetry, maximum savings, and guaranteed cashback. Use code <strong class="text-accent-gold-bright font-numeric-stat-sm">NTARMY</strong> across every checkout.
+      </p>
+<div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+<a class="bg-primary-container text-on-primary-container font-headline-sm text-body-md font-bold px-8 py-3.5 rounded-xl shadow-[0_0_25px_rgba(0,210,255,0.4)] hover:brightness-110 active:scale-95 transition-all flex items-center gap-2" href="#comparison-table">
+<span>Compare All Prop Firms</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+<a class="bg-surface-container hover:bg-surface-container-high text-text-primary font-headline-sm text-body-md font-semibold px-8 py-3.5 rounded-xl transition flex items-center gap-2" href="#flash-deals">
+<span class="material-symbols-outlined text-accent-gold text-base">bolt</span>
+<span>View All NTARMY Codes</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+<!-- Micro-Interactions Script -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Intersection Observer for card animations
-  const cards = document.querySelectorAll('.firm-card');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        entry.target.style.animation = `slideUpFade 0.6s ease-out ${index * 0.15}s both`;
-        observer.unobserve(entry.target);
+  function copyCode(code, btn) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(() => {
+        showCopyFeedback(btn);
+      }).catch(() => {
+        fallbackCopy(code, btn);
+      });
+    } else {
+      fallbackCopy(code, btn);
+    }
+  }
+
+  function fallbackCopy(code, btn) {
+    const temp = document.createElement("input");
+    temp.value = code;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+    showCopyFeedback(btn);
+  }
+
+  function showCopyFeedback(btn) {
+    const label = btn.querySelector('.copy-label') || btn;
+    const originalText = label.innerText;
+    label.innerText = 'Copied!';
+    btn.classList.add('bg-status-positive', 'text-white');
+    setTimeout(() => {
+      label.innerText = originalText;
+      btn.classList.remove('bg-status-positive', 'text-white');
+    }, 1800);
+  }
+
+  function triggerSearch() {
+    const query = document.getElementById('prop-firm-search').value.toLowerCase().trim();
+    if (!query) return;
+    const tableRows = document.querySelectorAll('#comparison-table tbody tr');
+    tableRows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      if (text.includes(query)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
       }
     });
-  }, { threshold: 0.1 });
-  
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    observer.observe(card);
-  });
+    const target = document.getElementById('comparison-table');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
-  // Mobile Bottom Nav Active State
-  const navItems = document.querySelectorAll('.mobile-bottom-nav .nav-item');
-  navItems.forEach(item => {
-    item.addEventListener('click', function(e) {
-      if(!this.hasAttribute('onclick')) {
-        navItems.forEach(nav => nav.classList.remove('active'));
-        this.classList.add('active');
-      }
+  document.querySelectorAll('.table-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.table-tab').forEach(t => {
+        t.classList.remove('bg-surface-container-high', 'text-accent-neon-cyan', 'font-semibold');
+        t.classList.add('text-on-surface-variant');
+      });
+      this.classList.add('bg-surface-container-high', 'text-accent-neon-cyan', 'font-semibold');
+      this.classList.remove('text-on-surface-variant');
     });
   });
-
-  // INITIALIZE CART FROM LOCAL STORAGE
-  const savedCart = localStorage.getItem('nightTraderCart');
-  if (savedCart) {
-    cart = JSON.parse(savedCart);
-    updateCartUI();
-  }
-});
-
-// Mobile Menu Logic
-function toggleMobileMenu(e) {
-  if(e) e.preventDefault();
-  document.getElementById('mobileDrawer').classList.toggle('open');
-  document.getElementById('drawerOverlay').classList.toggle('open');
-}
-
-// Deals Drawer Logic
-function toggleDealsDrawer(e) {
-  if(e) e.preventDefault();
-  document.getElementById('dealsDrawer').classList.toggle('open');
-  document.getElementById('dealsOverlay').classList.toggle('open');
-}
-
-// Custom Toast Logic
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// Code Copy Logic
-function copyCode(code, e) {
-  e.preventDefault();
-  e.stopPropagation();
-  navigator.clipboard.writeText(code).then(() => {
-    showToast(code + ' Copied to Clipboard!');
-  });
-}
-
-/* --- CART SYSTEM JAVASCRIPT --- */
-let cart = [];
-
-function toggleCartDrawer(e) {
-  if(e) e.preventDefault();
-  document.getElementById('cartDrawer').classList.toggle('open');
-  document.getElementById('cartOverlay').classList.toggle('open');
-}
-
-function addToCart(name, img, code) {
-  // Prevent adding duplicates
-  const exists = cart.find(item => item.name === name);
-  if(exists) {
-    showToast(name + ' is already in your cart!');
-    return;
-  }
-  
-  // Add item to array
-  cart.push({ name, img, code });
-  updateCartUI();
-  showToast(name + ' added to cart!');
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCartUI();
-}
-
-function updateCartUI() {
-  const container = document.getElementById('cartItemsContainer');
-  const badge = document.getElementById('navCartBadge');
-  
-  // SAVE CART TO LOCAL STORAGE
-  localStorage.setItem('nightTraderCart', JSON.stringify(cart));
-
-  // Update Badge
-  if(cart.length > 0) {
-    badge.style.display = 'flex';
-    badge.textContent = cart.length;
-  } else {
-    badge.style.display = 'none';
-  }
-
-  // Update Drawer UI
-  if(cart.length === 0) {
-    container.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
-    return;
-  }
-
-  container.innerHTML = cart.map((item, index) => `
-    <div class="cart-item">
-      <div class="cart-item-img">
-        <img src="${item.img}" alt="${item.name}" onerror="this.style.display='none'">
-      </div>
-      <div class="cart-item-info">
-        <div class="cart-item-title">${item.name}</div>
-        <div class="cart-item-code" onclick="copyCode('${item.code}', event)" title="Click to copy code">
-          ${item.code} 
-          <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        </div>
-      </div>
-      <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
-    </div>
-  `).join('');
-}
-
-function checkout() {
-  if(cart.length === 0) {
-    showToast('Add some items to checkout first!');
-    return;
-  }
-  showToast('Proceeding to Checkout...');
-  // Logic for checkout redirection goes here
-}
-</script>
-</body>
-</html>
+</script></main><footer class="w-full bg-surface-container-lowest mt-16"><div class="max-w-7xl mx-auto px-4 lg:px-8 pt-16 pb-12"><div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12"><div class="lg:col-span-4 space-y-4"><div class="flex items-center gap-3"><img alt="Night Trader Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VqdUdlQlu1rhoMvihafQf5wH3bYQR9ki57feqVSx25NMED81QRbMU95mIsbWDP-bDffwHEZiaZ6JlcjmEJ00coDWlHIXEK9mj266zwxXh-DJJT8p-yrQJKZ1ylPZNGxzppSzubtGUI6ghF4Npo7hHxw1yVd3bGReQ2Heqa5AUcaY-yqvtwATRVr54aKctEJIu6yVAuuTrpwaJ5lGfzN2803Bi0HwROt1WMdyVoVDy5u0XRsxICQEGo0cA"/><span class="font-headline-sm text-headline-sm text-on-surface font-bold">Night Trader</span></div><p class="text-on-surface-variant font-body-sm text-body-sm max-w-sm">The #1 prop firm intelligence network. Real-time drawdown rule verifications, exclusive verified promotional margins, community payouts telemetry, and quantitative evaluations.</p><div class="flex items-center gap-3 pt-2"><div class="flex items-center gap-1.5 bg-surface-container px-3 py-1.5 rounded-lg"><span class="material-symbols-outlined text-status-positive text-base">verified</span><span class="font-numeric-stat-sm text-numeric-stat-sm text-on-surface">Trustpilot 4.9/5</span></div><div class="flex items-center gap-1.5 bg-surface-container px-3 py-1.5 rounded-lg"><span class="material-symbols-outlined text-accent-neon-cyan text-base">shield_with_heart</span><span class="font-numeric-stat-sm text-numeric-stat-sm text-on-surface">100% Verified Deals</span></div></div></div><div class="lg:col-span-2 space-y-3"><h3 class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-semibold">Compare</h3><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-on-surface transition-colors" data-path="futures-prop-firms" href="#">Futures Prop Firms</a></li><li><a class="hover:text-on-surface transition-colors" data-path="forex-brokers" href="#">Forex Prop Firms</a></li><li><a class="hover:text-on-surface transition-colors" data-path="leaderboard" href="#">Payout Reliability Index</a></li><li><a class="hover:text-on-surface transition-colors" data-path="exclusive-discounts" href="#">Lowest Drawdown Rules</a></li><li><a class="hover:text-on-surface transition-colors" data-path="prop-firms-comparison" href="#">Instant Funding Programs</a></li></ul></div><div class="lg:col-span-2 space-y-3"><h3 class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-semibold">Resources</h3><ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-on-surface transition-colors" data-path="verified-reviews" href="#">Verified Reviews</a></li><li><a class="hover:text-on-surface transition-colors" data-path="exclusive-discounts" href="#">Promo Code NTARMY</a></li><li><a class="hover:text-on-surface transition-colors" data-path="giveaways" href="#">Monthly Account Giveaways</a></li><li><a class="hover:text-on-surface transition-colors" data-path="submit-review" href="#">Proof of Payout Submissions</a></li><li><a class="hover:text-on-surface transition-colors" data-path="discord-community" href="#">Trading Discord Alpha</a></li></ul></div><div class="lg:col-span-4 space-y-3"><h3 class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-semibold">Cashback Radar</h3><p class="font-body-sm text-body-sm text-on-surface-variant">Receive instantaneous Telegram &amp; email alerts whenever tier-one prop firms roll out 80%+ discount windows.</p><div class="flex items-center gap-2 pt-1"><input class="w-full bg-surface-container px-3.5 py-2 rounded-lg text-on-surface placeholder:text-text-muted font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-accent-neon-cyan" placeholder="trader@terminal.com" type="email"/><button class="bg-primary-container px-4 py-2 rounded-lg text-on-primary-container font-headline-sm text-body-sm font-bold hover:brightness-110 transition-all shrink-0" type="button">Subscribe</button></div><div class="flex items-center gap-4 pt-3 text-on-surface-variant"><a class="hover:text-primary transition-colors flex items-center gap-1 font-body-sm text-body-sm" data-path="discord-community" href="#"><span class="material-symbols-outlined text-base">forum</span>Discord</a><a class="hover:text-primary transition-colors flex items-center gap-1 font-body-sm text-body-sm" href="#"><span class="material-symbols-outlined text-base">send</span>Telegram</a><a class="hover:text-primary transition-colors flex items-center gap-1 font-body-sm text-body-sm" href="#"><span class="material-symbols-outlined text-base">alternate_email</span>X / Twitter</a><a class="hover:text-primary transition-colors flex items-center gap-1 font-body-sm text-body-sm" href="#"><span class="material-symbols-outlined text-base">smart_display</span>YouTube</a></div></div></div><div class="pt-8 mt-4 space-y-4"><p class="font-body-sm text-body-sm text-text-muted text-xs leading-relaxed"><strong>Financial &amp; Prop Firm Disclaimer:</strong> Night Trader provides comparison, analytical metrics, coupon aggregations, and trader sentiment scores for simulated evaluation firms. Evaluation accounts provided by prop firms are simulated capital accounts and do not represent direct real-market depository accounts. Trading leveraged financial instruments such as futures, forex, options, and CFDs carries a high level of risk and may not be suitable for all investors. Never trade with money you cannot afford to lose. Past performance of prop firms or traders is not indicative of future results.</p><div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-text-muted font-body-sm text-body-sm"><p>© 2025 Night Trader Inc. All rights reserved.</p><div class="flex items-center gap-4"><a class="hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a><a class="hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a><a class="hover:text-on-surface transition-colors" data-path="affiliate-disclosure" href="#">Affiliate Disclosure</a><a class="hover:text-on-surface transition-colors" data-path="risk-disclosure" href="#">Risk Disclosure</a></div></div></div></div></footer></body></html>
